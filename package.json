@@ -1,0 +1,48 @@
+{
+  "name": "grunt-ng-apimock",
+  "description": "Grunt plugin that provides the ability to use scenario based api mocking of angular apps",
+  "version": "0.0.1",
+  "homepage": "https://github.com/mdasberg/grunt-ng-apimock#readme",
+  "author": {
+    "name": "Mischa Dasberg",
+    "email": "mischa@dasberg.nl"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mdasberg/grunt-ng-apimock.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mdasberg/grunt-ng-apimock/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/mdasberg/grunt-ng-apimock/blob/master/LICENSE-MIT"
+    }
+  ],
+  "main": "Gruntfile.js",
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "dependencies": {
+    "grunt": "~0.4.5"
+  },
+  "keywords": [
+    "gruntplugin",
+    "angular",
+    "api",
+    "mock",
+    "scenario",
+    "httpbackend"
+  ],
+  "devDependencies": {
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-jshint": "^0.11.3",
+    "grunt-shell": "^1.1.2",
+    "gruntmock": "^0.2.0",
+    "jasmine-node": "^1.14.5"
+  }
+}

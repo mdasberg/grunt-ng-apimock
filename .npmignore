@@ -4,14 +4,13 @@
 *.ipr
 *.iws
 
-# other
-.jshintrc
-
-
-# generated
+#generated
 .tmp
 
 #npm
 node_modules
-npm-debug.log
+.npmrc
+.npmignore
 
+#build
+.travis.yml
