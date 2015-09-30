@@ -4,10 +4,6 @@
 *.ipr
 *.iws
 
-# other
-.jshintrc
-
-
 # generated
 .tmp
 
