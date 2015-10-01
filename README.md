@@ -61,15 +61,17 @@ There are a couple of rules to follow.
 
 ```json
 {
-  "expression": "your expression here (ie a regex without the leading and trailing '/' or a string",
+  "expression": "your expression here (ie a regex without the leading and trailing '/' or a string)",
   "method": "the http method (ie GET)",
   "responses": {
-    "success": { 
-      "status": 200
+    "some-meaningful-scenario-name": { 
+      "status": 200,
+      "data": {},
+      "headers: {} 
+      "statusText": ""
     },
-    "failure": {
-      "status": 500,
-      "response": {}
+    "some-other-meaningful-scenario-name": {
+      "data": {}
     }
   }
 }
