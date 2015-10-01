@@ -1,0 +1,15 @@
+{
+  "expression": "partials\/.*",
+  "method": "GET",
+  "responses": {
+    "some-meaningful-scenario-name": {
+      "status": 200,
+      "data": {},
+      "headers": {},
+      "statusText": ""
+    },
+    "some-other-meaningful-scenario-name": {
+      "data": {}
+    }
+  }
+}
