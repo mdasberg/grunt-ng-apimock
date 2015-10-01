@@ -111,7 +111,7 @@ If you are running grunt-contrib-connect you can do add the following staticServ
                 middleware: function (connect) {
                     return [
                         connect().use('/mocking', serveStatic('path/to/the/generated/mocking/index.html')),
-                        connect().use('/', serveStatic('some-path-where-your-sources-are))
+                        connect().use('/', serveStatic('some-path-where-your-sources-are'))
                     ];
                 }
             }
