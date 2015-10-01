@@ -53,6 +53,29 @@ grunt.initConfig({
 })
 ```
 
+### Howto write mocks
+There are a couple of rules to follow.
+
+1. For each api call create a separate file
+2. Each file needs to follow the format below.
+
+```json
+{
+  "expression": "your expression here (ie a regex without the leading and trailing '/' or a string",
+  "method": "the http method (ie GET)",
+  "responses": {
+    "success": { 
+      "status": 200
+    },
+    "failure": {
+      "status": 500,
+      "response": {}
+    }
+  }
+}
+
+```
+
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
