@@ -30,7 +30,7 @@
             run: function (configuration) {
                 var data = configuration.data;
 
-                if (typeof data.module === 'undefined') {
+                if (typeof data.moduleName === 'undefined') {
                     grunt.fail.fatal('No module information has been specified.');
                 }
 
@@ -43,14 +43,15 @@
 
                 async.series({
                         // #1
-                        processMocks: function (callback) {
-                            grunt.verbose.writeln('Processing mocks');
-                            processor.process(data.src, data.dependencies, mockOptions.defaultOutputDir);
+                        generateMockingInterface: function (callback) {
+                            grunt.verbose.writeln('Generate the mocking web interface');
+                            processor.generateMockInterface(data.src, data.dependencies, mockOptions.defaultOutputDir);
                             callback(null, 200);
                         },
                         // #2
                         generateMockModule: function (callback) {
                             grunt.verbose.writeln('Generate mock module');
+                            processor.generateMockModule(data.moduleName, mockOptions.defaultOutputDir);
                             callback(null, 200);
                         }
                     },

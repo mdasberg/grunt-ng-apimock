@@ -30,7 +30,7 @@
                     mock: {
                         src: 'mocks',
                         dest: '.tmp',
-                        module: 'myModule',
+                        moduleName: 'myModule',
                         dependencies: {
                             angular: '/node_modules/angular/angular.js'
                         }

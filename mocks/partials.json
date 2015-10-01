@@ -2,6 +2,8 @@
   "expression": "partials\/.*",
   "method": "GET",
   "responses": {
+    "default": {
+    },
     "some-meaningful-scenario-name": {
       "status": 200,
       "data": {},

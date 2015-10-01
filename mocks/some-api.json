@@ -4,12 +4,12 @@
   "responses": {
     "yet-another-meaningful-scenario-name": {
       "status": 200,
-      "data": {},
-      "headers": {},
-      "statusText": ""
+      "data": [{"x":"y"}],
+      "headers": {"Content-type":"application/json"},
+      "statusText": "text"
     },
     "another-meaningful-scenario-name": {
-      "data": {}
+      "data": [{"a":"b"}]
     }
   }
 }

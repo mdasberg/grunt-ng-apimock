@@ -65,7 +65,7 @@
                  * @returns {*} mocks The stored mocks.
                  */
                 function storedMocks() {
-                    return JSON.parse(sessionStorage.getItem('mocks')) || {};
+                    return JSON.parse(localStorage.getItem('mocks')) || {};
                 }
 
                 /**
@@ -76,6 +76,7 @@
                 function select(mock, selection) {
                     var mocks = storedMocks(), // get current storage
                             response = mock.responses[selection];
+                    
 
                     if (response !== undefined) {
                         response.name = selection; // set the name so we can selected it later on.
@@ -88,7 +89,7 @@
                         delete mocks[mock.expression];
                     }
 
-                    sessionStorage.setItem('mocks', JSON.stringify(mocks)); // store it again.
+                    localStorage.setItem('mocks', JSON.stringify(mocks)); // store it again.
                 }
 
                 /**
@@ -105,7 +106,7 @@
                  * Clear the currently stored mocks.
                  */
                 function clear() {
-                    sessionStorage.removeItem('mocks');
+                    localStorage.removeItem('mocks');
                 }
 
                 return {
