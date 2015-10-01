@@ -88,6 +88,10 @@ To be able to use the selected mocks you need to do two things:
 1. Add the generated ng-apimock.js file to your index.html
 2. Add the index.html file to your connect configuration
 
+The interface looks like this:
+
+![alt tag](https://github.com/mdasberg/grunt-ng-apimock/blob/master/img/web-interface-grunt-ng-apimock.png)
+
 #### Add the generated ng-apimock.js file to your index.html
 Just add the following script after your code injects like this
 
