@@ -67,7 +67,7 @@ There are a couple of rules to follow.
     "some-meaningful-scenario-name": { 
       "status": 200,
       "data": {},
-      "headers: {} 
+      "headers": {} 
       "statusText": ""
     },
     "some-other-meaningful-scenario-name": {
