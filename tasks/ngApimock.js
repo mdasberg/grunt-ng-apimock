@@ -11,6 +11,7 @@
     module.exports = function (grunt) {
         /** Sonar karma results. */
         grunt.registerMultiTask('ngApimock', 'Grunt plugin that provides the ability to use scenario based api mocking of angular apps",', function () {
+            require('./index')(grunt).run(this);
         });
     };
 })();
