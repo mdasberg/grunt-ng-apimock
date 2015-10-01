@@ -26,7 +26,7 @@
             });
             
             // #3
-            var template = grunt.template.process(grunt.file.read('templates/index.html'), {
+            var template = grunt.template.process(grunt.file.read(path.resolve(__dirname, '..') + '/templates/index.html'), {
                 data: {
                     mocks: JSON.stringify(mocks),
                     angular: dependencies.angular
@@ -47,7 +47,7 @@
          */
         function generateMockModule(moduleName, outputDir) {
             // #1
-            var template = grunt.template.process(grunt.file.read('templates/ng-apimock.js'), {
+            var template = grunt.template.process(grunt.file.read(path.resolve(__dirname, '..') + '/templates/ng-apimock.js'), {
                 data: {
                     moduleName: moduleName
                 }
