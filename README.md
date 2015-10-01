@@ -9,12 +9,14 @@ If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out th
 
 ```shell
 npm install grunt-ng-apimock --save-dev
+
 ```
 
 Once the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
 
 ```js
 grunt.loadNpmTasks('grunt-ng-apimock');
+
 ```
 
 ## The "karma_sonar" task
@@ -33,6 +35,7 @@ grunt.initConfig({
     },
   },
 })
+
 ```
 
 ### Options
@@ -51,6 +54,7 @@ grunt.initConfig({
     }
   }
 })
+
 ```
 
 ### Howto write mocks
@@ -78,6 +82,44 @@ There are a couple of rules to follow.
 
 ```
 
+### Howto serve selected mocks
+To be able to use the selected mocks you need to do two things:
+
+1. Add the generated ng-apimock.js file to your index.html
+2. Add the index.html file to your connect configuration
+
+#### Add the generated ng-apimock.js file to your index.html
+Just add the following script after your code injects like this
+
+```html
+<head>
+  <script src="/path/to/angular.js" ></script>
+  <script src="/path/to/myapp.js" ></script>
+  <script src="/path/to/ng-apimock.js" ></script> 
+</head>
+
+```
+
+#### Add the index.html file to your connect configuration
+If you are running grunt-contrib-connect you can do add the following staticServe block to your configuration
+
+```js
+{
+    connect: {
+        yourTarget: {
+            options: {
+                middleware: function (connect) {
+                    return [
+                        connect().use('/mocking', serveStatic('path/to/the/generated/mocking/index.html')),
+                        connect().use('/', serveStatic('some-path-where-your-sources-are))
+                    ];
+                }
+            }
+        }
+    }
+}
+
+```
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
