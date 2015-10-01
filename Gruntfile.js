@@ -25,11 +25,9 @@
                 ngApimock: {
                     options: {
                         defaultOutputDir: '.tmp/some-other-dir'
-                        
                     },
                     mock: {
                         src: 'mocks',
-                        dest: '.tmp',
                         moduleName: 'myModule',
                         dependencies: {
                             angular: '/node_modules/angular/angular.js'

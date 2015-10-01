@@ -19,10 +19,10 @@ grunt.loadNpmTasks('grunt-ng-apimock');
 
 ```
 
-## The "karma_sonar" task
+## The "ngApimock" task
 
 ### Overview
-In your project's Gruntfile, add a section named `karma_sonar` to the data object passed into `grunt.initConfig()`.
+In your project's Gruntfile, add a section named `ngApimock` to the data object passed into `grunt.initConfig()`.
 
 ```js
 grunt.initConfig({
@@ -40,6 +40,30 @@ grunt.initConfig({
 
 ### Options
 
+#### options.defaultOutputDir
+Type: `String`
+Default: '.tmp/mocks/'
+
+Should be the location where the ngApimock plugin will put it's generated files.
+
+#### src
+Type: `String`
+Mandatory: true
+
+Should be the location where the mock json files are located.
+
+#### moduleName
+Type: `String`
+Mandatory: true
+
+Should be the name of your angular module in which the mocks are going to be used.
+
+#### dependencies.angular
+Type: `String`
+Mandatory: true
+
+Should be the location where to find angular (NOTE: use the url path)
+
 ### Usage Examples
 
 #### Default Options
@@ -48,9 +72,14 @@ grunt.initConfig({
 grunt.initConfig({
   ngApimocks: {
     options: {
-    
+        defaultOutputDir: '...' // the output directory
     },
-    your_target: {      
+    your_target: {   
+       src: '...', // the directory containing all your json mocks
+       moduleName: '...', // the name of your angular module
+       dependencies: {
+           angular: '...' // the uri path to angular.js
+       }
     }
   }
 })
