@@ -61,6 +61,12 @@
                             grunt.verbose.writeln('Generate mock module');
                             processor.generateMockModule(data.moduleName, mockOptions.defaultOutputDir);
                             callback(null, 200);
+                        },
+                        // #3
+                        copyProtractorMock: function (callback) {
+                            grunt.verbose.writeln('Copy protractor.mock.js');
+                            processor.copyProtractorMock(mockOptions.defaultOutputDir);
+                            callback(null, 200);
                         }
                     },
                     function (err) {

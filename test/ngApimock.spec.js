@@ -94,13 +94,16 @@
             );
             mock.invoke(ngApimock, function (err) {
                 expect(mock.logError.length).toBe(0);
-                expect(mock.logOk.length).toBe(2);
+                expect(mock.logOk.length).toBe(3);
                 expect(mock.logOk[0]).toBe('Generate the mocking web interface');
                 expect(mock.logOk[1]).toBe('Generate mock module');
+                expect(mock.logOk[2]).toBe('Copy protractor.mock.js');
                 expect(fsExtra.existsSync(opts.defaultOutputDir + path.sep + 'ng-apimock.js')).toBeTruthy();
                 expect(fsExtra.existsSync(opts.defaultOutputDir + path.sep + 'index.html')).toBeTruthy();
+                expect(fsExtra.existsSync(opts.defaultOutputDir + path.sep + 'protractor.mock.js')).toBeTruthy();
                 expect(fileContentMatches(opts.defaultOutputDir + path.sep + 'index.html', 'test/expected/mocks' + path.sep + 'index.html')).toBeTruthy();
                 expect(fileContentMatches(opts.defaultOutputDir + path.sep + 'ng-apimock.js', 'test/expected/mocks' + path.sep + 'ng-apimock.js')).toBeTruthy();
+                expect(fileContentMatches(opts.defaultOutputDir + path.sep + 'protractor.mock.js', 'templates/protractor.mock.js')).toBeTruthy();
                 done();
             });
         });

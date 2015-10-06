@@ -98,16 +98,31 @@ There are a couple of rules to follow.
   "method": "the http method (ie GET)",
   "responses": {
     "some-meaningful-scenario-name": { 
-      "status": 200,
-      "data": {},
-      "headers": {}, 
-      "statusText": ""
+      "status": 200, // optional - defaults to 200
+      "data": {}, // optional
+      "headers": {}, // optional - defaults to {}
+      "statusText": "" // optional 
     },
     "some-other-meaningful-scenario-name": {
       "data": {}
     }
   }
 }
+
+```
+
+Leaving the response object empty like below
+```json
+...
+"responses": {
+    "some-meaningful-scenario-name": {}
+}
+
+```
+will result in
+
+```js
+$httpbackend.when(...).passThrough(); 
 
 ```
 
@@ -151,6 +166,33 @@ If you are running grunt-contrib-connect you can do add the following staticServ
         }
     }
 }
+
+### Howto reuse this setup for your protractor tests.
+As you are building an [AngularJS](https://angularjs.org/) application you will probably use [Protractor](https://angular.github.io/protractor/#/) for testing your UI.
+And of course you will use $httpbackend to mock your api's.
+
+Protractor provides the ability to inject a mock module in your application by adding the following to your protractor test.
+
+```js
+describe('Some test', function () {
+    browser.addMockModule('modName', function() {
+        angular.module('modName', []).value('foo', 'bar');
+    });
+});
+   
+```
+
+To reuse the json files that we created for running our application locally with mock data, you can replace the block above with this
+
+```js
+describe('Some test', function () {
+    var ngApimock = require('.tmp/mocking/protractor.mock'); // or the path/to/protractor.mock.js
+    ngApimock.selectScenario(require('path/to/mocks/partials.json'), 'passThrough'); // passThrough is the name of the scenario    
+    ngApimock.selectScenario(require('path/to/mocks/countryService.json'), 'ok'); // ok is the name of the scenario
+    ngApimock.addMockModule(); // add the mock module
+ });
+   
+```
 
 ```
 ## Contributing

@@ -57,9 +57,19 @@
             grunt.file.write(outputDir + '/ng-apimock.js', template, {encoding: 'utf8'});
         }
 
+        /**
+         * Copy the protractor.mock.js file to the output dir.
+         * @param {string} outputDir The output directory.
+         */
+        function copyProtractorMock(outputDir) {
+            grunt.file.write(outputDir + '/protractor.mock.js', grunt.file.read(path.resolve(__dirname, '..') + '/templates/protractor.mock.js'), {encoding: 'utf8'});
+            
+        }
+
         return {
             generateMockInterface: generateMockInterface,
-            generateMockModule: generateMockModule
+            generateMockModule: generateMockModule,
+            copyProtractorMock: copyProtractorMock
         };
     };
 })();
