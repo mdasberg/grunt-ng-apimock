@@ -92,7 +92,7 @@ There are a couple of rules to follow.
 1. For each api call create a separate file
 2. Each file needs to follow the format below.
 
-```json
+```js
 {
   "expression": "your expression here (ie a regex without the leading and trailing '/' or a string)",
   "method": "the http method (ie GET)",
@@ -167,9 +167,11 @@ If you are running grunt-contrib-connect you can do add the following staticServ
     }
 }
 
+```
+
 ### Howto reuse this setup for your protractor tests.
 As you are building an [AngularJS](https://angularjs.org/) application you will probably use [Protractor](https://angular.github.io/protractor/#/) for testing your UI.
-And of course you will use $httpbackend to mock your api's.
+And of course you will use $httpbackend to mock your apis.
 
 Protractor provides the ability to inject a mock module in your application by adding the following to your protractor test.
 
@@ -194,7 +196,6 @@ describe('Some test', function () {
    
 ```
 
-```
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
