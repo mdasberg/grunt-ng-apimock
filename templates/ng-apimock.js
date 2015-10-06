@@ -1,6 +1,18 @@
 (function() {
     'use strict';
 
+    /**
+     * The web interface (@see https://github.com/mdasberg/grunt-ng-apimock#howto-serve-selected-mocks) 
+     * allows the user to select a scenario for an api. 
+     *
+     * This mock module uses the selections and uses $httpbackend (@see https://docs.angularjs.org/api/ngMockE2E/service/$httpBackend)
+     * to serve the selected scenario responsesfor the api's.
+     * 
+     * #1 load the mocks from storage
+     * #2 iterate over each mock and register it with $httpBackend
+     * 
+     * @param $httpBackend The httpBackend service.
+     */
     function Mock($httpBackend) {
         var mocks = JSON.parse(localStorage.getItem('mocks')) || {};
 
@@ -23,7 +35,7 @@
     }
 
     Mock.$inject = ['$httpBackend'];
-    //
+    
     angular.module('mock', ['ngMockE2E']);
     angular.module('mock').run(Mock);
     angular.module('<%= moduleName %>').requires.push('mock');
