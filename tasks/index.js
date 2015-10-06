@@ -31,11 +31,19 @@
                 var data = configuration.data;
 
                 if (typeof data.moduleName === 'undefined') {
-                    grunt.fail.fatal('No module information has been specified.');
+                    grunt.fail.fatal('No module name information has been specified.');
                 }
 
                 if (typeof data.src === 'undefined') {
-                    grunt.fail.fatal('No mock sources have been specified.');
+                    grunt.fail.fatal('No mock source directory have been specified.');
+                }
+
+                if (typeof data.dependencies === 'undefined') {
+                    grunt.fail.fatal('No dependencies have been provided.');
+                }
+
+                if (typeof data.dependencies.angular === 'undefined') {
+                    grunt.fail.fatal('No path has been specified for dependency angular.');
                 }
 
                 var mockOptions = mergeJson(defaultOptions, configuration.options({})),
