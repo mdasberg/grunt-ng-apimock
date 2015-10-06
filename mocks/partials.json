@@ -2,16 +2,10 @@
   "expression": "partials\/.*",
   "method": "GET",
   "responses": {
-    "default": {
+    "passThrough": {
     },
-    "some-meaningful-scenario-name": {
-      "status": 200,
-      "data": {},
-      "headers": {},
-      "statusText": ""
-    },
-    "some-other-meaningful-scenario-name": {
-      "data": {}
+    "partials-not-available": {
+      "status": 500
     }
   }
 }
