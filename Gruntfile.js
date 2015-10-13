@@ -24,7 +24,15 @@
                 },
                 ngApimock: {
                     options: {
-                        defaultOutputDir: '.tmp/some-other-dir'
+                        defaultOutputDir: '.tmp/some-other-dir',
+                        defaultPassThrough: [
+                            {
+                                "expression": "partials/.*",
+                                "method": "GET"
+                            }, {
+                                "expression": "non-existing-custom-json/.*"
+                            }
+                        ]
                     },
                     mock: {
                         src: 'mocks',

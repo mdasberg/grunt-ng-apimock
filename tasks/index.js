@@ -8,7 +8,8 @@
             processor = require('./processor.js')(grunt),
             defaultOptions = {
                 sourceEncoding: 'UTF-8',
-                defaultOutputDir: '.tmp/mocks/'
+                defaultOutputDir: '.tmp/mocks/',
+                defaultPassThrough: []
             };
 
         /**
@@ -53,19 +54,19 @@
                         // #1
                         generateMockingInterface: function (callback) {
                             grunt.verbose.writeln('Generate the mocking web interface');
-                            processor.generateMockInterface(data.src, data.dependencies, mockOptions.defaultOutputDir);
+                            processor.generateMockInterface(data.src, data.dependencies, mockOptions.defaultOutputDir, mockOptions.defaultPassThrough);
                             callback(null, 200);
                         },
                         // #2
                         generateMockModule: function (callback) {
                             grunt.verbose.writeln('Generate mock module');
-                            processor.generateMockModule(data.moduleName, mockOptions.defaultOutputDir);
+                            processor.generateMockModule(data.moduleName, mockOptions.defaultOutputDir, mockOptions.defaultPassThrough);
                             callback(null, 200);
                         },
                         // #3
                         copyProtractorMock: function (callback) {
                             grunt.verbose.writeln('Copy protractor.mock.js');
-                            processor.copyProtractorMock(mockOptions.defaultOutputDir);
+                            processor.copyProtractorMock(mockOptions.defaultOutputDir, mockOptions.defaultPassThrough);
                             callback(null, 200);
                         }
                     },

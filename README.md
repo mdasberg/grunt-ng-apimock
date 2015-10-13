@@ -64,6 +64,19 @@ Mandatory: true
 
 Should be the location where to find angular (NOTE: use the url path)
 
+#### defaultPassThrough
+Type: `Array`
+Mandatory: false
+
+Should be an object array of  
+
+```js
+    {
+        "expression": "...", // "your expression here (ie a regex without the leading and trailing '/' or a string)"
+        "method": "GET" // Optional - defaults to 'GET'
+    }
+```
+
 ### Usage Examples
 
 #### Default Options

@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    var mocks = <%= passThroughs %>;
+    var mocks = [{"expression":"partials/.*","method":"GET"},{"expression":"non-existing-custom-json/.*"}];
 
     /**
      * The selectScenario function stores the relevant information from the given data that

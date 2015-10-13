@@ -16,7 +16,7 @@
      * @param $httpBackend The httpBackend service.
      */
     function Mock($httpBackend) {
-        var passThroughs = <%= passThroughs %>;
+        var passThroughs = [{"expression":"partials/.*","method":"GET"},{"expression":"non-existing-custom-json/.*"}];
         // #1
         var mocks = JSON.parse(localStorage.getItem('mocks')) || {};
 
@@ -49,5 +49,5 @@
 
     angular.module('mock', ['ngMockE2E']);
     angular.module('mock').run(Mock);
-    angular.module('<%= moduleName %>').requires.push('mock');
+    angular.module('x').requires.push('mock');
 })();
