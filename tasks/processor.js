@@ -94,6 +94,10 @@
          * #2 write the template to file 
          */
         function copyProtractorMock(outputDir, passThroughs) {
+            passThroughs.forEach(function(p) {
+                p.response = {};
+            });
+            
             // #1
             var template = grunt.template.process(grunt.file.read(path.resolve(__dirname, '..') + '/templates/protractor.mock.js'), {
                 data: {
