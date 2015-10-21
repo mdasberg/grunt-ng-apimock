@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    var mocks = [{"expression":"partials/.*","method":"GET"},{"expression":"non-existing-custom-json/.*"}];
+    var mocks = [{"expression":"partials/.*","method":"GET","response":{}},{"expression":"non-existing-custom-json/.*","response":{}}];
 
     /**
      * The selectScenario function stores the relevant information from the given data that
