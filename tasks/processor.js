@@ -28,19 +28,27 @@
          * @param {string} outputDir The output directory. 
          * 
          * #1 iterate over each json file
-         * #2 add the content to the mocks collection
-         * #3 check for default passThrough configuration
-         * #4 add the default passThroughs if custom json file is omitted
-         * #5 update the template with the gathered mocks
-         * #6 write the template to file
+         * #2 add passThrough if not configured.
+         * #3 add the content to the mocks collection
+         * #4 check for default passThrough configuration
+         * #5 add the default passThroughs if custom json file is omitted
+         * #6 update the template with the gathered mocks
+         * #7 write the template to file
          */
         function generateMockInterface(src, dependencies, outputDir, passThroughs) {
             var mocks = [];
             
             // #1
             glob.sync('**/*.json', {cwd: src, root: '/'}).forEach(function (file) {
+                var mock = grunt.file.readJSON(src + path.sep + file);
+
                 // #2
-                mocks.push(grunt.file.readJSON(src + path.sep + file));
+                if(!mock.responses.passThrough) {
+                    mock.responses.passThrough = {}
+                }
+
+                // #3
+                mocks.push(mock);
             });
 
             // #3
@@ -48,12 +56,12 @@
                 if(!_.find(mocks, function(mock) {
                         return mock.expression === passThrough.expression;
                     })) {
-                    // #4
+                    // #5
                     mocks.push(createPassThroughMock(passThrough));
                 }
             });
             
-            // #5
+            // #6
             var template = grunt.template.process(grunt.file.read(path.resolve(__dirname, '..') + '/templates/index.html'), {
                 data: {
                     mocks: JSON.stringify(mocks),
@@ -61,7 +69,7 @@
                 }
             });
             
-            // #6
+            // #7
             grunt.file.write(outputDir + '/index.html', template, {encoding: 'utf8'});
         }
 
