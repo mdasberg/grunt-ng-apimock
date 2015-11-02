@@ -21,7 +21,7 @@
             'use strict';
 
             function MockRegistry() {
-                var mocks = [{"expression":"partials/.*","method":"GET","responses":{"passThrough":{},"partials-not-available":{"status":500}}},{"expression":"/online/rest/some/api","method":"GET","responses":{"some-meaningful-scenario-name":{"status":200,"data":[{"x":"y"}],"headers":{"Content-type":"application/json"},"statusText":"text"},"another-meaningful-scenario-name":{"data":[{"a":"b"}]}}},{"expression":"non-existing-custom-json/.*","method":"GET","responses":{"passThrough":{}}}];
+                var mocks = [{"expression":"partials/.*","method":"GET","responses":{"passThrough":{},"partials-not-available":{"status":500}}},{"expression":"/online/rest/some/api","method":"GET","responses":{"some-meaningful-scenario-name":{"status":200,"data":[{"x":"y"}],"headers":{"Content-type":"application/json"},"statusText":"text"},"another-meaningful-scenario-name":{"data":[{"a":"b"}]},"passThrough":{}}},{"expression":"non-existing-custom-json/.*","method":"GET","responses":{"passThrough":{}}}];
 
                 function Registry() {
                     this.mocks = function () {

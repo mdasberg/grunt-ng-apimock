@@ -51,7 +51,7 @@
                 mocks.push(mock);
             });
 
-            // #3
+            // #4
             passThroughs.forEach(function(passThrough) {
                 if(!_.find(mocks, function(mock) {
                         return mock.expression === passThrough.expression;
