@@ -51,6 +51,29 @@
             'use strict';
 
             function MockStorage(registry) {
+                function initialise() {
+                    var mocks = registry.mocks(),
+                        storedMocks = JSON.parse(localStorage.getItem('mocks')) || {};
+
+
+                    mocks.filter(function (mock) {
+                        return !storedMocks[mock.expression];
+                    }).forEach(function (mock) {
+                        var response;
+                        if(angular.isDefined(mock.responses.passThrough)) {
+                            response = mock.responses.passThrough;
+                            response.name = 'passThrough';
+                            storedMocks[mock.expression] = {
+                                expression: mock.expression,
+                                method: mock.method,
+                                response: response
+                            };
+                        }
+                    });
+
+                    localStorage.setItem('mocks', JSON.stringify(storedMocks));
+                }
+
                 /**
                  * Gets the mocks from the registry.
                  * Note: not the stored mocks.
@@ -76,7 +99,6 @@
                 function select(mock, selection) {
                     var mocks = storedMocks(), // get current storage
                             response = mock.responses[selection];
-
 
                     if (response !== undefined) {
                         response.name = selection; // set the name so we can selected it later on.
@@ -110,6 +132,7 @@
                 }
 
                 return {
+                    initialise: initialise,
                     mocks: mocks,
                     select: select,
                     selected: selected,
@@ -137,6 +160,8 @@
 
             function MockingController(service, $window) {
                 var vm = this;
+
+                service.initialise();
 
                 vm.mocks = service.mocks();
 
