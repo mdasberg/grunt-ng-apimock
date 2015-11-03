@@ -3,9 +3,13 @@
 
     function Api($resource) {
         return $resource('/online/rest/some/api', {}, {
-            get: {
+            fetch: {
                 method: 'GET',
                 isArray: true
+            },
+            update: {
+                method: 'POST',
+                isArray: false
             }
         });
     }

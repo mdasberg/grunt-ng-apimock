@@ -1,4 +1,13 @@
 <div ng-controller="SomeController as ctrl">
-    <span>data: {{ctrl.data}}</span><br />
-    <span>error: {{ctrl.error}}</span>
+    <h1>GET data with service</h1>
+    <p>
+        <span>data: {{ctrl.data}}</span><br/>
+        <span>error: {{ctrl.error}}</span>
+    </p>
+
+    <h1>POST data with service</h1><button ng-click="ctrl.update()">post me</button>
+    <p>
+        <span>data: {{ctrl.postedData}}</span><br/>
+        <span>error: {{ctrl.postedError}}</span>
+    </p>
 </div>

@@ -10,29 +10,63 @@
                 browser.get('/index.html');
             });
 
-            it('should not show any data', function () {
-                expect(element(by.binding('ctrl.data')).getText()).toBe('data:');
+            describe('when fetching data with a service', function() {
+                it('should not show any data', function () {
+                    expect(element(by.binding('ctrl.data')).getText()).toBe('data:');
+                });
+
+                it('should not show any errors', function () {
+                    expect(element(by.binding('ctrl.error')).getText()).toBe('error:');
+                });    
             });
 
-            it('should not show any errors', function () {
-                expect(element(by.binding('ctrl.error')).getText()).toBe('error:');
+            describe('when posting data with a service', function() {
+                beforeAll(function() {
+                    element(by.buttonText('post me')).click();
+                });
+                
+                it('should not show any data', function () {
+                    expect(element(by.binding('ctrl.postedData')).getText()).toBe('data:');
+                });
+
+                it('should not show any errors', function () {
+                    expect(element(by.binding('ctrl.postedError')).getText()).toBe('error:');
+                });
             });
+            
         });
 
         describe('when provided with some selected scenarios', function () {
             beforeAll(function () {
                 browser.get('/mocking');
                 mocking = new MockingPO();
-                mocking.api.sendKeys('some-meaningful-scenario-name');
+                mocking.apiGET.sendKeys('some-meaningful-scenario-name');
+                mocking.apiPOST.sendKeys('successful');
                 browser.get('/index.html');
             });
 
-            it('should show no data', function () {
-                expect(element(by.binding('ctrl.data')).getText()).toBe('data: [{"x":"y"}]');
+            describe('when fetching data with a service', function() {
+                it('should show data', function () {
+                    expect(element(by.binding('ctrl.data')).getText()).toBe('data: [{"x":"y"}]');
+                });
+
+                it('should not show any errors', function () {
+                    expect(element(by.binding('ctrl.error')).getText()).toBe('error:');
+                });
             });
 
-            it('should show no errors', function () {
-                expect(element(by.binding('ctrl.error')).getText()).toBe('error:');
+            describe('when posting data with a service', function() {
+                beforeAll(function() {
+                    element(by.buttonText('post me')).click();
+                });
+
+                it('should show data', function () {
+                    expect(element(by.binding('ctrl.postedData')).getText()).toBe('data: {"some":"thing"}');
+                });
+
+                it('should not show any errors', function () {
+                    expect(element(by.binding('ctrl.postedError')).getText()).toBe('error:');
+                });
             });
             
             afterAll(function () {
@@ -46,16 +80,33 @@
             beforeAll(function () {
                 browser.get('/mocking');
                 mocking = new MockingPO();
-                mocking.api.sendKeys('internal-server-error');
+                mocking.apiGET.sendKeys('internal-server-error');
+                mocking.apiPOST.sendKeys('internal-server-error');
                 browser.get('/index.html');
             });
 
-            it('should show no data', function () {
-                expect(element(by.binding('ctrl.data')).getText()).toBe('data:');
+            describe('when fetching data with a service', function() {
+                it('should not show any data', function () {
+                    expect(element(by.binding('ctrl.data')).getText()).toBe('data:');
+                });
+
+                it('should not show any errors', function () {
+                    expect(element(by.binding('ctrl.error')).getText()).toBe('error: 500');
+                });
             });
 
-            it('should show no errors', function () {
-                expect(element(by.binding('ctrl.error')).getText()).toBe('error: 500');
+            describe('when posting data with a service', function() {
+                beforeAll(function() {
+                    element(by.buttonText('post me')).click();
+                });
+
+                it('should not show any data', function () {
+                    expect(element(by.binding('ctrl.postedData')).getText()).toBe('data:');
+                });
+
+                it('should not show any errors', function () {
+                    expect(element(by.binding('ctrl.postedError')).getText()).toBe('error: 500');
+                });
             });
 
             afterAll(function () {

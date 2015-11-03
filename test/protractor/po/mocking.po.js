@@ -10,12 +10,17 @@ var MockingPO = function () {
 MockingPO.prototype = Object.create({}, {
     partials: {
        get: function() {
-           return element(by.name('partials/.*'));
+           return element(by.name('partials/.*$$GET'));
        }
     },
-    api: {
+    apiGET: {
         get: function() {
-            return element(by.name('/online/rest/some/api'));
+            return element(by.name('/online/rest/some/api$$GET'));
+        }
+    },
+    apiPOST: {
+        get: function() {
+            return element(by.name('/online/rest/some/api$$POST'));
         }
     },
     clear: {

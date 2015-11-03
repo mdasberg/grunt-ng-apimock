@@ -1,0 +1,18 @@
+{
+  "expression": "/online/rest/some/api",
+  "method": "POST",
+  "responses": {
+    "successful": {
+      "status": 200,
+      "data": {
+        "some": "thing"
+      }
+    },
+    "internal-server-error": {
+      "status":500
+    }
+  }
+}
+
+        
+        
