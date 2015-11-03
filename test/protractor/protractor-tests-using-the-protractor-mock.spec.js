@@ -12,11 +12,11 @@
 
             describe('when fetching data with a service', function() {
                 it('should not show any data', function () {
-                    expect(element(by.binding('ctrl.data')).getText()).toBe('data:');
+                    expect(element(by.binding('ctrl.data')).getText()).toBe('');
                 });
 
                 it('should not show any errors', function () {
-                    expect(element(by.binding('ctrl.error')).getText()).toBe('error:');
+                    expect(element(by.binding('ctrl.error')).getText()).toBe('');
                 });
             });
 
@@ -26,11 +26,11 @@
                 });
 
                 it('should not show any data', function () {
-                    expect(element(by.binding('ctrl.postedData')).getText()).toBe('data:');
+                    expect(element(by.binding('ctrl.postedData')).getText()).toBe('');
                 });
 
                 it('should not show any errors', function () {
-                    expect(element(by.binding('ctrl.postedError')).getText()).toBe('error:');
+                    expect(element(by.binding('ctrl.postedError')).getText()).toBe('');
                 });
             });
 
@@ -51,11 +51,11 @@
 
             describe('when fetching data with a service', function() {
                 it('should show data', function () {
-                    expect(element(by.binding('ctrl.data')).getText()).toBe('data: [{"x":"y"}]');
+                    expect(element(by.binding('ctrl.data')).getText()).toBe('[{"x":"y"}]');
                 });
 
                 it('should not show any errors', function () {
-                    expect(element(by.binding('ctrl.error')).getText()).toBe('error:');
+                    expect(element(by.binding('ctrl.error')).getText()).toBe('');
                 });
             });
 
@@ -66,11 +66,11 @@
 
                 it('should show data', function () {
                     browser.sleep(3000)
-                    expect(element(by.binding('ctrl.postedData')).getText()).toBe('data: {"some":"thing"}');
+                    expect(element(by.binding('ctrl.postedData')).getText()).toBe('{"some":"thing"}');
                 });
 
                 it('should not show any errors', function () {
-                    expect(element(by.binding('ctrl.postedError')).getText()).toBe('error:');
+                    expect(element(by.binding('ctrl.postedError')).getText()).toBe('');
                 });
             });
             
@@ -92,11 +92,11 @@
 
             describe('when fetching data with a service', function() {
                 it('should not show any data', function () {
-                    expect(element(by.binding('ctrl.data')).getText()).toBe('data:');
+                    expect(element(by.binding('ctrl.data')).getText()).toBe('');
                 });
 
                 it('should not show any errors', function () {
-                    expect(element(by.binding('ctrl.error')).getText()).toBe('error: 500');
+                    expect(element(by.binding('ctrl.error')).getText()).toBe('500');
                 });
             });
 
@@ -106,11 +106,11 @@
                 });
 
                 it('should not show any data', function () {
-                    expect(element(by.binding('ctrl.postedData')).getText()).toBe('data:');
+                    expect(element(by.binding('ctrl.postedData')).getText()).toBe('');
                 });
 
                 it('should not show any errors', function () {
-                    expect(element(by.binding('ctrl.postedError')).getText()).toBe('error: 500');
+                    expect(element(by.binding('ctrl.postedError')).getText()).toBe('500');
                 });
             });
 

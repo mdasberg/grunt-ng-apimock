@@ -15,7 +15,7 @@
      *
      * @param $httpBackend The httpBackend service.
      */
-    function Mock($httpBackend) {
+    function Mock($httpBackend, $log) {
         var passThroughs = [{"expression":"partials/.*","method":"GET"},{"expression":"non-existing-custom-json/.*"}];
         // #1
         var mocks = JSON.parse(localStorage.getItem('mocks')) || {};
@@ -34,7 +34,7 @@
                 if(mock.echo) {
                     $httpBackend.when(mock['method'], new RegExp(mock['expression'])).respond(
                         function (requestType, expression, requestData, requestHeaders) {
-                            console.log(requestType + ' request made on \'' + expression + '\' with payload: ', requestData);
+                            $log.info(requestType + ' request made on \'' + expression + '\' with payload: ', requestData);
                             var response = mocks[expression + '$$' + requestType].response;
                             return [response.status || 200, response.data || {}, response.headers || {}, response.statusText || undefined];
                         }
@@ -48,7 +48,7 @@
         }
     }
 
-    Mock.$inject = ['$httpBackend'];
+    Mock.$inject = ['$httpBackend', '$log'];
 
     angular.module('mock', ['ngMockE2E']);
     angular.module('mock').run(Mock);

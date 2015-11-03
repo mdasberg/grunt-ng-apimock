@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    function SomeController(api) {
+    function SomeController(api, shadowLogger) {
         var vm = this;
 
         api.fetch({}, function (data) {
@@ -21,11 +21,13 @@
                 }, function (response) {
                     vm.postedError = response.status;
                 });
-        }
+        };
+        
+        vm.logging = shadowLogger.read().info;
 
     }
 
-    SomeController.$inject = ['api'];
+    SomeController.$inject = ['api', 'shadowLogger'];
 
     angular
         .module('ngApimock-example')

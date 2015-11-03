@@ -23,6 +23,11 @@ MockingPO.prototype = Object.create({}, {
             return element(by.name('/online/rest/some/api$$POST'));
         }
     },
+    echoPOST: {
+        get: function() {
+            return element(by.model('mock.echo'));
+        }
+    },
     clear: {
         value: function() {
             return element(by.buttonText('Clear all mocks')).click();
