@@ -222,7 +222,7 @@
             <td>{{mock.expression.toString()}}</td>
             <td>{{mock.method}}</td>
 
-            <td><select ng-options="k as k for (k, v) in mock.responses" ng-model="selected" ng-change="ctrl.select(mock, selected)">
+            <td><select name="{{mock.expression.toString()}}" ng-options="k as k for (k, v) in mock.responses" ng-model="selected" ng-change="ctrl.select(mock, selected)">
                 <option value=""></option>
             </select></td>
         </tr>
