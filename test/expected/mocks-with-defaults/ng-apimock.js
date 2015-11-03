@@ -35,8 +35,16 @@
                     headers = response.headers ? response.headers : {},
                     statusText = response.statusText ? response.statusText : undefined;
 
+
                 // #4
-                if(angular.isUndefined(response.status) && angular.isUndefined(response.data)){
+                if(mock.echo) {
+                    $httpBackend.when(mock['method'], new RegExp(mock['expression'])).respond(
+                        function (requestType, expression, requestData, requestHeaders) {
+                            console.log(requestType + ' request made on \'' + expression + '\' with payload: ', requestData);
+                            return [statusCode || 200, data || {}, headers || {}];
+                        }
+                    )
+                } else if(angular.isUndefined(response.status) && angular.isUndefined(response.data)){
                     $httpBackend.when(mock['method'], new RegExp(mock['expression'])).passThrough();
                 } else {
                     $httpBackend.when(mock['method'], new RegExp(mock['expression'])).respond(statusCode, data, headers, statusText);
