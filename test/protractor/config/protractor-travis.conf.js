@@ -4,7 +4,7 @@ config.sauceUser = process.env.SAUCE_USERNAME;
 config.sauceKey = process.env.SAUCE_ACCESS_KEY;
 
 config.specs = [
-    'test/protractor/**/*.spec.js'
+    '../**/*.spec.js'
 ];
 
 config.multiCapabilities = [{
