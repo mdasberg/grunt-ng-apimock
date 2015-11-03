@@ -28,7 +28,7 @@
     "node": ">= 0.8.0"
   },
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt local"
   },
   "dependencies": {
     "async": "^1.4.2",
@@ -46,12 +46,19 @@
     "httpbackend"
   ],
   "devDependencies": {
+    "angular": "^1.4.7",
+    "angular-mocks": "^1.4.7",
+    "angular-resource": "^1.4.7",
     "buffer-equal": "0.0.1",
     "fs-extra": "^0.24.0",
     "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-connect": "^0.11.2",
     "grunt-contrib-jshint": "^0.11.3",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-protractor-runner": "^2.1.0",
     "grunt-shell": "^1.1.2",
     "gruntmock": "^0.2.0",
-    "jasmine-node": "^1.14.5"
+    "jasmine-node": "^1.14.5",
+    "serve-static": "^1.10.0"
   }
 }

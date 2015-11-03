@@ -35,8 +35,8 @@
                         ]
                     },
                     mock: {
-                        src: 'mocks',
-                        moduleName: 'myModule',
+                        src: 'test/mocks',
+                        moduleName: 'ngApimock-example',
                         dependencies: {
                             angular: '/node_modules/angular/angular.js'
                         }
@@ -47,7 +47,40 @@
                 clean: {
                     tests: ['.tmp']
                 },
-
+                protractor: {
+                    options: {
+                        keepAlive: true,
+                        noColor: false,
+                    },
+                    local: {
+                        options: {
+                            configFile: 'test/protractor/config/protractor-local.conf.js'
+                        }
+                    },
+                    travis: {
+                        options: {
+                            configFile: 'test/protractor/config/protractor-travis.conf.js'
+                        }
+                    }
+                },
+                connect: {
+                    yourTarget: {
+                        options: {
+                            open:false,
+                            port:9900,
+                            middleware: function (connect) {
+                                var serveStatic = require('serve-static');
+                                return [
+                                    connect().use('/node_modules', serveStatic('node_modules')),
+                                    connect().use('/mocking', serveStatic('.tmp/some-other-dir')),
+                                    connect().use('/', serveStatic('test/example'))
+                                ];
+                            }
+                        }
+                    }
+                },
+                watch: {
+                },
                 shell: {
                     target: {
                         command: 'node_modules/jasmine-node/bin/jasmine-node test/*.spec.js'
@@ -62,11 +95,17 @@
         // These plugins provide necessary tasks.
         grunt.loadNpmTasks('grunt-contrib-jshint');
         grunt.loadNpmTasks('grunt-contrib-clean');
+        grunt.loadNpmTasks('grunt-contrib-connect');
+        grunt.loadNpmTasks('grunt-contrib-watch');
+        grunt.loadNpmTasks('grunt-protractor-runner');
         grunt.loadNpmTasks('grunt-shell');
 
         // Whenever the "test" task is run, first clean the "tmp" dir, then run this
         // plugin's task(s), then test the result.
-        grunt.registerTask('test', ['clean', 'shell']);
+        grunt.registerTask('local', 'Run tests locally', ['clean', 'shell', 'ngApimock', 'connect', 'protractor:local']);
+        grunt.registerTask('travis', 'Run tests on Travis CI', ['clean', 'shell', 'ngApimock', 'connect', 'protractor:travis']);
+
+        grunt.registerTask('serve', ['clean', 'ngApimock', 'connect', 'watch']);
 
         // By default, lint and run all tests.
         grunt.registerTask('default', ['jshint', 'test']);

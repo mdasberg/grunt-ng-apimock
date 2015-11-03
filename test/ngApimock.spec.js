@@ -57,7 +57,7 @@
             var mock = gruntMock.create({
                     target: 'all', options: DEFAULT_OPTIONS, data: {
                         moduleName: 'x',
-                        src: 'mocks'
+                        src: 'test/mocks'
                     }
                 }
             );
@@ -71,7 +71,7 @@
             var mock = gruntMock.create({
                     target: 'all', options: DEFAULT_OPTIONS, data: {
                         moduleName: 'x',
-                        src: 'mocks',
+                        src: 'test/mocks',
                         dependencies: {}
                     }
                 }
@@ -88,7 +88,7 @@
             var mock = gruntMock.create({
                     target: 'all', options: DEFAULT_OPTIONS, data: {
                         moduleName: 'x',
-                        src: 'mocks',
+                        src: 'test/mocks',
                         dependencies: {
                             angular: '/some/path/to/angular.js'
                         }
@@ -125,7 +125,7 @@
             var mock = gruntMock.create({
                     target: 'all', options: opts, data: {
                         moduleName: 'x',
-                        src: 'mocks',
+                        src: 'test/mocks',
                         dependencies: {
                             angular: '/some/path/to/angular.js'
                         }

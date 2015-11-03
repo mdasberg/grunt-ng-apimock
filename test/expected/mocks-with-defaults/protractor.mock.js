@@ -1,6 +1,7 @@
 (function () {
     'use strict';
-    var mocks = [{"expression":"partials/.*","method":"GET","response":{}},{"expression":"non-existing-custom-json/.*","response":{}}];
+    var passThroughs = [{"expression":"partials/.*","method":"GET","response":{}},{"expression":"non-existing-custom-json/.*","response":{}}];
+    var mocks = [].concat(passThroughs);
 
     /**
      * The selectScenario function stores the relevant information from the given data that
@@ -16,6 +17,11 @@
             method: data.method,
             response: response
         });
+    }
+
+    /** The resetScenarios function resets the selected mocks. */
+    function resetScenarios() {
+        mocks = [].concat(passThroughs);
     }
 
     /**
@@ -48,16 +54,23 @@
 
             Mock.$inject = ['$httpBackend', 'mockData'];
 
-            angular.module('mock', ['ngMockE2E']);
-            angular.module('mock').value('mockData', arguments[0])
-            angular.module('mock').run(Mock);
+            angular.module('ngApimock', ['ngMockE2E']);
+            angular.module('ngApimock').value('mockData', arguments[0])
+            angular.module('ngApimock').run(Mock);
         };
-        browser.addMockModule('mock', ProtractorMock, {'mocks': mocks});
+        browser.addMockModule('ngApimock', ProtractorMock, {'mocks': mocks});
+    }
+
+    /** The removeMockModule function removes the angular mock module. */
+    function removeMockModule() {
+        browser.removeMockModule('ngApimock');
     }
 
     /** This Protractor mock allows you to specify which scenario from your json api files you would like to use for your tests. */
     module.exports = {
         selectScenario: selectScenario,
-        addMockModule: addMockModule
+        addMockModule: addMockModule,
+        removeMockModule: removeMockModule,
+        resetScenarios: resetScenarios
     }
 })();
