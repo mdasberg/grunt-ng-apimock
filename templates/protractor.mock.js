@@ -39,10 +39,10 @@
                 for (var i = 0; i < mockData.mocks.length; i++) {
                     var mock = mockData.mocks[i],
                         response = mock.response,
-                        statusCode = response.status ? response.status : 200, // fallback to 200
-                        data = response.data,
-                        headers = response.headers ? response.headers : {}, // fallback to {}
-                        statusText = response.statusText ? response.statusText : undefined;
+                        statusCode = response.status ||  200, // fallback to 200
+                        data = response.data || {},
+                        headers = response.headers || {}, // fallback to {}
+                        statusText = response.statusText || undefined;
 
                     if (angular.isUndefined(response.status) && angular.isUndefined(response.data)) {
                         $httpBackend.when(mock['method'], new RegExp(mock['expression'])).passThrough();

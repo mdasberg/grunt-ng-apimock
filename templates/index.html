@@ -61,7 +61,7 @@
                         stored ;
                     mocks.forEach(function (mock) {
                         if(mock.method === 'POST') {
-                            stored = storedMocks()[mock.expression];
+                            stored = storedMocks()[mock.expression + '$$' + mock.method];
                             mock.echo = stored ? stored.echo : false;
                         }
                     });
@@ -88,14 +88,14 @@
 
                     if (response !== undefined) {
                         response.name = selection; // set the name so we can selected it later on.
-                        mocks[mock.expression] = {
+                        mocks[mock.expression + '$$' + mock.method] = {
                             expression: mock.expression,
-                            method: mock.method,
+                            method: mock.method, 
                             echo: mock.echo,
                             response: response
                         };
                     } else {
-                        delete mocks[mock.expression];
+                        delete mocks[mock.expression + '$$' + mock.method];
                     }
 
                     localStorage.setItem('mocks', JSON.stringify(mocks)); // store it again.
@@ -107,7 +107,7 @@
                  * @returns {string} selected The selected response.
                  */
                 function selected(mock) {
-                    var stored = storedMocks()[mock.expression];
+                    var stored = storedMocks()[mock.expression + '$$' + mock.method];
                     return (stored ? stored.response.name : undefined);
                 }
 
@@ -232,7 +232,7 @@
             <td>{{mock.expression.toString()}}</td>
             <td>{{mock.method}}</td>
 
-            <td><select name="{{mock.expression.toString()}}" ng-options="k as k for (k, v) in mock.responses" ng-model="selected" ng-change="ctrl.select(mock, selected)">
+            <td><select name="{{mock.expression.toString()}}$${{mock.method}}" ng-options="k as k for (k, v) in mock.responses" ng-model="selected" ng-change="ctrl.select(mock, selected)">
                 <option value=""></option>
             </select></td>
             <td>
