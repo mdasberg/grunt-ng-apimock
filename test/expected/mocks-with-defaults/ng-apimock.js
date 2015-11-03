@@ -38,10 +38,12 @@
 
                 // #4
                 if(mock.echo) {
-                    $httpBackend.when(mock['method'], new RegExp(mock['expression'])).respond(function (requestType, expression, data, headers) {
-                        console.log(arguments)
-                        return [200, { data: data }, headers];
-                    })
+                    $httpBackend.when(mock['method'], new RegExp(mock['expression'])).respond(
+                        function (requestType, expression, requestData, requestHeaders) {
+                            console.log(requestType + ' request made on \'' + expression + '\' with payload: ', requestData);
+                            return [statusCode || 200, data || {}, headers || {}];
+                        }
+                    )
                 } else if(angular.isUndefined(response.status) && angular.isUndefined(response.data)){
                     $httpBackend.when(mock['method'], new RegExp(mock['expression'])).passThrough();
                 } else {
