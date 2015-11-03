@@ -65,7 +65,6 @@
                 });
 
                 it('should show data', function () {
-                    browser.sleep(3000)
                     expect(element(by.binding('ctrl.postedData')).getText()).toBe('{"some":"thing"}');
                 });
 
