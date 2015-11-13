@@ -1,3 +1,9 @@
+<a name="0.0.6"></a>
+# 0.0.6 (2015-11-13)
+
+## Bugfixes
+- Fix duplicate expression override local storage
+
 <a name="0.0.5"></a>
 # 0.0.5 (2015-10-21)
 
