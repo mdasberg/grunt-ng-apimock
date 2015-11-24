@@ -1,17 +1,29 @@
 (function () {
     'use strict';
-    var passThroughs = [];
+    var passThroughs = [{"expression":"partials/.*","method":"GET","response":{}},{"expression":"/online/rest/some/api","method":"GET","response":{}},{"expression":"/online/rest/some/api","method":"POST","response":{}}];
     var mocks = [].concat(passThroughs);
 
     /**
      * The selectScenario function stores the relevant information from the given data that
      * matches the given scenario.
-     * The information is stored in an array which is used to register api mocks with $httpBackend
+     * The information is stored in an array which is used to register api mocks with $httpBackend.
+     *
+     * #1 remove the previously selected scenario
+     * #2 add the newly selected scenario
+     *
      * @param data The data object containing all the information for an expression.
      * @param scenario The scenario that is selected to be returned when the api is called.
      */
     function selectScenario(data, scenario) {
         var response = data.responses[scenario];
+        // #1
+        mocks.filter(function(mock) {
+            return (mock['expression'] === data['expression']) && (mock['method'] === data['method']);
+        }).forEach(function(match) {
+            mocks.splice(mocks.indexOf(match), 1)
+        });
+
+        // #2
         mocks.push({
             expression: data.expression,
             method: data.method,

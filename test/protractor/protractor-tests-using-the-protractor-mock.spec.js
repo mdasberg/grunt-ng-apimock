@@ -12,7 +12,7 @@
 
             describe('when fetching data with a service', function() {
                 it('should not show any data', function () {
-                    expect(element(by.binding('ctrl.data')).getText()).toBe('');
+                    expect(element(by.binding('ctrl.data')).getText()).toBe('[{"a":"b"}]');
                 });
 
                 it('should not show any errors', function () {
@@ -26,7 +26,7 @@
                 });
 
                 it('should not show any data', function () {
-                    expect(element(by.binding('ctrl.postedData')).getText()).toBe('');
+                    expect(element(by.binding('ctrl.postedData')).getText()).toBe('{"some":"thing"}' );
                 });
 
                 it('should not show any errors', function () {
@@ -45,7 +45,6 @@
                 ngApimock.selectScenario(require('../mocks/some-api-get.json'), 'some-meaningful-scenario-name');
                 ngApimock.selectScenario(require('../mocks/some-api-post.json'), 'successful');
                 ngApimock.addMockModule();
-
                 browser.get('/index.html');
             });
 

@@ -52,20 +52,44 @@
 
             function MockStorage(registry) {
                 /**
+                 * Initialize the mock storage by iterating over each mock that is not available in the local storage.
+                 * #1 get all the mocks
+                 * #2 iterate only over mocks that are not stored in local storage
+                 * #3 add the non stored mocks and select passThrough as default
+                 * #4 add the update stored mocks to local storage.
+                 */
+                function initialize() {
+                    // #1
+                    var mocks = registry.mocks(),
+                        storedMocks = JSON.parse(localStorage.getItem('mocks')) || {};
+                    // #2
+                    mocks.filter(function (mock) {
+                        return !storedMocks[mock.expression + '$$' + mock.method];
+                    }).forEach(function (mock) {
+                        var response = mock.responses.passThrough;
+                        response.name = 'passThrough';
+
+                        var stored = {
+                            expression: mock.expression,
+                            method: mock.method,
+                            echo: mock.echo || false,
+                            response: response
+                        };
+
+                        // #3
+                        storedMocks[mock.expression + '$$' + mock.method] = stored;
+                    });
+                    // #4
+                    localStorage.setItem('mocks', JSON.stringify(storedMocks));
+                }
+
+                /**
                  * Gets the mocks from the registry.
                  * Note: not the stored mocks.
                  * @returns {*} mocks The mocks.
                  */
                 function mocks() {
-                    var mocks = registry.mocks(),
-                        stored ;
-                    mocks.forEach(function (mock) {
-                        if(mock.method === 'POST') {
-                            stored = storedMocks()[mock.expression + '$$' + mock.method];
-                            mock.echo = stored ? stored.echo : false;
-                        }
-                    });
-                    return mocks;
+                    return registry.mocks();
                 }
 
                 /**
@@ -73,7 +97,7 @@
                  * @returns {*} mocks The stored mocks.
                  */
                 function storedMocks() {
-                    return JSON.parse(localStorage.getItem('mocks')) || {};
+                    return JSON.parse(localStorage.getItem('mocks'));
                 }
 
                 /**
@@ -85,12 +109,11 @@
                     var mocks = storedMocks(), // get current storage
                         response = mock.responses[selection];
 
-
                     if (response !== undefined) {
                         response.name = selection; // set the name so we can selected it later on.
                         mocks[mock.expression + '$$' + mock.method] = {
                             expression: mock.expression,
-                            method: mock.method, 
+                            method: mock.method,
                             echo: mock.echo,
                             response: response
                         };
@@ -116,9 +139,11 @@
                  */
                 function clear() {
                     localStorage.removeItem('mocks');
+                    initialize();
                 }
 
                 return {
+                    initialize: initialize,
                     mocks: mocks,
                     select: select,
                     selected: selected,
@@ -146,6 +171,8 @@
 
             function MockingController(service, $window) {
                 var vm = this;
+
+                service.initialize();
 
                 vm.mocks = service.mocks();
 

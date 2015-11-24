@@ -73,7 +73,15 @@
                                 return [
                                     connect().use('/node_modules', serveStatic('node_modules')),
                                     connect().use('/mocking', serveStatic('.tmp/some-other-dir')),
-                                    connect().use('/', serveStatic('test/example'))
+                                    connect().use('/', serveStatic('test/example')),
+                                    connect().use('/online/rest/some/api', function(request, response, next){
+                                        response.writeHead(200, {'Content-Type': 'application/json' });
+                                        if(request.method === 'GET') {
+                                            response.end("[{\"a\":\"b\"}]");
+                                        } else if(request.method === 'POST') {
+                                            response.end("{\"some\": \"thing\"}");
+                                        }
+                                    })
                                 ];
                             }
                         }

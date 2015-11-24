@@ -97,10 +97,11 @@
             );
             mock.invoke(ngApimock, function (err) {
                 expect(mock.logError.length).toBe(0);
-                expect(mock.logOk.length).toBe(3);
-                expect(mock.logOk[0]).toBe('Generate the mocking web interface');
-                expect(mock.logOk[1]).toBe('Generate mock module');
-                expect(mock.logOk[2]).toBe('Copy protractor.mock.js');
+                expect(mock.logOk.length).toBe(4);
+                expect(mock.logOk[0]).toBe('Process all the mocks');
+                expect(mock.logOk[1]).toBe('Generate the mocking web interface');
+                expect(mock.logOk[2]).toBe('Generate ng-apimock.js');
+                expect(mock.logOk[3]).toBe('Generate protractor.mock.js');
                 expect(fsExtra.existsSync(opts.defaultOutputDir + path.sep + 'ng-apimock.js')).toBeTruthy();
                 expect(fsExtra.existsSync(opts.defaultOutputDir + path.sep + 'index.html')).toBeTruthy();
                 expect(fsExtra.existsSync(opts.defaultOutputDir + path.sep + 'protractor.mock.js')).toBeTruthy();
@@ -134,10 +135,11 @@
             );
             mock.invoke(ngApimock, function (err) {
                 expect(mock.logError.length).toBe(0);
-                expect(mock.logOk.length).toBe(3);
-                expect(mock.logOk[0]).toBe('Generate the mocking web interface');
-                expect(mock.logOk[1]).toBe('Generate mock module');
-                expect(mock.logOk[2]).toBe('Copy protractor.mock.js');
+                expect(mock.logOk.length).toBe(4);
+                expect(mock.logOk[0]).toBe('Process all the mocks');
+                expect(mock.logOk[1]).toBe('Generate the mocking web interface');
+                expect(mock.logOk[2]).toBe('Generate ng-apimock.js');
+                expect(mock.logOk[3]).toBe('Generate protractor.mock.js');
                 expect(fsExtra.existsSync(opts.defaultOutputDir + path.sep + 'ng-apimock.js')).toBeTruthy();
                 expect(fsExtra.existsSync(opts.defaultOutputDir + path.sep + 'index.html')).toBeTruthy();
                 expect(fsExtra.existsSync(opts.defaultOutputDir + path.sep + 'protractor.mock.js')).toBeTruthy();

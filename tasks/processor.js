@@ -22,20 +22,17 @@
         }
 
         /**
-         * Generate the mocking interface by processing all mocks.
+         * Process all the mocks.
          * @param {string} src The directory containing the mocks.
-         * @param {object} dependencies The object containing the locations of the dependencies.
-         * @param {string} outputDir The output directory.
+         * @param {string} passThroughs The default passThroughs
          *
          * #1 iterate over each json file
          * #2 add passThrough if not configured.
          * #3 add the content to the mocks collection
          * #4 check for default passThrough configuration
          * #5 add the default passThroughs if custom json file is omitted
-         * #6 update the template with the gathered mocks
-         * #7 write the template to file
          */
-        function generateMockInterface(src, dependencies, outputDir, passThroughs) {
+        function processMocks(src, passThroughs) {
             var mocks = [];
 
             // #1
@@ -61,7 +58,20 @@
                 }
             });
 
-            // #6
+            return mocks;
+        }
+
+        /**
+         * Generate the mocking interface by processing all mocks.
+         * @param {string} src The directory containing the mocks.
+         * @param {object} dependencies The object containing the locations of the dependencies.
+         * @param {string} outputDir The output directory.
+         *
+         * #1 update the template with the gathered mocks
+         * #2 write the template to file
+         */
+        function generateMockInterface(mocks, dependencies, outputDir) {
+            // #1
             var template = grunt.template.process(grunt.file.read(path.resolve(__dirname, '..') + '/templates/index.html'), {
                 data: {
                     mocks: JSON.stringify(mocks),
@@ -69,7 +79,7 @@
                 }
             });
 
-            // #7
+            // #2
             grunt.file.write(outputDir + '/index.html', template, {encoding: 'utf8'});
         }
 
@@ -101,10 +111,22 @@
          * #1 update the template with the module name
          * #2 write the template to file
          */
-        function copyProtractorMock(outputDir, passThroughs) {
+        function generateProtractorMock(mocks, outputDir, defaultPassThroughs) {
+            var processedMocks = _.map(mocks,function(el){
+                return {
+                    expression: el['expression'],
+                    method: el['method']
+                };
+            });
+
+            var passThroughs = _.uniq(_(processedMocks).concat(defaultPassThroughs).value(), function(e) {
+                return e['expression'] + (e['method'] || 'GET');
+            });
+
             passThroughs.forEach(function(p) {
                 p.response = {};
             });
+
 
             // #1
             var template = grunt.template.process(grunt.file.read(path.resolve(__dirname, '..') + '/templates/protractor.mock.js'), {
@@ -119,9 +141,10 @@
         }
 
         return {
+            processMocks: processMocks,
             generateMockInterface: generateMockInterface,
             generateMockModule: generateMockModule,
-            copyProtractorMock: copyProtractorMock
+            generateProtractorMock: generateProtractorMock
         };
     };
 })();
