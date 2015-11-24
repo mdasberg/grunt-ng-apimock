@@ -82,8 +82,8 @@
                 watch: {
                 },
                 shell: {
-                    target: {
-                        command: 'node_modules/jasmine-node/bin/jasmine-node test/*.spec.js'
+                    jasmineNode: {
+                        command: 'node node_modules/jasmine-node/bin/jasmine-node test/*.spec.js',
                     }
                 }
             }
