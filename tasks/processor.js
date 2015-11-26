@@ -115,7 +115,8 @@
             var processedMocks = _.map(mocks,function(el){
                 return {
                     expression: el['expression'],
-                    method: el['method']
+                    method: el['method'],
+                    isArray: el['isArray']
                 };
             });
 
