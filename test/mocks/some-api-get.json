@@ -1,6 +1,7 @@
 {
   "expression": "/online/rest/some/api",
   "method": "GET",
+  "isArray": true,
   "responses": {
     "some-meaningful-scenario-name": {
       "status": 200,

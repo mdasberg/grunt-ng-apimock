@@ -1,7 +1,9 @@
 (function () {
     'use strict';
-    var passThroughs = [{"expression":"partials/.*","method":"GET","response":{}},{"expression":"/online/rest/some/api","method":"GET","response":{}},{"expression":"/online/rest/some/api","method":"POST","response":{}}];
-    var mocks = [].concat(passThroughs);
+    var passThroughs = [{"expression":"partials/.*","method":"GET","response":{}},{"expression":"/online/rest/some/api","method":"GET","isArray":true,"response":{}},{"expression":"/online/rest/some/api","method":"POST","response":{}}];
+    var mocks = [].concat(passThroughs),
+        identifier = (Math.random().toString(16) + "000000000").substr(2, 8),
+        addedMockModule = false;
 
     /**
      * The selectScenario function stores the relevant information from the given data that
@@ -10,6 +12,7 @@
      *
      * #1 remove the previously selected scenario
      * #2 add the newly selected scenario
+     * #3 push the change to the running protractor instance if the module has already been added.
      *
      * @param data The data object containing all the information for an expression.
      * @param scenario The scenario that is selected to be returned when the api is called.
@@ -17,18 +20,25 @@
     function selectScenario(data, scenario) {
         var response = data.responses[scenario];
         // #1
-        mocks.filter(function(mock) {
+        mocks.filter(function (mock) {
             return (mock['expression'] === data['expression']) && (mock['method'] === data['method']);
-        }).forEach(function(match) {
+        }).forEach(function (match) {
             mocks.splice(mocks.indexOf(match), 1)
         });
 
         // #2
-        mocks.push({
+        var mock = {
             expression: data.expression,
             method: data.method,
+            isArray: data.isArray || false,
             response: response
-        });
+        };
+        mocks.push(mock);
+
+        // #3
+        if (addedMockModule) {
+            browser.executeScript('window.sessionStorage.setItem(\''+identifier + mock['expression'] +'$$'+mock['method'] +'\', \'' + JSON.stringify(mock) + '\');');
+        }
     }
 
     /** The resetScenarios function resets the selected mocks. */
@@ -47,35 +57,51 @@
              * @param $httpBackend The injected $httpBackend.
              * @param mockData The mock data.
              */
-            function Mock($httpBackend, mockData) {
-                for (var i = 0; i < mockData.mocks.length; i++) {
-                    var mock = mockData.mocks[i],
-                        response = mock.response,
-                        statusCode = response.status ||  200, // fallback to 200
-                        data = response.data || {},
-                        headers = response.headers || {}, // fallback to {}
-                        statusText = response.statusText || undefined;
+            function Mock($httpBackend, mockData, $window) {
+
+                mockData.mocks.forEach(function (mock) {
+                    var response = mock.response;
 
                     if (angular.isUndefined(response.status) && angular.isUndefined(response.data)) {
                         $httpBackend.when(mock['method'], new RegExp(mock['expression'])).passThrough();
                     } else {
-                        $httpBackend.when(mock['method'], new RegExp(mock['expression'])).respond(statusCode, data, headers, statusText);
+                        $httpBackend.when(mock['method'], new RegExp(mock['expression'])).respond(
+                            function (requestType, expression, requestData) {
+                                var stored = $window.sessionStorage.getItem(mockData.identifier + expression + '$$' + requestType);
+                                if(stored !== null) {
+                                    var storedJson = JSON.parse(stored);
+                                    response = storedJson.response,
+                                        $window.sessionStorage.removeItem(mockData.identifier + expression + '$$' + requestType);
+                                    mock.response = response;
+                                } else {
+                                    response = mock.response;
+                                }
+
+                                var statusCode = response.status ||  200, // fallback to 200
+                                    data = response.data || (mock.isArray ? [] : {}),
+                                    headers = response.headers || {}, // fallback to {}
+                                    statusText = response.statusText || undefined;
+
+                                return [statusCode, data, headers, statusText];
+                            }
+                        );
                     }
-                }
+                });
             }
 
-            Mock.$inject = ['$httpBackend', 'mockData'];
-
+            Mock.$inject = ['$httpBackend', 'mockData', '$window'];
             angular.module('ngApimock', ['ngMockE2E']);
-            angular.module('ngApimock').value('mockData', arguments[0])
+            angular.module('ngApimock').value('mockData', arguments[0]);
             angular.module('ngApimock').run(Mock);
         };
-        browser.addMockModule('ngApimock', ProtractorMock, {'mocks': mocks});
+        browser.addMockModule('ngApimock', ProtractorMock, {'mocks': mocks, 'identifier': identifier});
+        addedMockModule = true;
     }
 
     /** The removeMockModule function removes the angular mock module. */
     function removeMockModule() {
         browser.removeMockModule('ngApimock');
+        addedMockModule = false;
     }
 
     /** This Protractor mock allows you to specify which scenario from your json api files you would like to use for your tests. */
