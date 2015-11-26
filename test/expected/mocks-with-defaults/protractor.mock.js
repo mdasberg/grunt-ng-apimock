@@ -66,12 +66,13 @@
                         $httpBackend.when(mock['method'], new RegExp(mock['expression'])).passThrough();
                     } else {
                         $httpBackend.when(mock['method'], new RegExp(mock['expression'])).respond(
-                            function (requestType, expression, requestData) {
+                            function (requestType, expression) {
                                 var stored = $window.sessionStorage.getItem(mockData.identifier + expression + '$$' + requestType);
                                 if(stored !== null) {
                                     var storedJson = JSON.parse(stored);
-                                    response = storedJson.response,
-                                        $window.sessionStorage.removeItem(mockData.identifier + expression + '$$' + requestType);
+                                    response = storedJson.response;
+
+                                    $window.sessionStorage.removeItem(mockData.identifier + expression + '$$' + requestType);
                                     mock.response = response;
                                 } else {
                                     response = mock.response;
