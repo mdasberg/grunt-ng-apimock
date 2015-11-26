@@ -1,3 +1,13 @@
+<a name="0.0.7"></a>
+# 0.0.7 (2015-11-26)
+
+## Features
+- Add default passThrough response to every mock
+- Select passThrough as default option
+- Debug for post requests
+- Support to remove and reset mockModule
+- Change scenario's during tests
+
 <a name="0.0.6"></a>
 # 0.0.6 (2015-11-13)
 

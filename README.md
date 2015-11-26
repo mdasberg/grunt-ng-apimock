@@ -109,6 +109,7 @@ There are a couple of rules to follow.
 {
   "expression": "your expression here (ie a regex without the leading and trailing '/' or a string)",
   "method": "the http method (ie GET)",
+  "isArray": "indicates if the response data is an array or object"
   "responses": {
     "some-meaningful-scenario-name": { 
       "status": 200, // optional - defaults to 200
@@ -205,6 +206,10 @@ describe('Some test', function () {
     ngApimock.selectScenario(require('path/to/mocks/partials.json'), 'passThrough'); // passThrough is the name of the scenario    
     ngApimock.selectScenario(require('path/to/mocks/countryService.json'), 'ok'); // ok is the name of the scenario
     ngApimock.addMockModule(); // add the mock module
+
+    it('should do something', function() {
+        ngApimock.selectScenario(require('path/to/mocks/partials.json'), 'another'); // at runtime you can change a scenario
+    });
  });
    
 ```
