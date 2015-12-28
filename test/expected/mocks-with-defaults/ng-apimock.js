@@ -2,6 +2,26 @@
     'use strict';
 
     /**
+     * Find the expression that matches.
+     * @param mocks The mocks.
+     * @param requestType The request type.
+     * @param expression The expression.
+     * @returns {*}
+     */
+    function findMatchingExpression(mocks, requestType, expression) {
+        for (var key in mocks) {
+            if (mocks.hasOwnProperty(key)) {
+                var mock = mocks[key],
+                    mockExpression = mock.expression;
+                if (mock['method'] === requestType && new RegExp(mockExpression).test(expression)) {
+                    return mock;
+                }
+            }
+        }
+        return expression;
+    }
+
+    /**
      * The web interface (@see https://github.com/mdasberg/grunt-ng-apimock#howto-serve-selected-mocks)
      * allows the user to select a scenario for an api.
      *
@@ -21,7 +41,7 @@
         var mocks = JSON.parse(localStorage.getItem('mocks')) || {};
 
         // #2
-        passThroughs.forEach(function(passThrough) {
+        passThroughs.forEach(function (passThrough) {
             $httpBackend.when(passThrough['method'], new RegExp(passThrough['expression'])).passThrough();
         });
 
@@ -31,18 +51,19 @@
                 var mock = mocks[key];
                 var response = mock['response'];
                 // #4
-                if(mock.echo) {
-                    $httpBackend.when(mock['method'], new RegExp(mock['expression'])).respond(
-                        function (requestType, expression, requestData, requestHeaders) {
-                            $log.info(requestType + ' request made on \'' + expression + '\' with payload: ', requestData);
-                            var response = mocks[expression + '$$' + requestType].response;
-                            return [response.status || 200, response.data || {}, response.headers || {}, response.statusText || undefined];
-                        }
-                    )
-                } else if(angular.isUndefined(response.status) && angular.isUndefined(response.data)){
+                if (angular.isUndefined(response.status) && angular.isUndefined(response.data)) {
                     $httpBackend.when(mock['method'], new RegExp(mock['expression'])).passThrough();
                 } else {
-                    $httpBackend.when(mock['method'], new RegExp(mock['expression'])).respond(response.status || 200, response.data || {}, response.headers || {}, response.statusText || undefined);
+                    $httpBackend.when(mock['method'], new RegExp(mock['expression'])).respond(
+                        function (requestType, expression, requestData, requestHeaders) {
+                            var matchingMock = findMatchingExpression(JSON.parse(localStorage.getItem('mocks')) || {}, requestType, expression);
+                            if (matchingMock.echo) {
+                                $log.info(requestType + ' request made on \'' + matchingMock['expression'] + '\' with payload: ', requestData);
+                            }
+                            var response = matchingMock.response;
+                            return [response.status || 200, response.data || (matchingMock.isArray ? [] : {}), response.headers || {}, response.statusText || undefined];
+                        }
+                    );
                 }
             }
         }

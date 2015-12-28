@@ -83,7 +83,7 @@
 
                 it('should show data', function () {
                     expect(element(by.binding('ctrl.postedData')).getText()).toBe('{"some":"thing"}');
-                    expect(element(by.binding('ctrl.logging')).getText()).toContain('\'/online/rest/some/api\' with payload');
+                    expect(element(by.binding('ctrl.logging')).getText()).toContain('\'online/rest/some/api/.*/and/.*\' with payload');
                 });
 
                 it('should not show any errors', function () {

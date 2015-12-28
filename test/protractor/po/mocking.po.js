@@ -15,17 +15,17 @@ MockingPO.prototype = Object.create({}, {
     },
     apiGET: {
         get: function() {
-            return element(by.name('/online/rest/some/api$$GET'));
+            return element(by.name('online/rest/some/api/.*/and/.*$$GET'));
         }
     },
     apiPOST: {
         get: function() {
-            return element(by.name('/online/rest/some/api$$POST'));
+            return element(by.name('online/rest/some/api/.*/and/.*$$POST'));
         }
     },
     echoPOST: {
         get: function() {
-            return element(by.model('mock.echo'));
+            return element(by.model('echo'));
         }
     },
     clear: {

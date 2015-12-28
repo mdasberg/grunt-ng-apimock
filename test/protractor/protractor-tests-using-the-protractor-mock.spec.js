@@ -1,9 +1,9 @@
 (function () {
     'use strict';
-    
+
     describe('ngApimock - protractor.mock.js', function () {
         var ngApimock = require('../../.tmp/some-other-dir/protractor.mock.js');
-        
+
         describe('when provided without any selected scenarios', function () {
             beforeAll(function () {
                 ngApimock.addMockModule();
@@ -71,7 +71,7 @@
                     expect(element(by.binding('ctrl.postedError')).getText()).toBe('');
                 });
             });
-            
+
             afterAll(function () {
                 ngApimock.removeMockModule();
                 ngApimock.resetScenarios();
@@ -106,7 +106,12 @@
 
                 it('should show data', function () {
                     expect(element(by.binding('ctrl.postedData')).getText()).toBe('{"some":"thing"}');
+                    ngApimock.selectScenario(require('../mocks/some-api-post.json'), 'anotherSuccess');
+                    element(by.buttonText('post me')).click();
+
+                    expect(element(by.binding('ctrl.postedData')).getText()).toBe('{"some":"thing else"}');
                     ngApimock.selectScenario(require('../mocks/some-api-post.json'), 'internal-server-error');
+
                     element(by.buttonText('post me')).click();
                     expect(element(by.binding('ctrl.postedData')).getText()).toBe('');
                 });

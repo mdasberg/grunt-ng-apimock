@@ -2,7 +2,10 @@
     'use strict';
 
     function Api($resource) {
-        return $resource('/online/rest/some/api', {}, {
+        return $resource('/online/rest/some/api/:x/and/:y', {
+            x: '@x',
+            y: '@y'
+        }, {
             fetch: {
                 method: 'GET',
                 isArray: true

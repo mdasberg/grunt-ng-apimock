@@ -1,11 +1,17 @@
 {
-  "expression": "/online/rest/some/api",
+  "expression": "online\/rest\/some\/api\/.*\/and\/.*",
   "method": "POST",
   "responses": {
     "successful": {
       "status": 200,
       "data": {
         "some": "thing"
+      }
+    },
+    "anotherSuccess": {
+      "status": 200,
+      "data": {
+        "some": "thing else"
       }
     },
     "internal-server-error": {

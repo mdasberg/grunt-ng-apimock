@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    var passThroughs = [{"expression":"partials/.*","method":"GET","response":{}},{"expression":"/online/rest/some/api","method":"GET","isArray":true,"response":{}},{"expression":"/online/rest/some/api","method":"POST","response":{}}];
+    var passThroughs = [{"expression":"partials/.*","method":"GET","response":{}},{"expression":"online/rest/some/api/.*/and/.*","method":"GET","isArray":true,"response":{}},{"expression":"online/rest/some/api/.*/and/.*","method":"POST","response":{}}];
     var mocks = [].concat(passThroughs),
         identifier = (Math.random().toString(16) + "000000000").substr(2, 8),
         addedMockModule = false;
@@ -53,11 +53,50 @@
     function addMockModule() {
         var ProtractorMock = function () {
             /**
+             * Find the expression that matches.
+             * @param mocks The mocks.
+             * @param requestType The request type.
+             * @param expression The expression.
+             * @returns {*}
+             */
+            function findMatchingExpression(mocks, requestType, expression) {
+                for (var key in mocks) {
+                    if (mocks.hasOwnProperty(key)) {
+                        var mock = mocks[key],
+                            mockExpression = mock.expression;
+                        if (mock['method'] === requestType && new RegExp(mockExpression).test(expression)) {
+                            return mock;
+                        }
+                    }
+                }
+                return expression;
+            }
+
+            /**
              * The actual mocks.
              * @param $httpBackend The injected $httpBackend.
              * @param mockData The mock data.
              */
             function Mock($httpBackend, mockData, $window) {
+                /**
+                 * Find the expression that matches.
+                 * @param mocks The mocks.
+                 * @param requestType The request type.
+                 * @param expression The expression.
+                 * @returns {*}
+                 */
+                function findMatchingExpression(mocks, requestType, expression) {
+                    for (var key in mocks) {
+                        if (mocks.hasOwnProperty(key)) {
+                            var mock = mocks[key],
+                                mockExpression = mock.expression;
+                            if (mock['method'] === requestType && new RegExp(mockExpression).test(expression)) {
+                                return mock;
+                            }
+                        }
+                    }
+                    return expression;
+                }
 
                 mockData.mocks.forEach(function (mock) {
                     var response = mock.response;
@@ -67,12 +106,14 @@
                     } else {
                         $httpBackend.when(mock['method'], new RegExp(mock['expression'])).respond(
                             function (requestType, expression) {
-                                var stored = $window.sessionStorage.getItem(mockData.identifier + expression + '$$' + requestType);
+                                var matchingMock = findMatchingExpression(mockData.mocks, requestType, expression),
+                                    stored = $window.sessionStorage.getItem(mockData.identifier + matchingMock.expression + '$$' + requestType);
+
                                 if(stored !== null) {
                                     var storedJson = JSON.parse(stored);
                                     response = storedJson.response;
 
-                                    $window.sessionStorage.removeItem(mockData.identifier + expression + '$$' + requestType);
+                                    $window.sessionStorage.removeItem(mockData.identifier + matchingMock.expression + '$$' + requestType);
                                     mock.response = response;
                                 } else {
                                     response = mock.response;

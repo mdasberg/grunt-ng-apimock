@@ -4,8 +4,8 @@
     function SomeController(api, shadowLogger, $window) {
         var vm = this;
 
-        var fetch = function() {
-            api.fetch({}, function (data) {
+        var fetch = function () {
+            api.fetch({x: 'x', y: 'y'}, function (data) {
                 vm.data = data;
             }, function (response) {
                 vm.error = response.status;
@@ -17,6 +17,7 @@
         vm.update = function () {
             api.update(
                 {
+                    x: 'x', y: 'y',
                     data: {
                         some: 'thing'
                     }
@@ -28,10 +29,10 @@
                     vm.postedError = response.status;
                 });
         };
-        
+
         vm.logging = shadowLogger.read().info;
 
-        vm.refresh = function() {
+        vm.refresh = function () {
             fetch();
         }
 

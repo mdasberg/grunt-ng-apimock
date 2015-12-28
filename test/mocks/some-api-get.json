@@ -1,5 +1,5 @@
 {
-  "expression": "/online/rest/some/api",
+  "expression": "online\/rest\/some\/api\/.*\/and\/.*",
   "method": "GET",
   "isArray": true,
   "responses": {
@@ -18,5 +18,4 @@
   }
 }
 
-        
-        
+
