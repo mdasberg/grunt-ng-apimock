@@ -1,3 +1,10 @@
+<a name="0.0.8"></a>
+# 0.0.8 (2015-12-29)
+
+## Bugfixes
+- Changing the Echo indicator for a post does not work #11
+- Expressions that are regexes are not updated when changing the scenario #12
+
 <a name="0.0.7"></a>
 # 0.0.7 (2015-11-26)
 
