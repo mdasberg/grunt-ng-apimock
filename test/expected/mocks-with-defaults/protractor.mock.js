@@ -100,6 +100,18 @@
                     return expression;
                 }
 
+                /**
+                 * Delay the response for the given amount of milliseconds.
+                 * @param ms The number of milliseconds.
+                 */
+                function delay(ms) {
+                    var curr = new Date().getTime();
+                    ms += curr;
+                    while (curr   < ms) {
+                        curr = new Date().getTime();
+                    }
+                }
+
                 mockData.mocks.forEach(function (mock) {
                     var response = mock.response;
 
@@ -108,6 +120,8 @@
                     } else {
                         $httpBackend.when(mock['method'], new RegExp(mock['expression'])).respond(
                             function (requestType, expression) {
+                                delay(10); // makes sure the session storage is up-to-date.
+
                                 var matchingMock = findMatchingExpression(mockData.mocks, requestType, expression),
                                     stored = $window.sessionStorage.getItem(mockData.identifier + matchingMock.expression + '$$' + requestType);
 
@@ -116,16 +130,12 @@
                                     response = storedJson.response;
 
                                     $window.sessionStorage.removeItem(mockData.identifier + matchingMock.expression + '$$' + requestType);
-                                    mock.response = response;
-                                } else {
-                                    response = mock.response;
+                                    matchingMock.response = response;
                                 }
-
-                                var statusCode = response.status ||  200, // fallback to 200
-                                    data = response.data || (mock.isArray ? [] : {}),
-                                    headers = response.headers || {}, // fallback to {}
-                                    statusText = response.statusText || undefined;
-
+                                var statusCode = matchingMock.response.status ||  200, // fallback to 200
+                                    data = matchingMock.response.data || (matchingMock.isArray ? [] : {}),
+                                    headers = matchingMock.response.headers || {}, // fallback to {}
+                                    statusText = matchingMock.response.statusText || undefined;
                                 return [statusCode, data, headers, statusText];
                             }
                         );
