@@ -1,5 +1,5 @@
-<a name="0.0.9"></a>
-# 0.0.9 (2016-01-04)
+<a name="0.1.1"></a>
+# 0.1.1 (2016-01-04)
 
 ## Bugfixes
 - Fix select scenario async behaviour
