@@ -37,7 +37,9 @@
 
         // #3
         if (addedMockModule) {
-            browser.executeScript('window.sessionStorage.setItem(\''+identifier + mock['expression'] +'$$'+mock['method'] +'\', \'' + JSON.stringify(mock) + '\');');
+            return browser.executeScript('window.sessionStorage.setItem(\''+identifier + mock['expression'] +'$$'+mock['method'] +'\',  arguments[0]);', JSON.stringify(mock)).then(function() {
+                console.log('Switched scenario to: ' + scenario + ' for expression: ' + mock['expression'] + ' with method: ' + mock['method']);
+            });
         }
     }
 
