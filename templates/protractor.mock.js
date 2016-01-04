@@ -132,10 +132,10 @@
                                     $window.sessionStorage.removeItem(mockData.identifier + matchingMock.expression + '$$' + requestType);
                                     matchingMock.response = response;
                                 }
-                                var statusCode = matchingMock.status ||  200, // fallback to 200
+                                var statusCode = matchingMock.response.status ||  200, // fallback to 200
                                     data = matchingMock.response.data || (matchingMock.isArray ? [] : {}),
-                                    headers = matchingMock.headers || {}, // fallback to {}
-                                    statusText = matchingMock.statusText || undefined;
+                                    headers = matchingMock.response.headers || {}, // fallback to {}
+                                    statusText = matchingMock.response.statusText || undefined;
                                 return [statusCode, data, headers, statusText];
                             }
                         );
