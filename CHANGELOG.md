@@ -1,3 +1,10 @@
+<a name="0.0.9"></a>
+# 0.0.9 (2016-01-04)
+
+## Bugfixes
+- Fix select scenario async behaviour
+- Fix storage object that has escaped characters
+
 <a name="0.0.8"></a>
 # 0.0.8 (2015-12-29)
 
