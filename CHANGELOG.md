@@ -1,3 +1,9 @@
+<a name="0.1.2"></a>
+# 0.1.2 (2016-02-16)
+
+## Features
+- Add global variables
+
 <a name="0.1.1"></a>
 # 0.1.1 (2016-01-04)
 
