@@ -72,10 +72,21 @@
          */
         function generateMockInterface(mocks, dependencies, outputDir) {
             // #1
-            var template = grunt.template.process(grunt.file.read(path.resolve(__dirname, '..') + '/templates/index.html'), {
+            var templateDir = path.resolve(__dirname, '..') + '/templates';
+            var template = grunt.template.process(grunt.file.read(templateDir + '/index.html'), {
                 data: {
                     mocks: JSON.stringify(mocks),
-                    angular: dependencies.angular
+                    angular: dependencies.angular,
+                    appJs: grunt.file.read(templateDir + '/templates/index/app.js'),
+                    registryProviderJs: grunt.template.process(grunt.file.read(templateDir + '/index/registry.provider.js'), {
+                        data: {
+                            mocks: JSON.stringify(mocks)
+                        }
+                    }),
+                    storageFactoryJs: grunt.file.read(templateDir + '/index/storage.factory.js'),
+                    controllerJs: grunt.file.read(templateDir + '/index/controller.js'),
+                    css: grunt.file.read(templateDir + '/index/main.css'),
+                    template: grunt.file.read(templateDir + '/index/template.html'),
                 }
             });
 
