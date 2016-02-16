@@ -77,7 +77,7 @@
                 data: {
                     mocks: JSON.stringify(mocks),
                     angular: dependencies.angular,
-                    appJs: grunt.file.read(templateDir + '/templates/index/app.js'),
+                    appJs: grunt.file.read(templateDir + '/index/app.js'),
                     registryProviderJs: grunt.template.process(grunt.file.read(templateDir + '/index/registry.provider.js'), {
                         data: {
                             mocks: JSON.stringify(mocks)
