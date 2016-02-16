@@ -5,7 +5,7 @@
   "responses": {
     "some-meaningful-scenario-name": {
       "status": 200,
-      "data": [{"x":"y"}],
+      "data": [{"x":"%%replaceMe%%"}],
       "headers": {"Content-type":"application/json"},
       "statusText": "text"
     },

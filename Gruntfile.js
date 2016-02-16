@@ -88,6 +88,12 @@
                     }
                 },
                 watch: {
+                    all: { // only update the ngApimock in case a file has been changed
+                        files: [
+                            'templates/**/*'
+                        ],
+                        tasks: ['ngApimock']
+                    },
                 },
                 shell: {
                     jasmineNode: {

@@ -2,6 +2,7 @@
     'use strict';
     var passThroughs = [{"expression":"partials/.*","method":"GET","response":{}},{"expression":"online/rest/some/api/.*/and/.*","method":"GET","isArray":true,"response":{}},{"expression":"online/rest/some/api/.*/and/.*","method":"POST","response":{}},{"expression":"non-existing-custom-json/.*","method":"GET","response":{}}];
     var mocks = [].concat(passThroughs),
+        variables = {},
         identifier = (Math.random().toString(16) + "000000000").substr(2, 8),
         addedMockModule = false;
 
@@ -46,6 +47,41 @@
     /** The resetScenarios function resets the selected mocks. */
     function resetScenarios() {
         mocks = [].concat(passThroughs);
+    }
+
+    /**
+     * The setGlobalVariable function stores the global key/value pair so it is accessible for when the response
+     * will returned.
+     * @param key The key.
+     * @param value The value.
+     */
+    function setGlobalVariable(key, value) {
+        variables[key] = value;
+
+        if (addedMockModule) {
+            return browser.executeScript('window.sessionStorage.setItem(\''+identifier +'$$variables' +'\',  arguments[0]);', JSON.stringify(variables)).then(function() {
+                console.log('Updated global variables');
+            });
+        }
+    }
+
+    /**
+     * The deleteGlobalVariable function removes the global key/value pair.
+     * @param key The key.
+     */
+    function deleteGlobalVariable(key) {
+        delete variables[key];
+
+        if (addedMockModule) {
+            return browser.executeScript('window.sessionStorage.setItem(\''+identifier +'$$variables' +'\',  arguments[0]);', JSON.stringify(variables)).then(function() {
+                console.log('Updated global variables');
+            });
+        }
+    }
+
+    /** The resetGlobalVariables function resets the provided variables to {}. */
+    function resetGlobalVariables() {
+        variables = {};
     }
 
     /**
@@ -112,6 +148,21 @@
                     }
                 }
 
+                /**
+                 * Update the response data with the globally available variables.
+                 * @param data The data.
+                 * @return updatedData The updated data.
+                 */
+                function updateData(data){
+                    var json = JSON.stringify(data);
+                    Object.keys(mockData.variables).forEach(function(key) {
+                        if(mockData.variables.hasOwnProperty(key)) {
+                            json = json.replace(new RegExp("%%" + key + "%%", "g"), mockData.variables[key]);
+                        }
+                    });
+                    return JSON.parse(json);
+                }
+
                 mockData.mocks.forEach(function (mock) {
                     var response = mock.response;
 
@@ -123,17 +174,22 @@
                                 delay(10); // makes sure the session storage is up-to-date.
 
                                 var matchingMock = findMatchingExpression(mockData.mocks, requestType, expression),
-                                    stored = $window.sessionStorage.getItem(mockData.identifier + matchingMock.expression + '$$' + requestType);
+                                    storedMock = $window.sessionStorage.getItem(mockData.identifier + matchingMock.expression + '$$' + requestType),
+                                    storedVariables = $window.sessionStorage.getItem(mockData.identifier + '$$variables');
 
-                                if(stored !== null) {
-                                    var storedJson = JSON.parse(stored);
-                                    response = storedJson.response;
+                                if(storedMock !== null) {
+                                    var storedMockJson = JSON.parse(storedMock);
+                                    response = storedMockJson.response;
 
                                     $window.sessionStorage.removeItem(mockData.identifier + matchingMock.expression + '$$' + requestType);
                                     matchingMock.response = response;
                                 }
+                                if(storedVariables !== null) {
+                                    mockData.variables = JSON.parse(storedVariables);
+                                    $window.sessionStorage.removeItem(mockData.identifier + '$$variables');
+                                }
                                 var statusCode = matchingMock.response.status ||  200, // fallback to 200
-                                    data = matchingMock.response.data || (matchingMock.isArray ? [] : {}),
+                                    data = matchingMock.response.data ? updateData(matchingMock.response.data) : (matchingMock.isArray ? [] : {}),
                                     headers = matchingMock.response.headers || {}, // fallback to {}
                                     statusText = matchingMock.response.statusText || undefined;
                                 return [statusCode, data, headers, statusText];
@@ -148,7 +204,7 @@
             angular.module('ngApimock').value('mockData', arguments[0]);
             angular.module('ngApimock').run(Mock);
         };
-        browser.addMockModule('ngApimock', ProtractorMock, {'mocks': mocks, 'identifier': identifier});
+        browser.addMockModule('ngApimock', ProtractorMock, {'mocks': mocks, 'identifier': identifier, 'variables': variables});
         addedMockModule = true;
     }
 
@@ -163,6 +219,9 @@
         selectScenario: selectScenario,
         addMockModule: addMockModule,
         removeMockModule: removeMockModule,
-        resetScenarios: resetScenarios
+        resetScenarios: resetScenarios,
+        setGlobalVariable: setGlobalVariable,
+        resetGlobalVariables: resetGlobalVariables,
+        deleteGlobalVariable: deleteGlobalVariable
     }
 })();

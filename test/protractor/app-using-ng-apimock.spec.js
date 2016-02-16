@@ -50,7 +50,7 @@
 
             describe('when fetching data with a service', function () {
                 it('should show data', function () {
-                    expect(element(by.binding('ctrl.data')).getText()).toBe('[{"x":"y"}]');
+                    expect(element(by.binding('ctrl.data')).getText()).toBe('[{"x":"%%replaceMe%%"}]');
                 });
 
                 it('should not show any errors', function () {
@@ -132,6 +132,46 @@
             afterAll(function () {
                 browser.executeScript('window.localStorage.clear();');
             });
+        });
+
+        describe('when provided with some global variables', function () {
+            beforeAll(function () {
+                browser.get('/mocking');
+                mocking = new MockingPO();
+                mocking.apiGET.sendKeys('some-meaningful-scenario-name');
+                mocking.apiPOST.sendKeys('successful');
+                mocking.addVariable('replaceMe', 'y');
+                browser.get('/index.html');
+            });
+
+            it('should show previously set variable', function () {
+                expect(element(by.binding('ctrl.data')).getText()).toBe('[{"x":"y"}]');
+            });
+
+            it('should show the new value when overriding the variable by adding another with the same key', function () {
+                browser.get('/mocking');
+                mocking.addVariable('replaceMe', 'x');
+                browser.get('/index.html');
+                expect(element(by.binding('ctrl.data')).getText()).toBe('[{"x":"x"}]');
+            });
+
+            it('should show the new value when changing it', function () {
+                browser.get('/mocking');
+                mocking.updateVariable('replaceMe', 'z');
+                browser.get('/index.html');
+                expect(element(by.binding('ctrl.data')).getText()).toBe('[{"x":"z"}]');
+            });
+
+            it('should show the origina value when deleting the variable', function () {
+                browser.get('/mocking');
+                mocking.deleteVariable('replaceMe');
+                browser.get('/index.html');
+                expect(element(by.binding('ctrl.data')).getText()).toBe('[{"x":"%%replaceMe%%"}]');
+            });
+
+            afterAll(function () {
+                browser.executeScript('window.localStorage.clear();');
+            })
         });
     })
 })();

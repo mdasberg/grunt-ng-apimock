@@ -22,6 +22,22 @@
     }
 
     /**
+     * Update the response data with the globally available variables.
+     * @param data The data.
+     * @return updatedData The updated data.
+     */
+    function updateData(data, variables){
+        var json = JSON.stringify(data);
+        Object.keys(variables).forEach(function(key) {
+            if(variables.hasOwnProperty(key)) {
+                json = json.replace(new RegExp("%%" + key + "%%", "g"), variables[key]);
+            }
+        });
+        console.log(json);
+        return JSON.parse(json);
+    }
+
+    /**
      * The web interface (@see https://github.com/mdasberg/grunt-ng-apimock#howto-serve-selected-mocks)
      * allows the user to select a scenario for an api.
      *
@@ -38,7 +54,7 @@
     function Mock($httpBackend, $log) {
         var passThroughs = [];
         // #1
-        var mocks = JSON.parse(localStorage.getItem('mocks')) || {};
+        var mocks = JSON.parse(localStorage.getItem('ngApimockMocks')) || {};
 
         // #2
         passThroughs.forEach(function (passThrough) {
@@ -56,12 +72,13 @@
                 } else {
                     $httpBackend.when(mock['method'], new RegExp(mock['expression'])).respond(
                         function (requestType, expression, requestData, requestHeaders) {
-                            var matchingMock = findMatchingExpression(JSON.parse(localStorage.getItem('mocks')) || {}, requestType, expression);
+                            var matchingMock = findMatchingExpression(JSON.parse(localStorage.getItem('ngApimockMocks')) || {}, requestType, expression),
+                                storedVariables = JSON.parse(localStorage.getItem('ngApimockVariables')) || {};
                             if (matchingMock.echo) {
                                 $log.info(requestType + ' request made on \'' + matchingMock['expression'] + '\' with payload: ', requestData);
                             }
                             var response = matchingMock.response;
-                            return [response.status || 200, response.data || (matchingMock.isArray ? [] : {}), response.headers || {}, response.statusText || undefined];
+                            return [response.status || 200, response.data ? updateData(response.data, storedVariables) : (matchingMock.isArray ? [] : {}), response.headers || {}, response.statusText || undefined];
                         }
                     );
                 }

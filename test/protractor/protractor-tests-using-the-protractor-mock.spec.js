@@ -6,6 +6,7 @@
 
         describe('when provided without any selected scenarios', function () {
             beforeAll(function () {
+                ngApimock.setGlobalVariable('replaceMe', 'y');
                 ngApimock.addMockModule();
                 browser.get('/index.html');
             });
@@ -165,7 +166,37 @@
                 ngApimock.removeMockModule();
                 ngApimock.resetScenarios();
             });
+        });
 
+        describe('when changing some global variables', function () {
+            beforeAll(function () {
+                ngApimock.selectScenario(require('../mocks/some-api-get.json'), 'some-meaningful-scenario-name');
+                ngApimock.selectScenario(require('../mocks/some-api-post.json'), 'successful');
+                ngApimock.setGlobalVariable('replaceMe', 'y');
+                ngApimock.addMockModule();
+                browser.get('/index.html');
+            });
+
+            it('should show previously set variable', function () {
+                expect(element(by.binding('ctrl.data')).getText()).toBe('[{"x":"y"}]');
+            });
+
+            it('should show the new value', function () {
+                ngApimock.setGlobalVariable('replaceMe', 'x');
+                element(by.buttonText('refresh')).click();
+                expect(element(by.binding('ctrl.data')).getText()).toBe('[{"x":"x"}]');
+            });
+
+            it('should show the original value', function () {
+                ngApimock.deleteGlobalVariable('replaceMe');
+                element(by.buttonText('refresh')).click();
+                expect(element(by.binding('ctrl.data')).getText()).toBe('[{"x":"%%replaceMe%%"}]');
+            });
+
+            afterAll(function () {
+                ngApimock.removeMockModule();
+                ngApimock.resetScenarios();
+            });
         });
     })
 })();

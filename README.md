@@ -137,7 +137,6 @@ will result in
 
 ```js
 $httpbackend.when(...).passThrough(); 
-
 ```
 
 ### Howto serve selected mocks
@@ -149,6 +148,21 @@ To be able to use the selected mocks you need to do two things:
 The interface looks like this:
 
 ![alt tag](https://github.com/mdasberg/grunt-ng-apimock/blob/master/img/web-interface-grunt-ng-apimock.png)
+
+## Howto use global variables
+If for instance, you have date sensitive information in you mocks, mock data is not flexible enough.
+You can use global variables for this. By surrounding a value in the response.data with %%theVariableName%%,
+you can make your data more flexible, like this:
+
+```json
+"responses": {
+    "some-meaningful-scenario-name": {
+        "data": {
+            "today": '%%today%%
+        }
+    }
+}
+```
 
 #### Add the generated ng-apimock.js file to your index.html
 Just add the following script after your code injects like this
@@ -195,7 +209,6 @@ describe('Some test', function () {
         angular.module('modName', []).value('foo', 'bar');
     });
 });
-   
 ```
 
 To reuse the json files that we created for running our application locally with mock data, you can replace the block above with this
@@ -206,6 +219,7 @@ describe('Some test', function () {
     ngApimock.selectScenario(require('path/to/mocks/partials.json'), 'passThrough'); // passThrough is the name of the scenario    
     ngApimock.selectScenario(require('path/to/mocks/countryService.json'), 'ok'); // ok is the name of the scenario
     ngApimock.addMockModule(); // add the mock module
+    ngApimock.setGlobalVariable('someKey', 'someValue'); // add or update a global variable which will be used to replace in the response data.
 
     it('should do something', function() {
         ngApimock.selectScenario(require('path/to/mocks/partials.json'), 'another'); // at runtime you can change a scenario
@@ -214,9 +228,30 @@ describe('Some test', function () {
    
 ```
 
+### Available functions
+
+#### selectScenario(json, scenarionName)
+Selects the given scenario
+  
+#### addMockModule()
+Makes the mock module available to protractor
+  
+#### removeMockModule()
+Makes the mock module unavailable to protractor
+
+#### resetScenarios()
+Resets the scenarios (only passthroughs are set)
+
+#### setGlobalVariable(key, value)
+Adds or updates the global key/value pair 
+
+#### resetGlobalVariables()
+Removes all global variables
+
+#### deleteGlobalVariable(key)
+Remove the global variable matching the key
+
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
-## Release History
-_(Nothing yet)_
 
