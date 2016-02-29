@@ -1,3 +1,9 @@
+<a name="0.1.3"></a>
+# 0.1.3 (2016-02-29)
+
+## Bugfixes
+- Remove excessive logging
+
 <a name="0.1.2"></a>
 # 0.1.2 (2016-02-16)
 
