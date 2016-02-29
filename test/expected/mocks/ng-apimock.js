@@ -33,7 +33,6 @@
                 json = json.replace(new RegExp("%%" + key + "%%", "g"), variables[key]);
             }
         });
-        console.log(json);
         return JSON.parse(json);
     }
 
