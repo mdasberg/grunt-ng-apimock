@@ -76,7 +76,7 @@
                             grunt.verbose.writeln('Generate protractor.mock.js');
                             processor.generateProtractorMock(mocks, mockOptions.defaultOutputDir, mockOptions.defaultPassThrough, mockOptions.sessionStorageDelay);
                             callback(null, 200);
-                        },
+                        }
                     },
                     function (err) {
                         if (err !== undefined && err !== null) {

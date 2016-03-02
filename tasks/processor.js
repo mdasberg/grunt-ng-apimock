@@ -135,7 +135,7 @@
                 };
             });
 
-            var passThroughs = _.uniq(_(processedMocks).concat(defaultPassThroughs).value(), function(e) {
+            var passThroughs = _.uniqBy(processedMocks.concat(defaultPassThroughs), function(e) {
                 return e['expression'] + (e['method'] || 'GET');
             });
 
