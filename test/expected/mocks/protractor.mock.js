@@ -184,6 +184,8 @@
                                     $window.sessionStorage.removeItem(mockData.identifier + matchingMock.expression + '$$' + requestType);
                                     matchingMock.response = response;
                                 }
+
+                                delay(10); // makes sure the session storage is up-to-date.
                                 if(storedVariables !== null) {
                                     mockData.variables = JSON.parse(storedVariables);
                                     $window.sessionStorage.removeItem(mockData.identifier + '$$variables');

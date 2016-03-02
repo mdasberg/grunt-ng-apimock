@@ -123,6 +123,7 @@
                     "expression": "non-existing-custom-json/.*"
                 }
             ];
+            opts.sessionStorageDelay = 100;
             var mock = gruntMock.create({
                     target: 'all', options: opts, data: {
                         moduleName: 'x',

@@ -98,6 +98,7 @@
          * Generate the mock module.
          * @param {string} moduleName The module name
          * @param {string} outputDir The output directory.
+         * @param {object} passThroughs The passThroughs.
          *
          * #1 update the template with the module name
          * #2 write the template to file
@@ -117,12 +118,15 @@
 
         /**
          * Copy the protractor.mock.js file to the output dir.
+         * @param {string} mocks The mocks
          * @param {string} outputDir The output directory.
+         * @param {object} passThroughs The passThroughs.
+         * @param {number} sessionStorageDelay The Session storage delay.
          *
          * #1 update the template with the module name
          * #2 write the template to file
          */
-        function generateProtractorMock(mocks, outputDir, defaultPassThroughs) {
+        function generateProtractorMock(mocks, outputDir, defaultPassThroughs, sessionStorageDelay) {
             var processedMocks = _.map(mocks,function(el){
                 return {
                     expression: el['expression'],
@@ -143,7 +147,8 @@
             // #1
             var template = grunt.template.process(grunt.file.read(path.resolve(__dirname, '..') + '/templates/protractor.mock.js'), {
                 data: {
-                    passThroughs: JSON.stringify(passThroughs)
+                    passThroughs: JSON.stringify(passThroughs),
+                    sessionStorageDelay: sessionStorageDelay
                 }
             });
 

@@ -171,7 +171,7 @@
                     } else {
                         $httpBackend.when(mock['method'], new RegExp(mock['expression'])).respond(
                             function (requestType, expression) {
-                                delay(10); // makes sure the session storage is up-to-date.
+                                delay(100); // makes sure the session storage is up-to-date.
 
                                 var matchingMock = findMatchingExpression(mockData.mocks, requestType, expression),
                                     storedMock = $window.sessionStorage.getItem(mockData.identifier + matchingMock.expression + '$$' + requestType),
@@ -184,6 +184,8 @@
                                     $window.sessionStorage.removeItem(mockData.identifier + matchingMock.expression + '$$' + requestType);
                                     matchingMock.response = response;
                                 }
+
+                                delay(100); // makes sure the session storage is up-to-date.
                                 if(storedVariables !== null) {
                                     mockData.variables = JSON.parse(storedVariables);
                                     $window.sessionStorage.removeItem(mockData.identifier + '$$variables');

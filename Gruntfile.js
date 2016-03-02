@@ -25,6 +25,7 @@
                 ngApimock: {
                     options: {
                         defaultOutputDir: '.tmp/some-other-dir',
+                        sessionStorageDelay: 100,
                         defaultPassThrough: [
                             {
                                 "expression": "partials/.*",

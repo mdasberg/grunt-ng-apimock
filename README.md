@@ -46,6 +46,15 @@ Default: '.tmp/mocks/'
 
 Should be the location where the ngApimock plugin will put it's generated files.
 
+#### options.delay
+Type: `Number`
+Default: '10' millis
+
+Should be the delay in millis to wait before the request is processed. 
+(When changing scenarios, session storage is used to update the running mocks. 
+There can be a delay between selecting the scenario and the browser updating it's session storage. 
+This delay can be used to make sure the selected scenario is returned.)
+
 #### src
 Type: `String`
 Mandatory: true

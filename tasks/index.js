@@ -9,7 +9,8 @@
             defaultOptions = {
                 sourceEncoding: 'UTF-8',
                 defaultOutputDir: '.tmp/mocks/',
-                defaultPassThrough: []
+                defaultPassThrough: [],
+                sessionStorageDelay: 10
             };
 
         /**
@@ -73,7 +74,7 @@
                         // #3
                         generateProtractorMock: function (callback) {
                             grunt.verbose.writeln('Generate protractor.mock.js');
-                            processor.generateProtractorMock(mocks, mockOptions.defaultOutputDir, mockOptions.defaultPassThrough);
+                            processor.generateProtractorMock(mocks, mockOptions.defaultOutputDir, mockOptions.defaultPassThrough, mockOptions.sessionStorageDelay);
                             callback(null, 200);
                         },
                     },
