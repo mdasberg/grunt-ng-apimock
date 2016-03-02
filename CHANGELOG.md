@@ -1,5 +1,5 @@
-<a name="0.1.4"></a>
-# 0.1.4 (2016-03-02)
+<a name="0.1.5"></a>
+# 0.1.5 (2016-03-02)
 
 ## Feature
 - Request delay can now be configured as a configuration option 
