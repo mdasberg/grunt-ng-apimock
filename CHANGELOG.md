@@ -1,3 +1,10 @@
+<a name="0.1.4"></a>
+# 0.1.4 (2016-03-02)
+
+## Feature
+- Request delay can now be configured as a configuration option 
+(for async scenario switching sessionStorage is used and there can be delay between selecting a scenario and it being available.)
+
 <a name="0.1.3"></a>
 # 0.1.3 (2016-02-29)
 
