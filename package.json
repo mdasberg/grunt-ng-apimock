@@ -33,9 +33,9 @@
   },
   "dependencies": {
     "async": "^1.4.2",
-    "glob": "^6.0.2",
+    "glob": "^7.0.0",
     "grunt": "~0.4.5",
-    "lodash": "^3.10.1",
+    "lodash": "^4.6.0",
     "path": "^0.12.7"
   },
   "keywords": [
@@ -50,11 +50,11 @@
     "angular": "^1.4.7",
     "angular-mocks": "^1.4.7",
     "angular-resource": "^1.4.7",
-    "buffer-equal": "0.0.1",
+    "buffer-equal": "1.0.0",
     "fs-extra": "^0.26.3",
-    "grunt-contrib-clean": "^0.7.0",
+    "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-connect": "^0.11.2",
-    "grunt-contrib-jshint": "^0.11.3",
+    "grunt-contrib-jshint": "^1.0.0",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-protractor-runner": "^3.0.0",
     "grunt-shell": "^1.1.2",
