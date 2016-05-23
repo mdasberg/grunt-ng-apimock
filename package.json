@@ -9,7 +9,8 @@
   },
   "contributors": [
     "Justus Romijn <justus.romijn@gmail.com>",
-    "Richard Rijnberk <r.rijnberk@gmail.com>"
+    "Richard Rijnberk <r.rijnberk@gmail.com>",
+    "Frank Merema <frankmerema@gmail.com"
   ],
   "repository": {
     "type": "git",
@@ -39,7 +40,8 @@
     "glob": "^7.0.0",
     "grunt": "~0.4.5",
     "lodash": "^4.6.0",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "q": "^1.4.1"
   },
   "keywords": [
     "gruntplugin",
