@@ -41,7 +41,7 @@
 
                 // #2
                 if(!mock.responses.passThrough) {
-                    mock.responses.passThrough = {}
+                    mock.responses.passThrough = {};
                 }
 
                 // #3
