@@ -94,11 +94,11 @@
                             'templates/**/*'
                         ],
                         tasks: ['ngApimock']
-                    },
+                    }
                 },
                 shell: {
                     jasmineNode: {
-                        command: 'node node_modules/jasmine-node/bin/jasmine-node test/*.spec.js',
+                        command: 'node node_modules/jasmine-node/bin/jasmine-node test/*.spec.js'
                     }
                 }
             }
