@@ -98,26 +98,6 @@
     function addMockModule() {
         var ProtractorMock = function () {
             /**
-             * Find the expression that matches.
-             * @param mocks The mocks.
-             * @param requestType The request type.
-             * @param expression The expression.
-             * @returns {*}
-             */
-            function findMatchingExpression(mocks, requestType, expression) {
-                for (var key in mocks) {
-                    if (mocks.hasOwnProperty(key)) {
-                        var mock = mocks[key],
-                            mockExpression = mock.expression;
-                        if (mock['method'] === requestType && new RegExp(mockExpression).test(expression)) {
-                            return mock;
-                        }
-                    }
-                }
-                return expression;
-            }
-
-            /**
              * The actual mocks.
              * @param $httpBackend The injected $httpBackend.
              * @param mockData The mock data.
