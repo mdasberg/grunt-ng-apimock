@@ -1,3 +1,23 @@
+<!DOCTYPE html>
+<html lang="nl" ng-app="ng-apimock" data-ng-strict-di>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>ng-apimock</title>
+
+    <script src="js/angular.min.js"></script>
+    <script src="js/angular-resource.min.js"></script>
+    <script src="js/ngApimock.js"></script>
+    <script src="js/controller.js"></script>
+    <script src="js/mocks.service.js"></script>
+    <script src="js/variables.service.js"></script>
+    <script src="js/registry.provider.js"></script>
+    <script src="js/storage.factory.js"></script>
+    <link href="css/main.css" rel="stylesheet"/>
+
+</head>
 <div ng-controller="NgApimockController as ctrl" class="container">
     <h1>Scenario based api mocking support <small>by <a href="https://github.com/mdasberg/grunt-ng-apimock" target="_blank">grunt-ng-apimock</a></small></h1>
 
@@ -22,19 +42,21 @@
         <tr>
             <th>Expression</th>
             <th>Method</th>
+            <th>Name</th>
             <th>Scenario</th>
             <th>Echo</th>
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="mock in ctrl.mocks" ng-init="selected = ctrl.selectedMock(mock)">
+        <tr ng-repeat="mock in ctrl.mocks" ng-init="selected = ctrl.selections[mock.name]">
             <td>{{mock.expression.toString()}}</td>
             <td>{{mock.method}}</td>
-            <td><select name="{{mock.expression.toString()}}$${{mock.method}}" ng-options="k as k for (k, v) in mock.responses" ng-model="selected" ng-change="ctrl.selectMock(mock, selected)">
+            <td>{{mock.name}}</td>
+            <td><select name="{{mock.name}}" ng-options="k as k for (k, v) in mock.responses" ng-model="selected" ng-change="ctrl.selectMock(mock, selected)">
                 <option value=""></option>
             </select></td>
             <td>
-                <div ng-if="mock.method === 'POST'" ng-init="echo = ctrl.isMockEchoed(mock);">
+                <div ng-if="mock.method === 'POST'" ng-init="echo = !!mock.echo;">
                     <label>
                         <input type="checkbox" ng-value="true" ng-model="echo" ng-change="ctrl.echoMock(mock, echo)">
                     </label>
@@ -44,7 +66,7 @@
         </tbody>
         <tfoot>
         <tr>
-            <td colspan="4" class="text-right"><button ng-click="ctrl.clearMocks()">Clear all mocks</button> </td>
+            <td colspan="5" class="text-right"><button ng-click="ctrl.clearMocks()">Clear all mocks</button> </td>
         </tr>
         </tfoot>
     </table>
@@ -74,3 +96,6 @@
         </tfoot>
     </table>
 </div>
+<body>
+</body>
+</html>

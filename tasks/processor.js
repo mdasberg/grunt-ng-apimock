@@ -3,117 +3,44 @@
 
     module.exports = function (grunt) {
         var glob = require("glob"),
-            _ = require('lodash'),
+            fs = require('fs-extra'),
+        //     _ = require('lodash'),
             path = require('path');
-
-        /**
-         * Creates a passThrough mock object that is used for adding $httpBackend passThrough for the given expression.
-         * @param passThrough The passThrough object.
-         * @returns mockObject The passThrough mock object.
-         */
-        function createPassThroughMock(passThrough) {
-            return {
-                "expression": passThrough.expression,
-                "method": passThrough['method'] || "GET",
-                "responses": {
-                    "passThrough": {}
-                }
-            };
-        }
 
         /**
          * Process all the mocks.
          * @param {string} src The directory containing the mocks.
-         * @param {string} passThroughs The default passThroughs
          *
          * #1 iterate over each json file
-         * #2 add passThrough if not configured.
-         * #3 add the content to the mocks collection
-         * #4 check for default passThrough configuration
-         * #5 add the default passThroughs if custom json file is omitted
+         * #2 add the content to the mocks collection
          */
-        function processMocks(src, passThroughs) {
+        function processMocks(src) {
             var mocks = [];
-
             // #1
             glob.sync('**/*.json', {cwd: src, root: '/'}).forEach(function (file) {
-                var mock = grunt.file.readJSON(src + path.sep + file);
-
                 // #2
-                if(!mock.responses.passThrough) {
-                    mock.responses.passThrough = {};
-                }
-
-                // #3
-                mocks.push(mock);
+                mocks.push(grunt.file.readJSON(src + path.sep + file));
             });
-
-            // #4
-            passThroughs.forEach(function(passThrough) {
-                if(!_.find(mocks, function(mock) {
-                        return mock.expression === passThrough.expression;
-                    })) {
-                    // #5
-                    mocks.push(createPassThroughMock(passThrough));
-                }
-            });
-
             return mocks;
         }
 
         /**
          * Generate the mocking interface by processing all mocks.
-         * @param {string} src The directory containing the mocks.
-         * @param {object} dependencies The object containing the locations of the dependencies.
          * @param {string} outputDir The output directory.
          *
-         * #1 update the template with the gathered mocks
-         * #2 write the template to file
+         * #1 copy the interface to the output directory
+         * #2 copy the dependencies to the output directory
          */
-        function generateMockInterface(mocks, dependencies, outputDir) {
+        function generateMockInterface(outputDir) {
             // #1
-            var templateDir = path.resolve(__dirname, '..') + '/templates';
-            var template = grunt.template.process(grunt.file.read(templateDir + '/index.html'), {
-                data: {
-                    mocks: JSON.stringify(mocks),
-                    angular: dependencies.angular,
-                    appJs: grunt.file.read(templateDir + '/index/app.js'),
-                    registryProviderJs: grunt.template.process(grunt.file.read(templateDir + '/index/registry.provider.js'), {
-                        data: {
-                            mocks: JSON.stringify(mocks)
-                        }
-                    }),
-                    storageFactoryJs: grunt.file.read(templateDir + '/index/storage.factory.js'),
-                    controllerJs: grunt.file.read(templateDir + '/index/controller.js'),
-                    css: grunt.file.read(templateDir + '/index/main.css'),
-                    template: grunt.file.read(templateDir + '/index/template.html'),
-                }
+            var templateDir = path.join(path.resolve(__dirname, '..'),'/templates/interface');
+            glob.sync('**/*', {cwd: templateDir, root: '/'}).forEach(function(file) {
+                fs.copySync(templateDir + path.sep + file, outputDir + path.sep + file);
             });
 
-            // #2
-            grunt.file.write(outputDir + '/index.html', template, {encoding: 'utf8'});
-        }
-
-        /**
-         * Generate the mock module.
-         * @param {string} moduleName The module name
-         * @param {string} outputDir The output directory.
-         * @param {object} passThroughs The passThroughs.
-         *
-         * #1 update the template with the module name
-         * #2 write the template to file
-         */
-        function generateMockModule(moduleName, outputDir, passThroughs) {
-            // #1
-            var template = grunt.template.process(grunt.file.read(path.resolve(__dirname, '..') + '/templates/ng-apimock.js'), {
-                data: {
-                    moduleName: moduleName,
-                    passThroughs: JSON.stringify(passThroughs)
-                }
-            });
-
-            // #2
-            grunt.file.write(outputDir + '/ng-apimock.js', template, {encoding: 'utf8'});
+            var nodeModulesDir = path.join(process.cwd(), '/node_modules');
+            fs.copySync(nodeModulesDir + path.sep + 'angular' + path.sep + 'angular.min.js', outputDir + path.sep + 'js' + path.sep + 'angular.min.js');
+            fs.copySync(nodeModulesDir + path.sep + 'angular-resource' + path.sep + 'angular-resource.min.js', outputDir + path.sep + 'js' + path.sep + 'angular-resource.min.js');
         }
 
         /**
@@ -127,40 +54,39 @@
          * #2 write the template to file
          */
         function generateProtractorMock(mocks, outputDir, defaultPassThroughs, sessionStorageDelay) {
-            var processedMocks = _.map(mocks,function(el){
-                return {
-                    expression: el['expression'],
-                    method: el['method'],
-                    isArray: el['isArray']
-                };
-            });
-
-            var passThroughs = _.uniqBy(processedMocks.concat(defaultPassThroughs), function(e) {
-                return e['expression'] + (e['method'] || 'GET');
-            });
-
-            passThroughs.forEach(function(p) {
-                p.response = {};
-            });
-
-
-            // #1
-            var template = grunt.template.process(grunt.file.read(path.resolve(__dirname, '..') + '/templates/protractor.mock.js'), {
-                data: {
-                    passThroughs: JSON.stringify(passThroughs),
-                    sessionStorageDelay: sessionStorageDelay
-                }
-            });
-
-            // #2
-            grunt.file.write(outputDir + '/protractor.mock.js', template, {encoding: 'utf8'});
+        //     var processedMocks = _.map(mocks,function(el){
+        //         return {
+        //             expression: el['expression'],
+        //             method: el['method'],
+        //             isArray: el['isArray']
+        //         };
+        //     });
+        //
+        //     var passThroughs = _.uniqBy(processedMocks.concat(defaultPassThroughs), function(e) {
+        //         return e['expression'] + (e['method'] || 'GET');
+        //     });
+        //
+        //     passThroughs.forEach(function(p) {
+        //         p.response = {};
+        //     });
+        //
+        //
+        //     // #1
+        //     var template = grunt.template.process(grunt.file.read(path.resolve(__dirname, '..') + '/templates/protractor.mock.js'), {
+        //         data: {
+        //             passThroughs: JSON.stringify(passThroughs),
+        //             sessionStorageDelay: sessionStorageDelay
+        //         }
+        //     });
+        //
+        //     // #2
+        //     grunt.file.write(outputDir + '/protractor.mock.js', template, {encoding: 'utf8'});
 
         }
 
         return {
             processMocks: processMocks,
             generateMockInterface: generateMockInterface,
-            generateMockModule: generateMockModule,
             generateProtractorMock: generateProtractorMock
         };
     };

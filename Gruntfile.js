@@ -72,6 +72,7 @@
                             middleware: function (connect) {
                                 var serveStatic = require('serve-static');
                                 return [
+                                    require('./lib/utils').ngApimockRequest,
                                     connect().use('/node_modules', serveStatic('node_modules')),
                                     connect().use('/mocking', serveStatic('.tmp/some-other-dir')),
                                     connect().use('/', serveStatic('test/example')),

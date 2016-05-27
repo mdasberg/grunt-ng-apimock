@@ -3,5 +3,5 @@
 
     /** The application. */
     angular
-        .module('ng-apimock', []);
+        .module('ng-apimock', ['ngResource']);
 })();
