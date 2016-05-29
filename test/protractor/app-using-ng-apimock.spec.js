@@ -86,10 +86,6 @@
                     expect(element(by.binding('ctrl.postedError')).getText()).toBe('');
                 });
             });
-
-            afterAll(function () {
-                browser.executeScript('window.localStorage.clear();');
-            })
         });
 
         describe('when provided with some selected error scenarios', function () {
@@ -124,13 +120,9 @@
                     expect(element(by.binding('ctrl.postedError')).getText()).toBe('500');
                 });
             });
-
-            afterAll(function () {
-                browser.executeScript('window.localStorage.clear();');
-            });
         });
 
-        fdescribe('when provided with some global variables', function () {
+        describe('when provided with some global variables', function () {
             beforeAll(function () {
                 browser.get('/mocking');
                 mocking = new MockingPO();
@@ -164,10 +156,6 @@
                 browser.get('/index.html');
                 expect(element(by.binding('ctrl.data')).getText()).toBe('[{"x":"%%replaceMe%%"}]');
             });
-
-            afterAll(function () {
-                browser.executeScript('window.localStorage.clear();');
-            })
         });
     })
 })();

@@ -9,9 +9,7 @@
             processor = require('./processor.js')(grunt),
             defaultOptions = {
                 sourceEncoding: 'UTF-8',
-                defaultOutputDir: '.tmp/mocks/',
-                defaultPassThrough: [],
-                sessionStorageDelay: 10
+                defaultOutputDir: '.tmp/mocks/'
             };
 
         /**
@@ -32,10 +30,6 @@
         return {
             run: function (configuration) {
                 var data = configuration.data;
-
-                if (typeof data.moduleName === 'undefined') {
-                    grunt.fail.fatal('No module name information has been specified.');
-                }
 
                 if (typeof data.src === 'undefined') {
                     grunt.fail.fatal('No mock source directory have been specified.');
@@ -63,7 +57,7 @@
                         },
                         generateProtractorMock: function (callback) {
                             grunt.verbose.writeln('Generate protractor.mock.js');
-                        //     processor.generateProtractorMock(mocks, mockOptions.defaultOutputDir, mockOptions.defaultPassThrough, mockOptions.sessionStorageDelay);
+                            processor.generateProtractorMock(mockOptions.defaultOutputDir);
                             callback(null, 200);
                         }
                     },

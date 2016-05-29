@@ -9,36 +9,11 @@
             ngApimock = require('./../tasks/ngApimock.js'),
             fs = require('fs'),
             fsExtra = require('fs-extra'),
-            path = require('path'),
-            bufferEqual = require('buffer-equal');
-
-        /**
-         * Indicates if the file content matches.
-         * @param actual The actual.
-         * @param expected The expected.
-         * @returns {*}
-         */
-        function fileContentMatches(actual, expected) {
-            if (!fs.existsSync(actual) || !fs.existsSync(expected)) {
-                return false;
-            }
-            return bufferEqual(new Buffer(fs.readFileSync(actual, {encoding: 'utf8'})), new Buffer(fs.readFileSync(expected, {encoding: 'utf8'})));
-        }
+            path = require('path');
 
         const DEFAULT_OPTIONS = {
             defaultOutputDir: '.tmp/mocks'
         };
-
-        it('should fail when no module name has been provided in the configuration', function (done) {
-            var mock = gruntMock.create({
-                    target: 'all', options: DEFAULT_OPTIONS, data: {}
-                }
-            );
-            mock.invoke(ngApimock, function (err) {
-                expect(mock.logError[0]).toBe('No module name information has been specified.');
-                done();
-            });
-        });
 
         it('should fail when no sources directory has been provided in the configuration', function (done) {
             var mock = gruntMock.create({
@@ -78,7 +53,7 @@
                 expect(fsExtra.existsSync(opts.defaultOutputDir + path.sep + 'js' + path.sep + 'mocks.service.js')).toBeTruthy();
                 expect(fsExtra.existsSync(opts.defaultOutputDir + path.sep + 'js' + path.sep + 'variables.service.js')).toBeTruthy();
                 expect(fsExtra.existsSync(opts.defaultOutputDir + path.sep + 'css' + path.sep + 'main.css')).toBeTruthy();
-                // expect(fsExtra.existsSync(opts.defaultOutputDir + path.sep + 'protractor.mock.js')).toBeTruthy();
+                expect(fsExtra.existsSync(opts.defaultOutputDir + path.sep + 'protractor.mock.js')).toBeTruthy();
                 done();
             });
         });

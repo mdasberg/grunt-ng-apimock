@@ -40,7 +40,9 @@
     "glob": "7.0.3",
     "lodash": "4.13.1",
     "path": "0.12.7",
-    "q": "1.4.1"
+    "q": "1.4.1",
+    "sync-request": "^3.0.1",
+    "url-join": "^1.1.0"
   },
   "keywords": [
     "gruntplugin",

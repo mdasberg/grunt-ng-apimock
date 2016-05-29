@@ -24,23 +24,10 @@
                 },
                 ngApimock: {
                     options: {
-                        defaultOutputDir: '.tmp/some-other-dir',
-                        sessionStorageDelay: 100,
-                        defaultPassThrough: [
-                            {
-                                "expression": "partials/.*",
-                                "method": "GET"
-                            }, {
-                                "expression": "non-existing-custom-json/.*"
-                            }
-                        ]
+                        defaultOutputDir: '.tmp/some-other-dir'
                     },
                     mock: {
-                        src: 'test/mocks',
-                        moduleName: 'ngApimock-example',
-                        dependencies: {
-                            angular: '/node_modules/angular/angular.js'
-                        }
+                        src: 'test/mocks'
                     }
                 },
 
@@ -51,7 +38,7 @@
                 protractor: {
                     options: {
                         keepAlive: true,
-                        noColor: false,
+                        noColor: false
                     },
                     local: {
                         options: {

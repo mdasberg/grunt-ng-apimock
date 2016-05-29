@@ -4,7 +4,6 @@
     module.exports = function (grunt) {
         var glob = require("glob"),
             fs = require('fs-extra'),
-        //     _ = require('lodash'),
             path = require('path');
 
         /**
@@ -45,43 +44,13 @@
 
         /**
          * Copy the protractor.mock.js file to the output dir.
-         * @param {string} mocks The mocks
          * @param {string} outputDir The output directory.
-         * @param {object} passThroughs The passThroughs.
-         * @param {number} sessionStorageDelay The Session storage delay.
          *
          * #1 update the template with the module name
          * #2 write the template to file
          */
-        function generateProtractorMock(mocks, outputDir, defaultPassThroughs, sessionStorageDelay) {
-        //     var processedMocks = _.map(mocks,function(el){
-        //         return {
-        //             expression: el['expression'],
-        //             method: el['method'],
-        //             isArray: el['isArray']
-        //         };
-        //     });
-        //
-        //     var passThroughs = _.uniqBy(processedMocks.concat(defaultPassThroughs), function(e) {
-        //         return e['expression'] + (e['method'] || 'GET');
-        //     });
-        //
-        //     passThroughs.forEach(function(p) {
-        //         p.response = {};
-        //     });
-        //
-        //
-        //     // #1
-        //     var template = grunt.template.process(grunt.file.read(path.resolve(__dirname, '..') + '/templates/protractor.mock.js'), {
-        //         data: {
-        //             passThroughs: JSON.stringify(passThroughs),
-        //             sessionStorageDelay: sessionStorageDelay
-        //         }
-        //     });
-        //
-        //     // #2
-        //     grunt.file.write(outputDir + '/protractor.mock.js', template, {encoding: 'utf8'});
-
+        function generateProtractorMock(outputDir) {
+            fs.copySync(path.resolve(__dirname, '..') + '/templates/protractor.mock.js', outputDir + path.sep +'protractor.mock.js');
         }
 
         return {

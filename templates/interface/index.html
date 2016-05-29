@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="nl" ng-app="ng-apimock" data-ng-strict-di>
+<html lang="nl" data-ng-app="ng-apimock" data-ng-strict-di>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,12 +13,10 @@
     <script src="js/controller.js"></script>
     <script src="js/mocks.service.js"></script>
     <script src="js/variables.service.js"></script>
-    <script src="js/registry.provider.js"></script>
-    <script src="js/storage.factory.js"></script>
     <link href="css/main.css" rel="stylesheet"/>
 
 </head>
-<div ng-controller="NgApimockController as ctrl" class="container">
+<div data-ng-controller="NgApimockController as ctrl" class="container">
     <h1>Scenario based api mocking support <small>by <a href="https://github.com/mdasberg/grunt-ng-apimock" target="_blank">grunt-ng-apimock</a></small></h1>
 
     <hr />
@@ -48,17 +46,17 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="mock in ctrl.mocks" ng-init="selected = ctrl.selections[mock.name]">
+        <tr data-ng-repeat="mock in ctrl.mocks" data-ng-init="selected = ctrl.selections[mock.name]">
             <td>{{mock.expression.toString()}}</td>
             <td>{{mock.method}}</td>
             <td>{{mock.name}}</td>
-            <td><select name="{{mock.name}}" ng-options="k as k for (k, v) in mock.responses" ng-model="selected" ng-change="ctrl.selectMock(mock, selected)">
+            <td><select name="{{mock.name}}" data-ng-options="k as k for (k, v) in mock.responses" data-ng-model="selected" data-ng-change="ctrl.selectMock(mock, selected)">
                 <option value=""></option>
             </select></td>
             <td>
-                <div ng-if="mock.method === 'POST'" ng-init="echo = !!mock.echo;">
+                <div data-ng-if="mock.method === 'POST'" data-ng-init="echo = !!mock.echo;">
                     <label>
-                        <input type="checkbox" ng-value="true" ng-model="echo" ng-change="ctrl.echoMock(mock, echo)">
+                        <input type="checkbox" data-ng-value="true" data-ng-model="echo" data-ng-change="ctrl.echoMock(mock, echo)">
                     </label>
                 </div>
             </td>
@@ -66,7 +64,7 @@
         </tbody>
         <tfoot>
         <tr>
-            <td colspan="5" class="text-right"><button ng-click="ctrl.clearMocks()">Clear all mocks</button> </td>
+            <td colspan="5" class="text-right"><button data-ng-click="ctrl.clearMocks()">Clear all mocks</button> </td>
         </tr>
         </tfoot>
     </table>
@@ -81,17 +79,17 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="(key, value) in ctrl.variables" id="{{key}}">
-            <td><span ng-bind="key"/></td>
-            <td><input type="text" ng-model="value" style="width: 100%;" ng-model-options="{ debounce: 500 }" ng-change='ctrl.updateVariable(key, value)'/></td>
-            <td class="text-right"><button ng-click="ctrl.deleteVariable(key)">x</button></td>
+        <tr data-ng-repeat="(key, value) in ctrl.variables" id="{{key}}">
+            <td><span data-ng-bind="key"/></td>
+            <td><input type="text" data-ng-model="value" style="width: 100%;" data-ng-model-options="{ debounce: 500 }" data-ng-change='ctrl.updateVariable(key, value)'/></td>
+            <td class="text-right"><button data-ng-click="ctrl.deleteVariable(key)">x</button></td>
         </tr>
         </tbody>
         <tfoot>
         <tr>
-            <td><input type="text" ng-model="ctrl.variable.key" style="width: 100%;"/></td>
-            <td><input type="text" ng-model="ctrl.variable.value" style="width: 100%;"/></td>
-            <td class="text-right"><button ng-click="ctrl.addVariable()" ng-disabled="ctrl.variable.key === undefined">Add variable</button> </td>
+            <td><input type="text" data-ng-model="ctrl.variable.key" style="width: 100%;"/></td>
+            <td><input type="text" data-ng-model="ctrl.variable.value" style="width: 100%;"/></td>
+            <td class="text-right"><button data-ng-click="ctrl.addVariable()" data-ng-disabled="ctrl.variable.key === undefined">Add variable</button> </td>
         </tr>
         </tfoot>
     </table>
