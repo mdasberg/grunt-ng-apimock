@@ -7,11 +7,15 @@
         baseUrl = require('url-join')(browser.baseUrl, 'ngapimock');
 
     var ProtractorMock = function () {
+        function NgApimockHeader($http, ngApimockInstance) {
+            $http.defaults.headers.common['ngapimockid'] = ngApimockInstance.ngapimockid;
+        }
+
+        NgApimockHeader.$inject = ['$http', 'ngApimockInstance'];
+
         angular.module('ngApimock', []);
         angular.module('ngApimock').constant('ngApimockInstance', arguments[0]);
-        angular.module('ngApimock').run(function ($http, ngApimockInstance) {
-            $http.defaults.headers.common['ngapimockid'] = ngApimockInstance.ngapimockid;
-        })
+        angular.module('ngApimock').run(NgApimockHeader)
     };
 
     browser.addMockModule('ngApimock', ProtractorMock, {'ngapimockid': ngapimockid});
@@ -125,7 +129,7 @@
 
     /** The resetGlobalVariables function resets the provided variables to {}. */
     function resetGlobalVariables() {
-        console.log('No longer supported as of version 1.0.0, and will be removed in future versions');
+        console.log('resetGlobalVariables is no longer supported as of version 1.0.0, and will be removed in future versions');
     }
 
     /**
@@ -133,12 +137,12 @@
      * This module is then added as a protractor mock module to your application.
      */
     function addMockModule() {
-        console.log('No longer supported as of version 1.0.0, and will be removed in future versions');
+        console.log('addMockModule is no longer supported as of version 1.0.0, and will be removed in future versions');
     }
 
     /** The removeMockModule function removes the angular mock module. */
     function removeMockModule() {
-        console.log('No longer supported as of version 1.0.0, and will be removed in future versions');
+        console.log('removeMockModule is no longer supported as of version 1.0.0, and will be removed in future versions');
     }
 
     /** This Protractor mock allows you to specify which scenario from your json api files you would like to use for your tests. */
