@@ -24,23 +24,10 @@
                 },
                 ngApimock: {
                     options: {
-                        defaultOutputDir: '.tmp/some-other-dir',
-                        sessionStorageDelay: 100,
-                        defaultPassThrough: [
-                            {
-                                "expression": "partials/.*",
-                                "method": "GET"
-                            }, {
-                                "expression": "non-existing-custom-json/.*"
-                            }
-                        ]
+                        defaultOutputDir: '.tmp/some-other-dir'
                     },
                     mock: {
-                        src: 'test/mocks',
-                        moduleName: 'ngApimock-example',
-                        dependencies: {
-                            angular: '/node_modules/angular/angular.js'
-                        }
+                        src: 'test/mocks'
                     }
                 },
 
@@ -51,7 +38,7 @@
                 protractor: {
                     options: {
                         keepAlive: true,
-                        noColor: false,
+                        noColor: false
                     },
                     local: {
                         options: {
@@ -72,6 +59,7 @@
                             middleware: function (connect) {
                                 var serveStatic = require('serve-static');
                                 return [
+                                    require('./lib/utils').ngApimockRequest,
                                     connect().use('/node_modules', serveStatic('node_modules')),
                                     connect().use('/mocking', serveStatic('.tmp/some-other-dir')),
                                     connect().use('/', serveStatic('test/example')),
@@ -79,8 +67,6 @@
                                         response.writeHead(200, {'Content-Type': 'application/json' });
                                         if(request.method === 'GET') {
                                             response.end("[{\"a\":\"b\"}]");
-                                        } else if(request.method === 'POST') {
-                                            response.end("{\"some\": \"thing\"}");
                                         }
                                     })
                                 ];

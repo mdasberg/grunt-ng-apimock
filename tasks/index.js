@@ -5,12 +5,11 @@
         var glob = require('glob'),
             async = require('async'),
             _ = require('lodash'),
+            utils = require('../lib/utils.js'),
             processor = require('./processor.js')(grunt),
             defaultOptions = {
                 sourceEncoding: 'UTF-8',
-                defaultOutputDir: '.tmp/mocks/',
-                defaultPassThrough: [],
-                sessionStorageDelay: 10
+                defaultOutputDir: '.tmp/mocks/'
             };
 
         /**
@@ -32,49 +31,33 @@
             run: function (configuration) {
                 var data = configuration.data;
 
-                if (typeof data.moduleName === 'undefined') {
-                    grunt.fail.fatal('No module name information has been specified.');
-                }
-
                 if (typeof data.src === 'undefined') {
                     grunt.fail.fatal('No mock source directory have been specified.');
-                }
-
-                if (typeof data.dependencies === 'undefined') {
-                    grunt.fail.fatal('No dependencies have been provided.');
-                }
-
-                if (typeof data.dependencies.angular === 'undefined') {
-                    grunt.fail.fatal('No path has been specified for dependency angular.');
                 }
 
                 var mockOptions = mergeJson(defaultOptions, configuration.options({})),
                     done = configuration.async(),
                     mocks;
-
+                
                 async.series({
-                        // #1
                         processMocks: function (callback) {
                             grunt.verbose.writeln('Process all the mocks');
                             mocks = processor.processMocks(data.src, mockOptions.defaultPassThrough);
                             callback(null, 200);
                         },
-                        // #1
+                        registerMocks: function(callback) {
+                            grunt.verbose.writeln('Register mocks');
+                            utils.registerMocks(mocks);
+                            callback(null, 200);
+                        },
                         generateMockingInterface: function (callback) {
                             grunt.verbose.writeln('Generate the mocking web interface');
-                            processor.generateMockInterface(mocks, data.dependencies, mockOptions.defaultOutputDir);
+                            processor.generateMockInterface(mockOptions.defaultOutputDir);
                             callback(null, 200);
                         },
-                        // #2
-                        generateMockModule: function (callback) {
-                            grunt.verbose.writeln('Generate ng-apimock.js');
-                            processor.generateMockModule(data.moduleName, mockOptions.defaultOutputDir, mockOptions.defaultPassThrough);
-                            callback(null, 200);
-                        },
-                        // #3
                         generateProtractorMock: function (callback) {
                             grunt.verbose.writeln('Generate protractor.mock.js');
-                            processor.generateProtractorMock(mocks, mockOptions.defaultOutputDir, mockOptions.defaultPassThrough, mockOptions.sessionStorageDelay);
+                            processor.generateProtractorMock(mockOptions.defaultOutputDir);
                             callback(null, 200);
                         }
                     },

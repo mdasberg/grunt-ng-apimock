@@ -46,45 +46,11 @@ Default: '.tmp/mocks/'
 
 Should be the location where the ngApimock plugin will put it's generated files.
 
-#### options.delay
-Type: `Number`
-Default: '10' millis
-
-Should be the delay in millis to wait before the request is processed. 
-(When changing scenarios, session storage is used to update the running mocks. 
-There can be a delay between selecting the scenario and the browser updating it's session storage. 
-This delay can be used to make sure the selected scenario is returned.)
-
 #### src
 Type: `String`
 Mandatory: true
 
 Should be the location where the mock json files are located.
-
-#### moduleName
-Type: `String`
-Mandatory: true
-
-Should be the name of your angular module in which the mocks are going to be used.
-
-#### dependencies.angular
-Type: `String`
-Mandatory: true
-
-Should be the location where to find angular (NOTE: use the url path)
-
-#### defaultPassThrough
-Type: `Array`
-Mandatory: false
-
-Should be an object array of  
-
-```js
-    {
-        "expression": "...", // "your expression here (ie a regex without the leading and trailing '/' or a string)"
-        "method": "GET" // Optional - defaults to 'GET'
-    }
-```
 
 ### Usage Examples
 
@@ -97,11 +63,7 @@ grunt.initConfig({
         defaultOutputDir: '...' // the output directory
     },
     your_target: {   
-       src: '...', // the directory containing all your json mocks
-       moduleName: '...', // the name of your angular module
-       dependencies: {
-           angular: '...' // the uri path to angular.js
-       }
+       src: '...' // the directory containing all your json mocks
     }
   }
 })
@@ -118,7 +80,9 @@ There are a couple of rules to follow.
 {
   "expression": "your expression here (ie a regex without the leading and trailing '/' or a string)",
   "method": "the http method (ie GET)",
-  "isArray": "indicates if the response data is an array or object"
+  "name": "identifiable name for this service call"  // if non is provided, expression$$method will be used
+  "isArray": "indicates if the response data is an array or object",
+  "default": "name of the scenario", // if non is provided the response will result in a 404
   "responses": {
     "some-meaningful-scenario-name": { 
       "status": 200, // optional - defaults to 200
@@ -134,24 +98,10 @@ There are a couple of rules to follow.
 
 ```
 
-Leaving the response object empty like below
-```json
-...
-"responses": {
-    "some-meaningful-scenario-name": {}
-}
-
-```
-will result in
-
-```js
-$httpbackend.when(...).passThrough(); 
-```
-
 ### Howto serve selected mocks
 To be able to use the selected mocks you need to do two things:
 
-1. Add the generated ng-apimock.js file to your index.html
+1. Add the connect middleware
 2. Add the index.html file to your connect configuration
 
 The interface looks like this:
@@ -173,20 +123,28 @@ you can make your data more flexible, like this:
 }
 ```
 
-#### Add the generated ng-apimock.js file to your index.html
-Just add the following script after your code injects like this
+#### Add the connect middleware
+When running grunt-contrib-connect you can do add the following middleware block to your configuration
 
-```html
-<head>
-  <script src="/path/to/angular.js" ></script>
-  <script src="/path/to/myapp.js" ></script>
-  <script src="/path/to/ng-apimock.js" ></script> 
-</head>
 
-```
+```js
+{
+    connect: {
+        yourTarget: {
+            options: {
+                middleware: function (connect) {
+                    return [
+                        (require('grunt-ng-apimock/lib/utils').ngApimockRequest),
+                        connect().use('/', serveStatic('some-path-where-your-sources-are'))
+                    ];
+                }
+            }
+        }
+    }
+}
 
 #### Add the index.html file to your connect configuration
-If you are running grunt-contrib-connect you can do add the following staticServe block to your configuration
+When running grunt-contrib-connect you can do add the following staticServe block to your configuration
 
 ```js
 {
@@ -208,7 +166,6 @@ If you are running grunt-contrib-connect you can do add the following staticServ
 
 ### Howto reuse this setup for your protractor tests.
 As you are building an [AngularJS](https://angularjs.org/) application you will probably use [Protractor](https://angular.github.io/protractor/#/) for testing your UI.
-And of course you will use $httpbackend to mock your apis.
 
 Protractor provides the ability to inject a mock module in your application by adding the following to your protractor test.
 
@@ -227,7 +184,6 @@ describe('Some test', function () {
     var ngApimock = require('.tmp/mocking/protractor.mock'); // or the path/to/protractor.mock.js
     ngApimock.selectScenario(require('path/to/mocks/partials.json'), 'passThrough'); // passThrough is the name of the scenario    
     ngApimock.selectScenario(require('path/to/mocks/countryService.json'), 'ok'); // ok is the name of the scenario
-    ngApimock.addMockModule(); // add the mock module
     ngApimock.setGlobalVariable('someKey', 'someValue'); // add or update a global variable which will be used to replace in the response data.
 
     it('should do something', function() {
@@ -242,20 +198,11 @@ describe('Some test', function () {
 #### selectScenario(json, scenarionName)
 Selects the given scenario
   
-#### addMockModule()
-Makes the mock module available to protractor
-  
-#### removeMockModule()
-Makes the mock module unavailable to protractor
-
 #### resetScenarios()
 Resets the scenarios (only passthroughs are set)
 
 #### setGlobalVariable(key, value)
 Adds or updates the global key/value pair 
-
-#### resetGlobalVariables()
-Removes all global variables
 
 #### deleteGlobalVariable(key)
 Remove the global variable matching the key

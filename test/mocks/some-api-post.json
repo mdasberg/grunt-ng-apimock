@@ -4,6 +4,7 @@
   "responses": {
     "successful": {
       "status": 200,
+      "default": true,
       "data": {
         "some": "thing"
       }
