@@ -1,3 +1,9 @@
+<a name="1.0.1"></a>
+# 1.0.1 (2016-05-30)
+
+## Bugfix
+- Fix save injection in protractor.mock.js
+
 <a name="1.0.0"></a>
 # 1.0.0 (2016-05-30)
 
