@@ -26,7 +26,7 @@
          * @param echo The echo.
          */
         vm.echoMock = function (mock, echo) {
-            mockService.update({'name': mock.name, 'echo': echo}, function () {
+            mockService.update({'identifier': mock.identifier, 'echo': echo}, function () {
                 console.log(vm.mocks.find(function(m){
                     return m.name === mock.name;
                 }).echo = echo);
@@ -39,8 +39,8 @@
          * @param selection The selection.
          */
         vm.selectMock = function (mock, selection) {
-            mockService.update({'name': mock.name, 'scenario': selection}, function () {
-                vm.selections[mock.name] = selection;
+            mockService.update({'identifier': mock.identifier, 'scenario': selection}, function () {
+                vm.selections[mock.identifier] = selection;
             });
         };
 

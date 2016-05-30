@@ -67,8 +67,6 @@
                                         response.writeHead(200, {'Content-Type': 'application/json' });
                                         if(request.method === 'GET') {
                                             response.end("[{\"a\":\"b\"}]");
-                                        } else if(request.method === 'POST') {
-                                            response.end("{\"some\": \"thing\"}");
                                         }
                                     })
                                 ];

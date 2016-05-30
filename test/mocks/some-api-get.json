@@ -1,6 +1,7 @@
 {
   "expression": "online\/rest\/some\/api\/.*\/and\/.*",
   "method": "GET",
+  "name": "getAllTodos",
   "isArray": true,
   "responses": {
     "some-meaningful-scenario-name": {

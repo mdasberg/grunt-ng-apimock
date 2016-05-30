@@ -46,11 +46,11 @@
         </tr>
         </thead>
         <tbody>
-        <tr data-ng-repeat="mock in ctrl.mocks" data-ng-init="selected = ctrl.selections[mock.name]">
+        <tr data-ng-repeat="mock in ctrl.mocks" data-ng-init="selected = ctrl.selections[mock.identifier]">
             <td>{{mock.expression.toString()}}</td>
             <td>{{mock.method}}</td>
             <td>{{mock.name}}</td>
-            <td><select name="{{mock.name}}" data-ng-options="k as k for (k, v) in mock.responses" data-ng-model="selected" data-ng-change="ctrl.selectMock(mock, selected)">
+            <td><select name="{{mock.expression.toString()}}$${{mock.method}}" data-ng-options="k as k for (k, v) in mock.responses" data-ng-model="selected" data-ng-change="ctrl.selectMock(mock, selected)">
                 <option value=""></option>
             </select></td>
             <td>

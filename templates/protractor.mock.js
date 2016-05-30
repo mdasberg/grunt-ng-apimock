@@ -19,24 +19,32 @@
     /**
      * The selectScenario function stores the relevant information from the given data that
      * matches the given scenario.
-     * The information is stored in an array which is used to register api mocks with $httpBackend.
      *
-     * #1 remove the previously selected scenario
-     * #2 add the newly selected scenario
-     * #3 push the change to the running protractor instance if the module has already been added.
+     * #1 determine identifier
+     * #2 call api
      *
-     * @param data The data object containing all the information for an expression.
+     * @param {Object | String} data The data object containing all the information for an expression or the name of the mock.
      * @param scenario The scenario that is selected to be returned when the api is called.
      */
     function selectScenario(data, scenario) {
+        // #1
+        var identifier;
+        if (typeof data === 'string') { // name of the mock
+            identifier = data;
+        } else if (data.name) { // the data containing the name of the mock
+            identifier = data.name;
+        } else { 
+            identifier = data.expression + '$$' + data.method;
+        }
         var defer = q.defer();
+        // #2
         var response = request('PUT', baseUrl + '/mocks', {
             headers: {
                 'Content-Type': 'application/json',
                 'ngapimockid': ngapimockid
             },
             json: {
-                name: data.expression + '$$' + data.method,
+                identifier: identifier,
                 scenario: scenario
             }
         });
@@ -117,7 +125,7 @@
 
     /** The resetGlobalVariables function resets the provided variables to {}. */
     function resetGlobalVariables() {
-        console.log('No longer supported as of version 1.0.0, and will be removed in future versions')
+        console.log('No longer supported as of version 1.0.0, and will be removed in future versions');
     }
 
     /**
@@ -125,12 +133,12 @@
      * This module is then added as a protractor mock module to your application.
      */
     function addMockModule() {
-        console.log('No longer supported as of version 1.0.0, and will be removed in future versions')
+        console.log('No longer supported as of version 1.0.0, and will be removed in future versions');
     }
 
     /** The removeMockModule function removes the angular mock module. */
     function removeMockModule() {
-        console.log('No longer supported as of version 1.0.0, and will be removed in future versions')
+        console.log('No longer supported as of version 1.0.0, and will be removed in future versions');
     }
 
     /** This Protractor mock allows you to specify which scenario from your json api files you would like to use for your tests. */

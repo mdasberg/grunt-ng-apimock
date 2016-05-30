@@ -77,11 +77,6 @@
                     element(by.buttonText('post me')).click();
                 });
 
-                xit('should show data', function () { // todo reimplement support for echoing
-                    expect(element(by.binding('ctrl.postedData')).getText()).toBe('{"some":"thing"}');
-                    expect(element(by.binding('ctrl.logging')).getText()).toContain('\'online/rest/some/api/.*/and/.*\' with payload');
-                });
-
                 it('should not show any errors', function () {
                     expect(element(by.binding('ctrl.postedError')).getText()).toBe('');
                 });
