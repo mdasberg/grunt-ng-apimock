@@ -1,3 +1,10 @@
+<a name="1.0.0"></a>
+# 1.0.0 (2016-05-30)
+
+## Feature
+- Rewrite of to connect middleware
+- Added support for default scenario option
+
 <a name="0.1.5"></a>
 # 0.1.5 (2016-03-02)
 
