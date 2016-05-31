@@ -82,9 +82,9 @@ There are a couple of rules to follow.
   "method": "the http method (ie GET)",
   "name": "identifiable name for this service call"  // if non is provided, expression$$method will be used
   "isArray": "indicates if the response data is an array or object",
-  "default": "name of the scenario", // if non is provided the response will result in a 404
   "responses": {
-    "some-meaningful-scenario-name": { 
+    "some-meaningful-scenario-name": {
+      "default": true, // if false or not provided the response will result in a 404
       "status": 200, // optional - defaults to 200
       "data": {}, // optional
       "headers": {}, // optional - defaults to {}
@@ -142,6 +142,7 @@ When running grunt-contrib-connect you can do add the following middleware block
         }
     }
 }
+```
 
 #### Add the index.html file to your connect configuration
 When running grunt-contrib-connect you can do add the following staticServe block to your configuration
@@ -182,12 +183,12 @@ To reuse the json files that we created for running our application locally with
 ```js
 describe('Some test', function () {
     var ngApimock = require('.tmp/mocking/protractor.mock'); // or the path/to/protractor.mock.js
-    ngApimock.selectScenario(require('path/to/mocks/partials.json'), 'passThrough'); // passThrough is the name of the scenario    
-    ngApimock.selectScenario(require('path/to/mocks/countryService.json'), 'ok'); // ok is the name of the scenario
+    ngApimock.selectScenario(require('path/to/mocks/some.json'), 'nok'); // nok is the name of the scenario    
+    ngApimock.selectScenario('name attribute in mock.json', 'ok'); // ok is the name of the scenario
     ngApimock.setGlobalVariable('someKey', 'someValue'); // add or update a global variable which will be used to replace in the response data.
 
     it('should do something', function() {
-        ngApimock.selectScenario(require('path/to/mocks/partials.json'), 'another'); // at runtime you can change a scenario
+        ngApimock.selectScenario('name of some api', 'another'); // at runtime you can change a scenario
     });
  });
    
