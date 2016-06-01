@@ -1,8 +1,7 @@
 (function () {
     'use strict';
 
-    var q = require('q'),
-        ngapimockid = require('node-uuid').v4(),
+    var ngapimockid = require('node-uuid').v4(),
         request = require('sync-request'),
         baseUrl = require('url-join')(browser.baseUrl, 'ngapimock');
 
@@ -31,6 +30,8 @@
      * @param scenario The scenario that is selected to be returned when the api is called.
      */
     function selectScenario(data, scenario) {
+        var deferred = protractor.promise.defer();
+        
         // #1
         var identifier;
         if (typeof data === 'string') { // name of the mock
@@ -40,7 +41,6 @@
         } else { 
             identifier = data.expression + '$$' + data.method;
         }
-        var defer = q.defer();
         // #2
         var response = request('PUT', baseUrl + '/mocks', {
             headers: {
@@ -54,16 +54,16 @@
         });
 
         if (response.statusCode !== 200) {
-            defer.reject('Could not select scenario [' + scenario + ']');
+            deferred.reject('Could not select scenario [' + scenario + ']');
         } else {
-            defer.resolve();
+            deferred.fulfill();
         }
-        return defer.promise;
+        return deferred.promise;
     }
 
     /** The resetScenarios function resets the selected mocks. */
     function resetScenarios() {
-        var defer = q.defer();
+       var deferred = protractor.promise.defer();
         var response = request('DELETE', baseUrl + '/mocks', {
             headers: {
                 'Content-Type': 'application/json',
@@ -72,11 +72,11 @@
         });
 
         if (response.statusCode !== 200) {
-            defer.reject('Could not reset scenarios');
+            deferred.reject('Could not reset scenarios');
         } else {
-            defer.resolve();
+            deferred.fulfill();
         }
-        return defer.promise;
+        return deferred.promise;
     }
 
     /**
@@ -86,7 +86,7 @@
      * @param value The value.
      */
     function setGlobalVariable(key, value) {
-        var defer = q.defer();
+       var deferred = protractor.promise.defer();
         var response = request('PUT', baseUrl + '/variables', {
             headers: {
                 'Content-Type': 'application/json',
@@ -99,11 +99,11 @@
         });
 
         if (response.statusCode !== 200) {
-            defer.reject('Could not add or update variable key [' + key + ' with value [' + value + ']');
+            deferred.reject('Could not add or update variable key [' + key + ' with value [' + value + ']');
         } else {
-            defer.resolve();
+            deferred.fulfill();
         }
-        return defer.promise;
+        return deferred.promise;
     }
 
     /**
@@ -111,8 +111,8 @@
      * @param key The key.
      */
     function deleteGlobalVariable(key) {
-        var defer = q.defer();
-        var response = request('PUT', baseUrl + '/variables/' + key, {
+       var deferred = protractor.promise.defer();
+        var response = request('DELETE', baseUrl + '/variables/' + key, {
             headers: {
                 'Content-Type': 'application/json',
                 'ngapimockid': ngapimockid
@@ -120,11 +120,11 @@
         });
 
         if (response.statusCode !== 200) {
-            defer.reject('Could not delete variable with key [' + key + ']');
+            deferred.reject('Could not delete variable with key [' + key + ']');
         } else {
-            defer.resolve();
+            deferred.fulfill();
         }
-        return defer.promise;
+        return deferred.promise;
     }
 
     /** The resetGlobalVariables function resets the provided variables to {}. */
