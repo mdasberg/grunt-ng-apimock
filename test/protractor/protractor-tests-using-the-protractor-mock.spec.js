@@ -43,7 +43,7 @@
             beforeAll(function () {
                 ngApimock.setGlobalVariable('replaceMe', 'y');
                 ngApimock.selectScenario('getAllTodos', 'some-meaningful-scenario-name');
-                ngApimock.selectScenario(require('../mocks/some-api-post.json'), 'successful');
+                ngApimock.selectScenario('updateTodo', 'successful');
 
                 browser.get('/index.html');
             });
@@ -76,8 +76,8 @@
         describe('when changing some selected scenarios', function () {
             beforeAll(function () {
                 ngApimock.setGlobalVariable('replaceMe', 'y');
-                ngApimock.selectScenario(require('../mocks/some-api-get.json'), 'some-meaningful-scenario-name');
-                ngApimock.selectScenario(require('../mocks/some-api-post.json'), 'successful');
+                ngApimock.selectScenario('getAllTodos', 'some-meaningful-scenario-name');
+                ngApimock.selectScenario('updateTodo', 'successful');
 
                 browser.get('/index.html');
             });
@@ -85,7 +85,7 @@
             describe('when fetching data with a service', function () {
                 it('should show data', function () {
                     expect(element(by.binding('ctrl.data')).getText()).toBe('[{"x":"y"}]');
-                    ngApimock.selectScenario(require('../mocks/some-api-get.json'), 'another-meaningful-scenario-name');
+                    ngApimock.selectScenario('getAllTodos', 'another-meaningful-scenario-name');
                     element(by.buttonText('refresh')).click();
                     expect(element(by.binding('ctrl.data')).getText()).toBe('[{"a":"b"}]');
                 });
@@ -102,13 +102,13 @@
 
                 it('should show data', function () {
                     expect(element(by.binding('ctrl.postedData')).getText()).toBe('{"some":"thing"}');
-                    ngApimock.selectScenario(require('../mocks/some-api-post.json'), 'anotherSuccess');
+                    ngApimock.selectScenario('updateTodo', 'anotherSuccess');
                     element(by.buttonText('post me')).click();
 
                     var text = element(by.binding('ctrl.postedData')).getText();
                     expect(text).toBe('{"some":"thing else"}');
                     text.then(function () {
-                        ngApimock.selectScenario(require('../mocks/some-api-post.json'), 'internal-server-error');
+                        ngApimock.selectScenario('updateTodo', 'internal-server-error');
                     });
 
                     element(by.buttonText('post me')).click();
@@ -124,8 +124,8 @@
         describe('when resetting the scenarios to default', function () {
             beforeAll(function () {
                 ngApimock.setGlobalVariable('replaceMe', 'y');
-                ngApimock.selectScenario(require('../mocks/some-api-get.json'), 'some-meaningful-scenario-name');
-                ngApimock.selectScenario(require('../mocks/some-api-post.json'), 'successful');
+                ngApimock.selectScenario('getAllTodos', 'some-meaningful-scenario-name');
+                ngApimock.selectScenario('updateTodo', 'successful');
 
                 browser.get('/index.html');
             });
@@ -146,13 +146,13 @@
 
                 it('should show data', function () {
                     expect(element(by.binding('ctrl.postedData')).getText()).toBe('{"some":"thing"}');
-                    ngApimock.selectScenario(require('../mocks/some-api-post.json'), 'anotherSuccess');
+                    ngApimock.selectScenario('updateTodo', 'anotherSuccess');
                     element(by.buttonText('post me')).click();
 
                     var text = element(by.binding('ctrl.postedData')).getText();
                     expect(text).toBe('{"some":"thing else"}');
                     text.then(function () {
-                        ngApimock.selectScenario(require('../mocks/some-api-post.json'), 'internal-server-error');
+                        ngApimock.selectScenario('updateTodo', 'internal-server-error');
                     });
 
                     element(by.buttonText('post me')).click();
@@ -167,8 +167,8 @@
 
         describe('when provided with some selected error scenarios', function () {
             beforeAll(function () {
-                ngApimock.selectScenario(require('../mocks/some-api-get.json'), 'internal-server-error');
-                ngApimock.selectScenario(require('../mocks/some-api-post.json'), 'internal-server-error');
+                ngApimock.selectScenario('getAllTodos', 'internal-server-error');
+                ngApimock.selectScenario('updateTodo', 'internal-server-error');
 
                 browser.get('/index.html');
             });
@@ -200,8 +200,8 @@
 
         describe('when changing some global variables', function () {
             beforeAll(function () {
-                ngApimock.selectScenario(require('../mocks/some-api-get.json'), 'some-meaningful-scenario-name');
-                ngApimock.selectScenario(require('../mocks/some-api-post.json'), 'successful');
+                ngApimock.selectScenario('getAllTodos', 'some-meaningful-scenario-name');
+                ngApimock.selectScenario('updateTodo', 'successful');
                 ngApimock.setGlobalVariable('replaceMe', 'y');
 
                 browser.get('/index.html');
