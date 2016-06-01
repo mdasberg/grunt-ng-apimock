@@ -1,7 +1,7 @@
 {
   "name": "grunt-ng-apimock",
   "description": "Grunt plugin that provides the ability to use scenario based api mocking of angular apps",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "homepage": "https://github.com/mdasberg/grunt-ng-apimock#readme",
   "author": {
     "name": "Mischa Dasberg",
@@ -40,8 +40,7 @@
     "glob": "7.0.3",
     "lodash": "4.13.1",
     "path": "0.12.7",
-    "q": "1.4.1",
-    "sync-request": "^3.0.1",
+    "sync-request": "3.0.1",
     "url-join": "^1.1.0"
   },
   "keywords": [

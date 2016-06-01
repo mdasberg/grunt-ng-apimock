@@ -1,3 +1,14 @@
+<a name="1.0.2"></a>
+# 1.0.2 (2016-06-01)
+
+## Bugfix
+- Update README.md
+- Fix matching mocks when none are provided
+- Fix delete global variable from protractor
+
+## Improvement
+- Use protractor.promise instead of q in order to use the controlflow queue
+
 <a name="1.0.1"></a>
 # 1.0.1 (2016-05-30)
 
