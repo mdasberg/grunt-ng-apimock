@@ -183,7 +183,7 @@ As you have configured both the [connect middleware](#add-the-connect-middleware
 
 The interface looks like this:
 
-![alt tag](https://github.com/mdasberg/grunt-ng-apimock/blob/master/img/web-interface-grunt-ng-apimock.png)
+![alt tag](https://raw.githubusercontent.com/mdasberg/grunt-ng-apimock/master/img/web-interface-grunt-ng-apimock.png)
 
 
 
