@@ -19,30 +19,271 @@
     </section>
 
     <section class="main-content">
-      <h3>
-<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+      <h1>
+<a id="grunt-ng-apimock-----" class="anchor" href="#grunt-ng-apimock-----" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>grunt-ng-apimock <a href="https://travis-ci.org/mdasberg/grunt-ng-apimock"><img src="https://travis-ci.org/mdasberg/grunt-ng-apimock.svg?branch=master" alt="Build Status"></a> <a href="https://github.com/mdasberg/grunt-ng-apimock"><img src="https://img.shields.io/node/v/grunt-ng-apimock.svg" alt="npm version"></a> <a href="https://david-dm.org/mdasberg/grunt-ng-apimock"><img src="https://img.shields.io/david/mdasberg/grunt-ng-apimock.svg" alt="dependency Status"></a> <a href="https://david-dm.org/mdasberg/ggrunt-ng-apimock#info=devDependencies"><img src="https://img.shields.io/david/dev/mdasberg/grunt-ng-apimock.svg" alt="devDependency Status"></a> <a href="https://www.npmjs.com/package/grunt-ng-apimock"><img src="https://img.shields.io/npm/dm/grunt-ng-apimock.svg?style=flat-square" alt="npm downloads"></a>
+</h1>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here <a href="https://guides.github.com/features/mastering-markdown/">using GitHub Flavored Markdown</a>, select a template crafted by a designer, and publish. After your page is generated, you can check out the new <code>gh-pages</code> branch locally. If you’re using GitHub Desktop, simply sync your repository and you’ll see the new branch.</p>
+<blockquote>
+<p>Grunt plugin that provides the ability to use scenario based api mocking:</p>
+
+<ul>
+<li>for local development </li>
+<li>for protractor testing</li>
+</ul>
+</blockquote>
+
+<h2>
+<a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Getting Started</h2>
+
+<p>This plugin requires Grunt <code>~0.4.5</code></p>
+
+<p>If you haven't used <a href="http://gruntjs.com/">Grunt</a> before, be sure to check out the <a href="http://gruntjs.com/getting-started">Getting Started</a> guide, as it explains how to create a <a href="http://gruntjs.com/sample-gruntfile">Gruntfile</a> as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:</p>
+
+<div class="highlight highlight-source-shell"><pre>npm install grunt-ng-apimock --save-dev
+</pre></div>
+
+<p>Once the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-smi">grunt</span>.<span class="pl-en">loadNpmTasks</span>(<span class="pl-s"><span class="pl-pds">'</span>grunt-ng-apimock<span class="pl-pds">'</span></span>);
+</pre></div>
+
+<h2>
+<a id="the-ngapimock-task" class="anchor" href="#the-ngapimock-task" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>The "ngApimock" task</h2>
 
 <h3>
-<a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Designer Templates</h3>
+<a id="overview" class="anchor" href="#overview" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Overview</h3>
 
-<p>We’ve crafted some handsome templates for you to use. Go ahead and click 'Continue to layouts' to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved.</p>
+<p>In your project's Gruntfile, add a section named <code>ngApimock</code> to the data object passed into <code>grunt.initConfig()</code>.</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-smi">grunt</span>.<span class="pl-en">initConfig</span>({
+  ngApimock<span class="pl-k">:</span> {
+    options<span class="pl-k">:</span> {
+      <span class="pl-c">// Task-specific options go here.</span>
+    },
+    your_target<span class="pl-k">:</span> {
+      <span class="pl-c">// Target-specific file lists and/or options go here.</span>
+    },
+  },
+})
+</pre></div>
+
+<p>This task will process the mock data provided in the configuration and make it accessible for connect as middleware.</p>
 
 <h3>
-<a id="creating-pages-manually" class="anchor" href="#creating-pages-manually" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Creating pages manually</h3>
+<a id="options" class="anchor" href="#options" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Options</h3>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<h4>
+<a id="optionsdefaultoutputdir" class="anchor" href="#optionsdefaultoutputdir" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>options.defaultOutputDir</h4>
+
+<p>Type: <code>String</code>
+Default: '.tmp/mocks/'</p>
+
+<p>Should be the location where the ngApimock plugin will put it's generated files.</p>
+
+<h4>
+<a id="src" class="anchor" href="#src" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>src</h4>
+
+<p>Type: <code>String</code>
+Mandatory: true</p>
+
+<p>Should be the location where the mock json files are located.</p>
 
 <h3>
-<a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+<a id="usage-examples" class="anchor" href="#usage-examples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage Examples</h3>
 
-<p>You can <a href="https://help.github.com/articles/basic-writing-and-formatting-syntax/#mentioning-users-and-teams" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor’s GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<h4>
+<a id="default-options" class="anchor" href="#default-options" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Default Options</h4>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-smi">grunt</span>.<span class="pl-en">initConfig</span>({
+  ngApimocks<span class="pl-k">:</span> {
+    options<span class="pl-k">:</span> {
+        defaultOutputDir<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>...<span class="pl-pds">'</span></span> <span class="pl-c">// the output directory</span>
+    },
+    your_target<span class="pl-k">:</span> {   
+       src<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>...<span class="pl-pds">'</span></span> <span class="pl-c">// the directory containing all your json mocks</span>
+    }
+  }
+})
+</pre></div>
 
 <h3>
-<a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Support or Contact</h3>
+<a id="howto-write-mocks" class="anchor" href="#howto-write-mocks" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Howto write mocks</h3>
 
-<p>Having trouble with Pages? Check out our <a href="https://help.github.com/pages">documentation</a> or <a href="https://github.com/contact">contact support</a> and we’ll help you sort it out.</p>
+<p>There are a couple of rules to follow.</p>
+
+<ol>
+<li>For each api call create a separate file</li>
+<li>Each file needs to follow the format below.</li>
+</ol>
+
+<div class="highlight highlight-source-js"><pre>{
+  <span class="pl-s"><span class="pl-pds">"</span>expression<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>your expression here (ie a regex without the leading and trailing '/' or a string)<span class="pl-pds">"</span></span>,
+  <span class="pl-s"><span class="pl-pds">"</span>method<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>the http method (ie GET, POST, PUT or DELETE)<span class="pl-pds">"</span></span>,
+  <span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>identifiable name for this service call<span class="pl-pds">"</span></span>  <span class="pl-c">// if non is provided, expression$$method will be used</span>
+  <span class="pl-s"><span class="pl-pds">"</span>isArray<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>indicates if the response data is an array or object<span class="pl-pds">"</span></span>,
+  <span class="pl-s"><span class="pl-pds">"</span>responses<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
+    <span class="pl-s"><span class="pl-pds">"</span>some-meaningful-scenario-name<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
+      <span class="pl-s"><span class="pl-pds">"</span>default<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-c1">true</span>, <span class="pl-c">// if false or not provided this response will not be used as default</span>
+      <span class="pl-s"><span class="pl-pds">"</span>status<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-c1">200</span>, <span class="pl-c">// optional - defaults to 200</span>
+      <span class="pl-s"><span class="pl-pds">"</span>data<span class="pl-pds">"</span></span><span class="pl-k">:</span> {}, <span class="pl-c">// optional</span>
+      <span class="pl-s"><span class="pl-pds">"</span>headers<span class="pl-pds">"</span></span><span class="pl-k">:</span> {}, <span class="pl-c">// optional - defaults to {}</span>
+      <span class="pl-s"><span class="pl-pds">"</span>statusText<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span> <span class="pl-c">// optional </span>
+    },
+    <span class="pl-s"><span class="pl-pds">"</span>some-other-meaningful-scenario-name<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
+      <span class="pl-s"><span class="pl-pds">"</span>data<span class="pl-pds">"</span></span><span class="pl-k">:</span> {}
+    }
+  }
+}
+</pre></div>
+
+<h2>
+<a id="howto-use-global-variables" class="anchor" href="#howto-use-global-variables" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Howto use global variables</h2>
+
+<p>If for instance, you have date sensitive information in you mocks, mock data is not flexible enough.
+You can use global variables for this. By surrounding a value in the response.data with %%theVariableName%%,
+you can make your data more flexible, like this:</p>
+
+<div class="highlight highlight-source-json"><pre><span class="pl-s"><span class="pl-pds">"</span>responses<span class="pl-pds">"</span></span>: {
+    <span class="pl-s"><span class="pl-pds">"</span>some-meaningful-scenario-name<span class="pl-pds">"</span></span>: {
+        <span class="pl-s"><span class="pl-pds">"</span>data<span class="pl-pds">"</span></span>: {
+            <span class="pl-s"><span class="pl-pds">"</span>today<span class="pl-pds">"</span></span>: <span class="pl-ii">'%%today%%</span>
+        }
+    }
+}</pre></div>
+
+<p>For local development you can use the web interface to add, change or delete variables.
+For protractor you can use the following commands</p>
+
+<div class="highlight highlight-source-js"><pre>     <span class="pl-smi">ngApimock</span>.<span class="pl-en">setGlobalVariable</span>(name, value); <span class="pl-c">// to add or update</span>
+     <span class="pl-smi">ngApimock</span>.<span class="pl-en">deleteGlobalVariable</span>(name); <span class="pl-c">// to delete </span></pre></div>
+
+<h3>
+<a id="howto-serve-selected-mocks" class="anchor" href="#howto-serve-selected-mocks" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Howto serve selected mocks</h3>
+
+<p>To be able to use the selected mocks you need to do two things:</p>
+
+<ol>
+<li>Add the connect middleware</li>
+<li>Add the mocking interface to your connect configuration</li>
+</ol>
+
+<h4>
+<a id="add-the-connect-middleware" class="anchor" href="#add-the-connect-middleware" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Add the connect middleware</h4>
+
+<p>When running grunt-contrib-connect you can do add the following middleware block to your configuration</p>
+
+<div class="highlight highlight-source-js"><pre>{
+    connect<span class="pl-k">:</span> {
+        yourTarget<span class="pl-k">:</span> {
+            options<span class="pl-k">:</span> {
+                <span class="pl-en">middleware</span><span class="pl-k">:</span> <span class="pl-k">function</span> (<span class="pl-smi">connect</span>) {
+                    <span class="pl-k">return</span> [
+                        (<span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>grunt-ng-apimock/lib/utils<span class="pl-pds">'</span></span>).<span class="pl-smi">ngApimockRequest</span>),
+                        <span class="pl-k">...</span>
+                        <span class="pl-en">connect</span>().<span class="pl-en">use</span>(<span class="pl-s"><span class="pl-pds">'</span>/<span class="pl-pds">'</span></span>, <span class="pl-en">serveStatic</span>(<span class="pl-s"><span class="pl-pds">'</span>some-path-where-your-sources-are<span class="pl-pds">'</span></span>))
+                    ];
+                }
+            }
+        }
+    }
+}</pre></div>
+
+<h4>
+<a id="add-the-mocking-interface-to-your-connect-configuration" class="anchor" href="#add-the-mocking-interface-to-your-connect-configuration" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Add the mocking interface to your connect configuration</h4>
+
+<p>When running grunt-contrib-connect you can do add the following staticServe block to your configuration</p>
+
+<div class="highlight highlight-source-js"><pre>{
+    connect<span class="pl-k">:</span> {
+        yourTarget<span class="pl-k">:</span> {
+            options<span class="pl-k">:</span> {
+                <span class="pl-en">middleware</span><span class="pl-k">:</span> <span class="pl-k">function</span> (<span class="pl-smi">connect</span>) {
+                    <span class="pl-k">return</span> [
+                        <span class="pl-k">...</span>
+                        <span class="pl-en">connect</span>().<span class="pl-en">use</span>(<span class="pl-s"><span class="pl-pds">'</span>/mocking<span class="pl-pds">'</span></span>, <span class="pl-en">serveStatic</span>(<span class="pl-s"><span class="pl-pds">'</span>path/to/the/generated/mocking/index.html<span class="pl-pds">'</span></span>)),
+                        <span class="pl-en">connect</span>().<span class="pl-en">use</span>(<span class="pl-s"><span class="pl-pds">'</span>/<span class="pl-pds">'</span></span>, <span class="pl-en">serveStatic</span>(<span class="pl-s"><span class="pl-pds">'</span>some-path-where-your-sources-are<span class="pl-pds">'</span></span>))
+                    ];
+                }
+            }
+        }
+    }
+}
+</pre></div>
+
+<h3>
+<a id="howto-use-for-local-development" class="anchor" href="#howto-use-for-local-development" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Howto use for local development</h3>
+
+<p>As you have configured both the <a href="#add-the-connect-middleware">connect middleware</a> and the <a href="#add-the-mocking-interface-to-your-connect-configuration">mocking interface</a>, everything 
+  should work out of the box. By default all the responses configured as default, will be returned if the expression matches.</p>
+
+<p>If you would like to change the selected scenario, you can go to http://localhost:9000/mocking and use the interface to change the selected scenario or variables</p>
+
+<p>The interface looks like this:</p>
+
+<p><img src="https://github.com/mdasberg/grunt-ng-apimock/blob/master/img/web-interface-grunt-ng-apimock.png" alt="alt tag"></p>
+
+<h3>
+<a id="howto-use-for-your-protractor-tests" class="anchor" href="#howto-use-for-your-protractor-tests" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Howto use for your protractor tests.</h3>
+
+<p>As you are building an <a href="https://angularjs.org/">AngularJS</a> application you will probably use <a href="https://angular.github.io/protractor/#/">Protractor</a> for testing your UI.</p>
+
+<p>Protractor provides the ability to inject a mock module in your application by adding the following to your protractor test.</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-en">describe</span>(<span class="pl-s"><span class="pl-pds">'</span>Some test<span class="pl-pds">'</span></span>, <span class="pl-k">function</span> () {
+    <span class="pl-smi">browser</span>.<span class="pl-en">addMockModule</span>(<span class="pl-s"><span class="pl-pds">'</span>modName<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>() {
+        <span class="pl-smi">angular</span>.<span class="pl-en">module</span>(<span class="pl-s"><span class="pl-pds">'</span>modName<span class="pl-pds">'</span></span>, []).<span class="pl-c1">value</span>(<span class="pl-s"><span class="pl-pds">'</span>foo<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>bar<span class="pl-pds">'</span></span>);
+    });
+});</pre></div>
+
+<p>To serve the mock data from the json files that we created for running our application locally with mock data, you can replace the block above with this</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-en">describe</span>(<span class="pl-s"><span class="pl-pds">'</span>Some test<span class="pl-pds">'</span></span>, <span class="pl-k">function</span> () {
+    <span class="pl-k">var</span> ngApimock <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>.tmp/mocking/protractor.mock<span class="pl-pds">'</span></span>); <span class="pl-c">// or the path/to/protractor.mock.js</span>
+    <span class="pl-smi">ngApimock</span>.<span class="pl-en">selectScenario</span>(<span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>path/to/mocks/some.json<span class="pl-pds">'</span></span>), <span class="pl-s"><span class="pl-pds">'</span>nok<span class="pl-pds">'</span></span>); <span class="pl-c">// nok is the name of the scenario    </span>
+    <span class="pl-smi">ngApimock</span>.<span class="pl-en">selectScenario</span>(<span class="pl-s"><span class="pl-pds">'</span>name attribute in mock.json<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>ok<span class="pl-pds">'</span></span>); <span class="pl-c">// ok is the name of the scenario</span>
+    <span class="pl-smi">ngApimock</span>.<span class="pl-en">setGlobalVariable</span>(<span class="pl-s"><span class="pl-pds">'</span>someKey<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>someValue<span class="pl-pds">'</span></span>); <span class="pl-c">// add or update a global variable which will be used to replace in the response data.</span>
+
+    <span class="pl-en">it</span>(<span class="pl-s"><span class="pl-pds">'</span>should do something<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>() {
+        <span class="pl-smi">ngApimock</span>.<span class="pl-en">selectScenario</span>(<span class="pl-s"><span class="pl-pds">'</span>name of some api<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>another<span class="pl-pds">'</span></span>); <span class="pl-c">// at runtime you can change a scenario</span>
+    });
+ });
+</pre></div>
+
+<p>By default all the scenario's marked as default will be returned if the expression matches. So you only need to add ngApimock.selectScenario in case your test need
+other scenario data to be returned.</p>
+
+<p>NgApimock also works when running multiple tests concurrent, by using the protract session id of the test. 
+This ensures that changing a scenario in one test, will not effect another test. </p>
+
+<h3>
+<a id="available-functions" class="anchor" href="#available-functions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Available functions</h3>
+
+<p>All these functions are protractor promises, so they can be chained.</p>
+
+<h4>
+<a id="selectscenariojson-scenarionname" class="anchor" href="#selectscenariojson-scenarionname" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>selectScenario(json, scenarionName)</h4>
+
+<p>Selects the given scenario</p>
+
+<h4>
+<a id="resetscenarios" class="anchor" href="#resetscenarios" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>resetScenarios()</h4>
+
+<p>Resets the scenarios (only passthroughs are set)</p>
+
+<h4>
+<a id="setglobalvariablekey-value" class="anchor" href="#setglobalvariablekey-value" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>setGlobalVariable(key, value)</h4>
+
+<p>Adds or updates the global key/value pair </p>
+
+<h4>
+<a id="deleteglobalvariablekey" class="anchor" href="#deleteglobalvariablekey" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>deleteGlobalVariable(key)</h4>
+
+<p>Remove the global variable matching the key</p>
+
+<h2>
+<a id="contributing" class="anchor" href="#contributing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Contributing</h2>
+
+<p>In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using <a href="http://gruntjs.com/">Grunt</a>.</p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/mdasberg/grunt-ng-apimock">Grunt-ng-apimock</a> is maintained by <a href="https://github.com/mdasberg">mdasberg</a>.</span>
