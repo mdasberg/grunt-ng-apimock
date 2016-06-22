@@ -12,8 +12,14 @@
                 method: 'PUT',
                 isArray: false
             },
-            reset: {
-                method: 'DELETE',
+            setAllToPassThrough: {
+                url: '/ngapimock/mocks/passthroughs',
+                method: 'PUT',
+                isArray: false
+            },
+            setAllToDefault: {
+                url: '/ngapimock/mocks/defaults',
+                method: 'PUT',
                 isArray: false
             }
         });

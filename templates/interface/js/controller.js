@@ -39,14 +39,23 @@
          * @param selection The selection.
          */
         vm.selectMock = function (mock, selection) {
+            console.log('hier', selection)
             mockService.update({'identifier': mock.identifier, 'scenario': selection}, function () {
                 vm.selections[mock.identifier] = selection;
             });
         };
 
-        /** Reset all selections. */
-        vm.clearMocks = function () {
-            mockService.reset({}, function (response) {
+        /** Reset all selections to default. */
+        vm.defaultMocks = function () {
+            mockService.setAllToDefault({}, function (response) {
+                vm.mocks = response.mocks;
+                vm.selections = response.selections;
+            });
+        };
+
+        /** Reset all selections to passThrough. */
+        vm.passThroughMocks = function () {
+            mockService.setAllToPassThrough({}, function (response) {
                 vm.mocks = response.mocks;
                 vm.selections = response.selections;
             });

@@ -83,6 +83,55 @@
             });
         });
 
+        describe('when resetting to passthrough scenarios', function () {
+            beforeAll(function () {
+                browser.get('/mocking');
+                mocking = new MockingPO();
+                mocking.apiGET.sendKeys('some-meaningful-scenario-name');
+                mocking.apiPOST.sendKeys('successful');
+                browser.get('/index.html');
+            });
+
+            describe('when fetching data with a service', function () {
+                beforeAll(function() {
+                    browser.get('/mocking');
+                    mocking = new MockingPO();
+                    mocking.apiGET.sendKeys('passThrough');
+                    browser.get('/index.html');
+                });
+                
+                it('should show data', function () {
+                    expect(element(by.binding('ctrl.data')).getText()).toBe('[{"a":"b"}]');
+                });
+
+                it('should not show any errors', function () {
+                    expect(element(by.binding('ctrl.error')).getText()).toBe('');
+                });
+            });
+        });
+
+        describe('when reset to defaults', function () {
+            beforeAll(function () {
+                browser.get('/mocking');
+                mocking = new MockingPO();
+                mocking.apiGET.sendKeys('some-meaningful-scenario-name');
+                mocking.apiPOST.sendKeys('anotherSuccess');
+                mocking.defaults();
+            });
+
+            it('should reset the mocks to default', function() {
+                    expect( mocking.apiGET.all(by.tagName('option'))
+                        .filter(function (option) {
+                            return option.isSelected();
+                        }).get(0).getText()).toBe('passThrough');
+                    expect( mocking.apiPOST.all(by.tagName('option'))
+                        .filter(function (option) {
+                            return option.isSelected();
+                        }).get(0).getText()).toBe('successful');
+                
+            });
+        });
+
         describe('when provided with some selected error scenarios', function () {
             beforeAll(function () {
                 browser.get('/mocking');

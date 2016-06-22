@@ -28,9 +28,14 @@ MockingPO.prototype = Object.create({}, {
             return element(by.model('echo'));
         }
     },
-    clear: {
+    passThrough: {
         value: function() {
-            return element(by.buttonText('Clear all mocks')).click();
+            return element(by.buttonText('All to passThrough')).click();
+        }
+    },
+    defaults: {
+        value: function() {
+            return element(by.buttonText('Reset to defaults')).click();
         }
     },
     addVariable: {

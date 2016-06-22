@@ -228,8 +228,11 @@ All these functions are protractor promises, so they can be chained.
 #### selectScenario(json, scenarionName)
 Selects the given scenario
   
-#### resetScenarios()
-Resets the scenarios (only passthroughs are set)
+#### setAllScenariosToDefault()
+Resets all mocks to the default scenarios
+
+#### setAllScenariosToPassThrough
+Resets all mocks to use passthroughs
 
 #### setGlobalVariable(key, value)
 Adds or updates the global key/value pair 

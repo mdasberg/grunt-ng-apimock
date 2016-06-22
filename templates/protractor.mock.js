@@ -61,10 +61,10 @@
         return deferred.promise;
     }
 
-    /** The resetScenarios function resets the selected mocks. */
-    function resetScenarios() {
-       var deferred = protractor.promise.defer();
-        var response = request('DELETE', baseUrl + '/mocks', {
+    /** The setAllScenariosToDefault function sets all the scenarios to default. */
+    function setAllScenariosToDefault() {
+        var deferred = protractor.promise.defer();
+        var response = request('PUT', baseUrl + '/mocks/defaults', {
             headers: {
                 'Content-Type': 'application/json',
                 'ngapimockid': ngapimockid
@@ -72,11 +72,35 @@
         });
 
         if (response.statusCode !== 200) {
-            deferred.reject('Could not reset scenarios');
+            deferred.reject('Could not set scenarios to default');
         } else {
             deferred.fulfill();
         }
         return deferred.promise;
+    }
+
+    /** The setAllScenariosToPassThrough function sets all the scenarios to passthrough. */
+    function setAllScenariosToPassThrough() {
+        var deferred = protractor.promise.defer();
+        var response = request('PUT', baseUrl + '/mocks/passthroughs', {
+            headers: {
+                'Content-Type': 'application/json',
+                'ngapimockid': ngapimockid
+            }
+        });
+
+        if (response.statusCode !== 200) {
+            deferred.reject('Could not set scenarios to passthroughs');
+        } else {
+            deferred.fulfill();
+        }
+        return deferred.promise;
+    }
+
+    /** The resetScenarios function resets the selected mocks. */
+    function resetScenarios() {
+        console.log('resetScenarios is no longer supported as of version 1.0.2, and will be removed in future versions.' +
+            ' Use setAllScenariosToDefault or setAllScenariosToPassThrough');
     }
 
     /**
@@ -150,6 +174,8 @@
         selectScenario: selectScenario,
         addMockModule: addMockModule,
         removeMockModule: removeMockModule,
+        setAllScenariosToDefault: setAllScenariosToDefault,
+        setAllScenariosToPassThrough: setAllScenariosToPassThrough,
         resetScenarios: resetScenarios,
         setGlobalVariable: setGlobalVariable,
         resetGlobalVariables: resetGlobalVariables,

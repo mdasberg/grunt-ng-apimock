@@ -51,7 +51,7 @@
             <td>{{mock.method}}</td>
             <td>{{mock.name}}</td>
             <td><select name="{{mock.expression.toString()}}$${{mock.method}}" data-ng-options="k as k for (k, v) in mock.responses" data-ng-model="selected" data-ng-change="ctrl.selectMock(mock, selected)">
-                <option value=""></option>
+                <option value="">passThrough</option>
             </select></td>
             <td>
                 <div data-ng-if="mock.method === 'POST'" data-ng-init="echo = !!mock.echo;">
@@ -64,7 +64,10 @@
         </tbody>
         <tfoot>
         <tr>
-            <td colspan="5" class="text-right"><button data-ng-click="ctrl.clearMocks()">Clear all mocks</button> </td>
+            <td colspan="5" class="text-right">
+                <button data-ng-click="ctrl.defaultMocks()">Reset to defaults</button>
+                <button data-ng-click="ctrl.passThroughMocks()">All to passThrough</button>
+            </td>
         </tr>
         </tfoot>
     </table>

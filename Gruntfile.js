@@ -68,6 +68,9 @@
                                         if(request.method === 'GET') {
                                             response.end("[{\"a\":\"b\"}]");
                                         }
+                                        if(request.method === 'POST') {
+                                            response.end("{\"c\": \"d\"}");
+                                        }
                                     })
                                 ];
                             }
