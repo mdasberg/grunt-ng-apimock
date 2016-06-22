@@ -1,12 +1,12 @@
 (function () {
     'use strict';
 
-    module.exports = function (grunt) {
+    module.exports = function () {
         var glob = require('glob'),
             async = require('async'),
             _ = require('lodash'),
             utils = require('../lib/utils.js'),
-            processor = require('./processor.js')(grunt),
+            processor = require('./processor.js')(),
             defaultOptions = {
                 sourceEncoding: 'UTF-8',
                 defaultOutputDir: '.tmp/mocks/'
@@ -32,7 +32,7 @@
                 var data = configuration.data;
 
                 if (typeof data.src === 'undefined') {
-                    grunt.fail.fatal('No mock source directory have been specified.');
+                    console.error('No mock source directory have been specified.');
                 }
 
                 var mockOptions = mergeJson(defaultOptions, configuration.options({})),
@@ -41,29 +41,29 @@
                 
                 async.series({
                         processMocks: function (callback) {
-                            grunt.verbose.writeln('Process all the mocks');
+                            console.info('Process all the mocks');
                             mocks = processor.processMocks(data.src, mockOptions.defaultPassThrough);
                             callback(null, 200);
                         },
                         registerMocks: function(callback) {
-                            grunt.verbose.writeln('Register mocks');
+                            console.info('Register mocks');
                             utils.registerMocks(mocks);
                             callback(null, 200);
                         },
                         generateMockingInterface: function (callback) {
-                            grunt.verbose.writeln('Generate the mocking web interface');
+                            console.info('Generate the mocking web interface');
                             processor.generateMockInterface(mockOptions.defaultOutputDir);
                             callback(null, 200);
                         },
                         generateProtractorMock: function (callback) {
-                            grunt.verbose.writeln('Generate protractor.mock.js');
+                            console.info('Generate protractor.mock.js');
                             processor.generateProtractorMock(mockOptions.defaultOutputDir);
                             callback(null, 200);
                         }
                     },
                     function (err) {
                         if (err !== undefined && err !== null) {
-                            grunt.fail.fatal(err);
+                            console.error(err);
                         }
                         done();
                     });

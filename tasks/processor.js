@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    module.exports = function (grunt) {
+    module.exports = function () {
         var glob = require("glob"),
             fs = require('fs-extra'),
             path = require('path');
@@ -18,7 +18,7 @@
             // #1
             glob.sync('**/*.json', {cwd: src, root: '/'}).forEach(function (file) {
                 // #2
-                mocks.push(grunt.file.readJSON(src + path.sep + file));
+                mocks.push(fs.readJsonSync(src + path.sep + file, {throws: true}));
             });
             return mocks;
         }
