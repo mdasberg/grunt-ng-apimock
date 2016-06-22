@@ -97,7 +97,7 @@ When running grunt-contrib-connect you can do add the following middleware block
             options: {
                 middleware: function (connect) {
                     return [
-                        (require('grunt-ng-apimock/lib/utils').ngApimockRequest),
+                        (require('ng-apimock/lib/utils').ngApimockRequest),
                         ...
                         connect().use('/', serveStatic('some-path-where-your-sources-are'))
                     ];
