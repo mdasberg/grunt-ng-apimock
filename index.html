@@ -24,7 +24,7 @@
 </h1>
 
 <blockquote>
-<p>Grunt plugin that provides the ability to use scenario based api mocking:</p>
+<p>Grunt plugin that wraps around <a href="https://github.com/mdasberg/ng-apimock">ng-apimock</a> which provides the ability to use scenario based api mocking:</p>
 
 <ul>
 <li>for local development </li>
@@ -109,7 +109,7 @@ Mandatory: true</p>
 <h3>
 <a id="howto-write-mocks" class="anchor" href="#howto-write-mocks" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Howto write mocks</h3>
 
-<p>There are a couple of rules to follow.</p>
+<p>here are a couple of rules to follow.</p>
 
 <ol>
 <li>For each api call create a separate file</li>
@@ -146,7 +146,7 @@ you can make your data more flexible, like this:</p>
 <div class="highlight highlight-source-json"><pre><span class="pl-s"><span class="pl-pds">"</span>responses<span class="pl-pds">"</span></span>: {
     <span class="pl-s"><span class="pl-pds">"</span>some-meaningful-scenario-name<span class="pl-pds">"</span></span>: {
         <span class="pl-s"><span class="pl-pds">"</span>data<span class="pl-pds">"</span></span>: {
-            <span class="pl-s"><span class="pl-pds">"</span>today<span class="pl-pds">"</span></span>: <span class="pl-ii">'%%today%%</span>
+            <span class="pl-s"><span class="pl-pds">"</span>today<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>%%today%%<span class="pl-pds">"</span></span>
         }
     }
 }</pre></div>
@@ -178,7 +178,7 @@ For protractor you can use the following commands</p>
             options<span class="pl-k">:</span> {
                 <span class="pl-en">middleware</span><span class="pl-k">:</span> <span class="pl-k">function</span> (<span class="pl-smi">connect</span>) {
                     <span class="pl-k">return</span> [
-                        (<span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>grunt-ng-apimock/lib/utils<span class="pl-pds">'</span></span>).<span class="pl-smi">ngApimockRequest</span>),
+                        (<span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>ng-apimock/lib/utils<span class="pl-pds">'</span></span>).<span class="pl-smi">ngApimockRequest</span>),
                         <span class="pl-k">...</span>
                         <span class="pl-en">connect</span>().<span class="pl-en">use</span>(<span class="pl-s"><span class="pl-pds">'</span>/<span class="pl-pds">'</span></span>, <span class="pl-en">serveStatic</span>(<span class="pl-s"><span class="pl-pds">'</span>some-path-where-your-sources-are<span class="pl-pds">'</span></span>))
                     ];
@@ -210,9 +210,6 @@ For protractor you can use the following commands</p>
 }
 </pre></div>
 
-<h3>
-<a id="howto-use-for-local-development" class="anchor" href="#howto-use-for-local-development" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Howto use for local development</h3>
-
 <p>As you have configured both the <a href="#add-the-connect-middleware">connect middleware</a> and the <a href="#add-the-mocking-interface-to-your-connect-configuration">mocking interface</a>, everything 
   should work out of the box. By default all the responses configured as default, will be returned if the expression matches.</p>
 
@@ -220,7 +217,7 @@ For protractor you can use the following commands</p>
 
 <p>The interface looks like this:</p>
 
-<p><img src="https://raw.githubusercontent.com/mdasberg/grunt-ng-apimock/master/img/web-interface-grunt-ng-apimock.png" alt="alt tag"></p>
+<p><img src="https://raw.githubusercontent.com/mdasberg/ng-apimock/master/img/web-interface-ng-apimock.png" alt="alt tag"></p>
 
 <h3>
 <a id="howto-use-for-your-protractor-tests" class="anchor" href="#howto-use-for-your-protractor-tests" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Howto use for your protractor tests.</h3>
@@ -249,12 +246,6 @@ For protractor you can use the following commands</p>
  });
 </pre></div>
 
-<p>By default all the scenario's marked as default will be returned if the expression matches. So you only need to add ngApimock.selectScenario in case your test need
-other scenario data to be returned.</p>
-
-<p>NgApimock also works when running multiple tests concurrent, by using the protract session id of the test. 
-This ensures that changing a scenario in one test, will not effect another test. </p>
-
 <h3>
 <a id="available-functions" class="anchor" href="#available-functions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Available functions</h3>
 
@@ -266,9 +257,14 @@ This ensures that changing a scenario in one test, will not effect another test.
 <p>Selects the given scenario</p>
 
 <h4>
-<a id="resetscenarios" class="anchor" href="#resetscenarios" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>resetScenarios()</h4>
+<a id="setallscenariostodefault" class="anchor" href="#setallscenariostodefault" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>setAllScenariosToDefault()</h4>
 
-<p>Resets the scenarios (only passthroughs are set)</p>
+<p>Resets all mocks to the default scenarios</p>
+
+<h4>
+<a id="setallscenariostopassthrough" class="anchor" href="#setallscenariostopassthrough" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>setAllScenariosToPassThrough</h4>
+
+<p>Resets all mocks to use passthroughs</p>
 
 <h4>
 <a id="setglobalvariablekey-value" class="anchor" href="#setglobalvariablekey-value" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>setGlobalVariable(key, value)</h4>
