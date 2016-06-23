@@ -11,8 +11,9 @@
      * Licensed under the MIT license.
      */
 
-    'use strict';
     module.exports = function (grunt) {
+        
+        // rewrite to console logging to grunt logging
         console.log = function(){};
         hooker.hook(console, "log", function () {
             grunt.log.writeln(arguments[0]);
@@ -26,9 +27,14 @@
             grunt.verbose.writeln(arguments[0]);
         });
 
-        /** Sonar karma results. */
+        /** Ng apimock. */
         grunt.registerMultiTask('ngApimock', 'Grunt plugin that provides the ability to use scenario based api mocking of angular apps",', function () {
-            require('./index')(grunt).run(this);
+            var configuration = {
+                src: this.data.src,
+                outputDir: this.options({}).defaultOutputDir,
+                done: this.async()
+            };
+            require('ng-apimock')(grunt).run(configuration);
         });
     };
 })();

@@ -1,5 +1,5 @@
 (function () {
-    'use script';
+    'use strict';
 
     /**
      * Tests for the grunt-ng-apimock plugin.
@@ -7,7 +7,6 @@
     describe('ngApimock', function () {
         var gruntMock = require('gruntmock'),
             ngApimock = require('./../tasks/ngApimock.js'),
-            fs = require('fs'),
             fsExtra = require('fs-extra'),
             path = require('path');
 
