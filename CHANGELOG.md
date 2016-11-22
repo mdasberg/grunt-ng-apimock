@@ -1,3 +1,18 @@
+<a name="1.1.1"></a>
+# 1.1.1 (2016-11-22)
+
+## Bugfix
+- Fix failing tests after upgrade of ng-apimock
+
+<a name="1.1.0"></a>
+# 1.1.0 (2016-06-23)
+
+## Improvements
+- Split up grunt plugin and node plugin
+
+## Breaking change
+- The connect middleware function needs to be required from ng-apimock instead of grunt-ng-apimock
+
 <a name="1.0.2"></a>
 # 1.0.2 (2016-06-01)
 
