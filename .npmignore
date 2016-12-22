@@ -11,6 +11,7 @@
 node_modules
 .npmrc
 .npmignore
+yarn.lock
 
 #build
 .travis.yml
