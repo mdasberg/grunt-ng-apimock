@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    var hooker = require('hooker');
+
     /**
      * Tests for the grunt-ng-apimock plugin.
      */
@@ -21,12 +23,15 @@
                     }
                 }
             );
-            mock.invoke(ngApimock, function (err) {
+
+            hookLogger(mock);
+
+            mock.invoke(ngApimock, function () {
                 expect(mock.logError[0]).toBe('No mock source directory have been specified.');
                 done();
             });
         });
-        
+
         it('should generate the web interface, mock module and protractor mock module', function (done) {
             var opts = DEFAULT_OPTIONS;
             opts.defaultOutputDir = '.tmp/mocks';
@@ -37,7 +42,10 @@
                     }
                 }
             );
-            mock.invoke(ngApimock, function (err) {
+
+            hookLogger(mock);
+
+            mock.invoke(ngApimock, function () {
                 expect(mock.logError.length).toBe(0);
                 expect(mock.logOk.length).toBe(4);
                 expect(mock.logOk[0]).toBe('Process all the mocks');
@@ -58,4 +66,21 @@
             });
         });
     });
+
+    /**
+     * Capture console logging to gruntMock.
+     * @param mock The grunt mock.
+     */
+    function hookLogger(mock) {
+        hooker.hook(console, "log", function () {
+            mock.log.writeln(arguments[0]);
+        });
+        hooker.hook(console, "error", function () {
+            mock.fail.fatal(arguments[0]);
+        });
+        hooker.hook(console, 'info', function () {
+            mock.verbose.writeln(arguments[0]);
+        });
+    }
+
 })();
