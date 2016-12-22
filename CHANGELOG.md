@@ -1,3 +1,9 @@
+<a name="1.1.2"></a>
+# 1.1.2 (2016-12-22)
+
+## Bugfix
+- Remove console log hook for rewriting to grunt log
+
 <a name="1.1.1"></a>
 # 1.1.1 (2016-11-22)
 
