@@ -24,7 +24,8 @@
                 },
                 ngApimock: {
                     options: {
-                        defaultOutputDir: '.tmp/some-other-dir'
+                        defaultOutputDir: '.tmp/some-other-dir',
+                        watch:true
                     },
                     mock: {
                         src: 'test/mocks'

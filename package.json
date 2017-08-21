@@ -33,7 +33,7 @@
     "test": "grunt"
   },
   "dependencies": {
-    "ng-apimock": "^1.1.0"
+    "ng-apimock": "^1.4.0"
   },
   "keywords": [
     "gruntplugin",
@@ -45,9 +45,9 @@
   ],
   "devDependencies": {
     "buffer-equal": "1.0.0",
-    "fs-extra": "1.0.0",
+    "fs-extra": "4.0.1",
     "grunt": ">=1.0.1",
-    "grunt-contrib-clean": "1.0.0",
+    "grunt-contrib-clean": "1.1.0",
     "grunt-contrib-jshint": "1.1.0",
     "grunt-shell": "2.1.0",
     "gruntmock": "0.2.1",

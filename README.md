@@ -50,6 +50,13 @@ Default: '.tmp/mocks/'
 
 Should be the location where the ngApimock plugin will put it's generated files.
 
+#### options.watch
+Type: `boolean`
+Default: false
+Mandatory: false
+
+Indicates if mocks should be watched.
+
 #### src
 Type: `String`
 Mandatory: true
@@ -64,7 +71,8 @@ Should be the location where the mock json files are located.
 grunt.initConfig({
   ngApimocks: {
     options: {
-        defaultOutputDir: '...' // the output directory
+        defaultOutputDir: '...', // the output directory
+        watch: boolean // optional: default false
     },
     your_target: {   
        src: '...' // the directory containing all your json mocks
