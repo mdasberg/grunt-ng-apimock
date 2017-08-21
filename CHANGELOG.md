@@ -1,3 +1,9 @@
+<a name="1.2.0"></a>
+# 1.2.0 (2017-08-21)
+
+## Feature
+- Add watch functionality
+
 <a name="1.1.2"></a>
 # 1.1.2 (2016-12-22)
 
